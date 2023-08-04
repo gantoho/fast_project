@@ -25,6 +25,8 @@
             placeholder="Please input sub path"
         />
     </div>
+    <i class="num_title">打开次数</i>
+    <el-input-number class="num_box" v-model="numData" :min="1" :max="10" size="small" @change="numHandleChange" />
     <div class="btn_box">
         <el-button type="primary" @click="btn">打开</el-button>
         <el-button type="danger" :icon="Delete" circle title="清空" @click="clear" />
@@ -72,11 +74,19 @@ const btn = () => {
     })
     data.urlArr.forEach(item => {
         console.log(item)
-        window.open(item, '_blank')
+        for (let i = 0; i < numData.value; i++) {
+            window.open(item, '_blank')
+        }
     })
 }
 const clear = () => {
     metaData.value = ''
+}
+
+const numData = ref(1)
+
+const numHandleChange = (value) => {
+    console.log(value, numData.value)
 }
 </script>
 
@@ -96,11 +106,16 @@ const clear = () => {
         background-color: rgba(0,0,0,0);
     }
 }
-.sub_path_title{
+.sub_path_title,
+.num_title{
     font-style: normal;
 }
 .btn_box{
     display: flex;
     justify-content: space-between;
+}
+.num_box{
+    margin-bottom: 20px;
+    margin-left: 10px;
 }
 </style>
