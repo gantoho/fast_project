@@ -39,7 +39,7 @@ import { ElMessage } from 'element-plus'
 import { Delete, } from '@element-plus/icons-vue'
 const metaData = ref(`https://www.mi.com/
 http://www.jd.com/
-http://www.xiaomi.com/`)
+http://www.miui.com/`)
 const data = reactive({
     urlArr: []
 })
