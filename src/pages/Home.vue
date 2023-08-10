@@ -7,8 +7,8 @@
         :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: '#ffffff'}"
         class="input"
     />
-    <i class="sub_path_title">子路径</i>
     <div class="sub_url_open">
+        <i class="sub_path_title">子路径</i>
         <el-switch
             v-model="subPathSwitch"
             class="sub_path_switch"
@@ -37,9 +37,9 @@
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Delete, } from '@element-plus/icons-vue'
-const metaData = ref(`https://www.baidu.com/
-http://www.sina.com.cn/
-http://www.163.com/`)
+const metaData = ref(`https://www.mi.com/
+http://www.jd.com.cn/
+http://www.gantoho.com/`)
 const data = reactive({
     urlArr: []
 })
@@ -99,6 +99,10 @@ const numHandleChange = (value) => {
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
+    .sub_path_title{
+        margin-right: 10px;
+        white-space: nowrap;
+    }
     .sub_path_switch{
         margin-right: 10px;
     }
