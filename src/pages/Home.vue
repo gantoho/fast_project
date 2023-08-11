@@ -37,9 +37,15 @@
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Delete, } from '@element-plus/icons-vue'
-const metaData = ref(`https://www.mi.com/
-http://www.jd.com/
-http://www.miui.com/`)
+const metaData = ref(`https://zh-hans.react.dev/
+https://cn.vuejs.org/
+
+https://vitejs.dev/
+
+https://nuxt.com/
+
+https://go.dev/
+https://www.rust-lang.org/`)
 const data = reactive({
     urlArr: []
 })
@@ -48,6 +54,9 @@ const subPath = ref('')
 const btn = () => {
     if (metaData.value.trim().length <= 0) return ElMessage({ message: '至少输入一个域名', type: 'warning', });
     data.urlArr = metaData.value.trim().split(/\r?\n/)
+    data.urlArr = data.urlArr.filter(item => {
+        return item.trim().length > 0
+    })
     data.urlArr = data.urlArr.map(item => {
         if (item.indexOf("http://") === -1) {
             if (item.indexOf("https://") === -1) {
