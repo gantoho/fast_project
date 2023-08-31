@@ -38,14 +38,8 @@ import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Delete, } from '@element-plus/icons-vue'
 const metaData = ref(`https://zh-hans.react.dev/
-https://cn.vuejs.org/
-
-https://vitejs.dev/
-
-https://nuxt.com/
-
 https://go.dev/
-https://www.rust-lang.org/`)
+https://gin-gonic.com/zh-cn/`)
 const data = reactive({
     urlArr: []
 })
@@ -62,14 +56,15 @@ const btn = () => {
         const regex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([a-z]{2,6})$/
         item = item.indexOf("https://") !== -1 ? item.replace(new RegExp("https://"), "") : item;
         item = item.indexOf("http://") !== -1 ? item.replace(new RegExp("http://"), "") : item;
-        item = item[item.length - 1] === '/' ? item.slice(0, item.length-1) : item;
+        item = item.indexOf('/') === -1 ? item : item.slice(0, item.indexOf('/')) ;
+        console.log(item)
         const flag = regex.test(item.trim())
         if(!flag) {
             count++;
         }
     })
     count > 0 ? ElMessage({ message: '请检查域名有误！！！', type: 'error', }) : null
-    console.warn("请检查域名有误！！！")
+    count > 0 ? console.warn("请检查域名有误！！！") : ''
     data.urlArr = data.urlArr.map(item => {
         if (item.indexOf("http://") === -1) {
             if (item.indexOf("https://") === -1) {
@@ -85,7 +80,6 @@ const btn = () => {
                     return item
                 }
             }
-
         } else {
             if (subPathSwitch.value && subPath.value.trim().length > 0) {
                 return (item[item.length-1] === '/' ? item : (item + "/")) + subPath.value.trim()
