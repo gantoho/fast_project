@@ -21,9 +21,22 @@
             v-if="subPathSwitch"
             v-model="subPath"
             class="sub_path_input"
-            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: ''}"
+            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: '#fff000'}"
             placeholder="Please input sub path"
         />
+        <el-select
+            v-model="subPath"
+            placeholder="Select Path"
+            v-if="subPathSwitch"
+        >
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                :disabled="item.disabled"
+            />
+        </el-select>
     </div>
     <i class="num_title">打开次数</i>
     <el-input-number class="num_box" v-model="numData" :min="1" :max="10" size="small" @change="numHandleChange" />
@@ -35,6 +48,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 import { Delete, } from '@element-plus/icons-vue'
 import useDomain from '../hooks/useDomain';
 const metaData = ref(`https://zh-hans.react.dev/
@@ -43,6 +57,20 @@ https://gin-gonic.com/zh-cn/`)
 const data = reactive({
     urlArr: []
 })
+const options = [
+    {
+        label: '后台登录',
+        value: 'puglogin',
+    },
+    {
+        label: '后台',
+        value: 'wp-admin',
+    },
+    {
+        label: '联系我们',
+        value: 'contact-us',
+    },
+]
 const subPathSwitch = ref(false)
 const subPath = ref('')
 const btn = () => {
@@ -87,6 +115,7 @@ const numHandleChange = (value) => {
     }
     .sub_path_input{
         background-color: rgba(0,0,0,0);
+        margin-right: 10px;
     }
 }
 .sub_path_title,
