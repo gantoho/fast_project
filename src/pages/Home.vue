@@ -28,6 +28,9 @@
             v-model="subPath"
             placeholder="Select Path"
             v-if="subPathSwitch"
+            effect="dark"
+            clearable
+            placement="right-start"
         >
             <el-option
                 v-for="item in options"
