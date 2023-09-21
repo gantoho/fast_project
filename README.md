@@ -1,7 +1,23 @@
-# Vue 3 + Vite
+# 👏look here
+这是一个快速批量打开网站的项目，该项目基于Vite + Vue3 + Element Plus
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+你可以快速体验该项目, 通过链接[快速批量打开网站](https://fast.ganto.cn)
 
-## Recommended IDE Setup
+当然也可以直接运行该项目
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+首先clone项目
+```shell
+git clone https://github.com/gantoho/fast_project.git
+```
+
+安装依赖
+```shell
+yarn
+```
+
+运行
+```shell
+yarn dev
+```
+
+> 如果该项目还不错，可以star该项目

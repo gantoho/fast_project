@@ -41,16 +41,30 @@
             />
         </el-select>
     </div>
-    <i class="num_title">打开次数</i>
-    <el-input-number class="num_box" v-model="numData" :min="1" :max="10" size="small" @change="numHandleChange" />
+    <div class="num">
+        <i class="num_title">打开次数</i>
+        <el-input-number class="num_box" v-model="numData" :min="1" :max="10" size="small" @change="numHandleChange" />
+    </div>
+    <div class="step">
+        <i class="step_title">逐个打开</i>
+        <el-switch
+                v-model="isStepOpen"
+                class="step_switch"
+                inline-prompt
+                style="--el-switch-on-color: #008cff; --el-switch-off-color: #c9c9c9;"
+                active-text="逐个打开几个"
+                inactive-text=""
+            />
+        <el-input-number v-if="isStepOpen" v-model="stepNum" :min="1" :max="linksLen.length" size="small" @change="numHandleChange" />
+    </div>
     <div class="btn_box">
-        <el-button type="primary" @click="btn">打开</el-button>
+        <el-button type="primary" @click="openLink">打开</el-button>
         <el-button type="danger" :icon="Delete" circle title="清空" @click="clear" />
     </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Delete, } from '@element-plus/icons-vue'
 import useDomain from '../hooks/useDomain';
@@ -60,30 +74,52 @@ https://gin-gonic.com/zh-cn/`)
 const data = reactive({
     urlArr: []
 })
+const linksLen = computed(() => {
+    if (stepNum.value > metaData.value.trim().split(/\r?\n/).length) {
+        stepNum.value = metaData.value.trim().split(/\r?\n/).length
+    }
+    return metaData.value.trim().split(/\r?\n/).map(item => {
+        return item
+    })
+})
 const options = [
-    {
-        label: '后台登录',
-        value: 'puglogin',
-    },
     {
         label: '后台',
         value: 'wp-admin',
     },
     {
-        label: '联系我们',
-        value: 'contact-us',
+        label: '新闻',
+        value: 'news',
     },
 ]
 const subPathSwitch = ref(false)
 const subPath = ref('')
-const btn = () => {
+const openLink = () => {
+    if (isStepOpen.value) {
+        const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
+        data.urlArr = urlArr
+        if (err != null) {
+            console.error(err)
+        }
+
+        for (let i = 0; i < stepNum.value; ++i) {
+            window.open(data.urlArr[stepCount.value], '_blank')
+            if (stepCount.value >= linksLen.value.length-1) {
+                stepCount.value = 0
+            } else {
+                ++stepCount.value
+            }
+            
+        }
+
+        return
+    }
     const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
     data.urlArr = urlArr
     if (err != null) {
         console.error(err)
     }
     data.urlArr.forEach(item => {
-        console.log(item)
         for (let i = 0; i < numData.value; i++) {
             window.open(item, '_blank')
         }
@@ -96,8 +132,12 @@ const clear = () => {
 const numData = ref(1)
 
 const numHandleChange = (value) => {
-    console.log(value, numData.value)
+    console.log(value)
 }
+
+const isStepOpen = ref(false)
+const stepNum = ref(1)
+const stepCount = ref(0);
 </script>
 
 <style lang='scss' scoped>
@@ -124,6 +164,18 @@ const numHandleChange = (value) => {
 .sub_path_title,
 .num_title{
     font-style: normal;
+}
+.step{
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    .step_title{
+        font-style: normal;
+        margin-right: 10px;
+    }
+    .step_switch{
+        margin-right: 10px;
+    }
 }
 .btn_box{
     display: flex;

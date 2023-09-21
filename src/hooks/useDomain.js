@@ -16,7 +16,6 @@ export default function(metaData, subPathSwitch, subPath) {
         item = item.indexOf("https://") !== -1 ? item.replace(new RegExp("https://"), "") : item;
         item = item.indexOf("http://") !== -1 ? item.replace(new RegExp("http://"), "") : item;
         item = item.indexOf('/') === -1 ? item : item.slice(0, item.indexOf('/')) ;
-        console.log(item)
         const flag = regex.test(item.trim())
         if(!flag) {
             count++;

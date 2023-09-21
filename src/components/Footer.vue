@@ -1,7 +1,7 @@
 <template>
     <div class="footer">
         <p>快速批量打开网站 All Rights Reserved.</p>
-        <p>欢迎贡献新功能：<a href="https://github.com/gantoho/fast_project" target="_blank" >Github</a> | <a href="https://gitee.com/ganto/fast" target="_blank" >Gitee</a></p>
+        <p>欢迎star：<a href="https://github.com/gantoho/fast_project" target="_blank" >Github</a></p>
     </div>
 </template>
 
