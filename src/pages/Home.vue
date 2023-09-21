@@ -103,7 +103,9 @@ const openLink = () => {
         }
 
         for (let i = 0; i < stepNum.value; ++i) {
-            window.open(data.urlArr[stepCount.value], '_blank')
+            for (let i = 0; i < numData.value; i++) {
+                window.open(data.urlArr[stepCount.value], '_blank')
+            }
             if (stepCount.value >= linksLen.value.length-1) {
                 stepCount.value = 0
             } else {
