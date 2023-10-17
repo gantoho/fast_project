@@ -7,28 +7,6 @@
         :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: '#ffffff'}"
         class="input"
     />
-    <div class="sub_rule">
-        <p>
-            <span>子路径添加</span>
-            <el-switch
-                v-model="subRuleSwitch"
-                class="sub_rule_switch"
-                inline-prompt
-                style="--el-switch-on-color: #53c587; --el-switch-off-color: #c9c9c9"
-                active-text=""
-                inactive-text=""
-            />
-        </p>
-        <el-input
-            v-if="subRuleSwitch"
-            v-model="subRule"
-            :autosize="{ minRows: 2 }"
-            type="textarea"
-            placeholder="此处添加需要打开的多个子路径，一个只能存在一个子路径"
-            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: '#ffffff'}"
-            class="input"
-        />
-    </div>
     <div class="sub_url_open">
         <i class="sub_path_title">子路径</i>
         <el-switch
@@ -62,6 +40,28 @@
                 :disabled="item.disabled"
             />
         </el-select>
+    </div>
+    <div class="sub_rule">
+        <p>
+            <span>子路径添加</span>
+            <el-switch
+                v-model="subRuleSwitch"
+                class="sub_rule_switch"
+                inline-prompt
+                style="--el-switch-on-color: #53c587; --el-switch-off-color: #c9c9c9"
+                active-text=""
+                inactive-text=""
+            />
+        </p>
+        <el-input
+            v-if="subRuleSwitch"
+            v-model="subRule"
+            :autosize="{ minRows: 2 }"
+            type="textarea"
+            placeholder="此处添加需要打开的多个子路径，一行只能存在一个子路径。添加的多个子路径，请在“子路径”栏选择。"
+            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: '#ffffff'}"
+            class="input"
+        />
     </div>
     <div class="num">
         <i class="num_title">打开次数</i>
@@ -102,8 +102,11 @@ import { Delete, } from '@element-plus/icons-vue'
 import useDomain from '../hooks/useDomain';
 import debounce from '../utils/debounce.js'
 const metaData = ref(`https://zh-hans.react.dev/
+https://svelte.dev/
+https://cn.vuejs.org/
+https://www.solidjs.com/
 https://go.dev/
-https://gin-gonic.com/zh-cn/`)
+https://rust-lang.org`)
 const data = reactive({
     urlArr: []
 })
@@ -119,7 +122,7 @@ const options = ref([
     {
         id: '0',
         label: '后台',
-        value: 'wp-admin',
+        value: 'wp-admin/admin.php?page=wpengine-common&tab=caching',
     },
     {
         id: '1',
@@ -232,7 +235,7 @@ const stopStepFlag = ref(true)
 }
 .sub_rule{
     p{
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         span{
             margin-right: 10px;
         }
