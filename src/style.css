@@ -5,8 +5,8 @@
   font-family: MiSans;
 }
 body, html{
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--g-body-text-color);
+  background-color: var(--g-body-bg-color);
 }
 #app{
   display: flex;
@@ -16,6 +16,56 @@ body, html{
 .el-input__wrapper{
   background-color: rgba(0,0,0,0) !important;
 }
+
+html {
+  --g-body-bg-color: #fff;
+  --g-body-text-color: #000;
+  --g-tabbar-border: #c9c9c9;
+  --g-tabbar-item-after: #595959;
+  --g-home-link-border: #c9c9c9;
+  --g-home-link-hover: #374151;
+}
+html.dark {
+  --g-body-bg-color: #242424;
+  --g-body-text-color: rgba(255, 255, 255, 0.87);
+  --g-tabbar-border: #595959;
+  --g-tabbar-item-after: #fff;
+  --g-home-link-border: #374151;
+  --g-home-link-hover: #fff;
+}
+::view-transition-old(*) {
+  animation: none;
+}
+::view-transition-new(*) {
+  animation: clip .8s ease-in;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+html.dark::view-transition-old(*) {
+  animation: clip .8s ease-in reverse;
+}
+html.dark::view-transition-new(*) {
+  animation: none;
+}
+html.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+html.dark::view-transition-new(root) {
+  z-index: 1;
+}
+@keyframes clip {
+  from {
+    clip-path: circle(0% at var(--x) var(--y));
+  }
+  to{
+    clip-path: circle(var(--r) at var(--x) var(--y));
+  }
+}
+
 
 @font-face {
   font-family: MiSans;

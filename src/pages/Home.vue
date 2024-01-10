@@ -4,7 +4,7 @@
         :autosize="{ minRows: 10, maxRows: 36 }"
         type="textarea"
         placeholder="Please input links"
-        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: '#ffffff'}"
+        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
         class="input"
     />
     <div class="sub_url_open">
