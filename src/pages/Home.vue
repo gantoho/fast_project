@@ -21,14 +21,13 @@
             v-if="subPathSwitch"
             v-model="subPath"
             class="sub_path_input"
-            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: '#fff000'}"
+            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
             placeholder="Please input sub path"
         />
         <el-select
             v-model="subPath"
             placeholder="Select Path"
             v-if="subPathSwitch"
-            effect="dark"
             clearable
             placement="right-start"
         >
@@ -59,13 +58,13 @@
             :autosize="{ minRows: 2 }"
             type="textarea"
             placeholder="此处添加需要打开的多个子路径，一行只能存在一个子路径。添加的多个子路径，请在“子路径”栏选择。"
-            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: '#ffffff'}"
+            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
             class="input"
         />
     </div>
     <div class="num">
         <i class="num_title">打开次数</i>
-        <el-input-number class="num_box" v-model="numData" :min="1" :max="10" size="small" @change="numHandleChange" />
+        <el-input-number class="num_box" v-model="numData" :min="1" :max="10" size="small" />
     </div>
     <div class="step">
         <i class="step_title">逐个打开</i>
@@ -78,7 +77,7 @@
             inactive-text=""
         />
         <template v-if="isStepOpen">
-            <el-input-number class="step_input_num" v-model="stepNum" :min="1" :max="linksLen.length" size="small" @change="numHandleChange" />
+            <el-input-number class="step_input_num" v-model="stepNum" :min="1" :max="linksLen.length" size="small" />
             <el-switch
                 v-model="stopStepFlag"
                 class="stop_step"
@@ -96,17 +95,20 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch } from 'vue'
+import { reactive, computed, watch } from 'vue'
+import { useStorage } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
-import { Delete, } from '@element-plus/icons-vue'
+import { Delete } from '@element-plus/icons-vue'
 import useDomain from '../composables/useDomain';
 import debounce from '../utils/debounce.js'
-const metaData = ref(`https://zh-hans.react.dev/
+
+const metaData = useStorage('fast_metaData', `https://zh-hans.react.dev/
 https://svelte.dev/
 https://cn.vuejs.org/
 https://www.solidjs.com/
 https://go.dev/
 https://rust-lang.org`)
+
 const data = reactive({
     urlArr: []
 })
@@ -118,28 +120,39 @@ const linksLen = computed(() => {
         return item
     })
 })
-const options = ref([
+const options = useStorage('fast_options', [
     {
         id: '0',
-        label: '后台',
-        value: 'wp-admin/admin.php?page=wpengine-common&tab=caching',
+        label: '登录',
+        value: '?_login_form=puglogin',
     },
     {
         id: '1',
-        label: '新闻',
+        label: '后台',
+        value: 'wp-admin',
+    },
+    {
+        id: '2',
+        label: 'partners检查页面',
         value: 'news',
     },
+
+    {
+        id: '3',
+        label: 'pu检查页面',
+        value: 'client-notices',
+    },
 ])
-const subRule = ref()
-const subRuleSwitch = ref(false)
+const subRule = useStorage('fast_subRule', '')
+const subRuleSwitch = useStorage('fast_subRuleSwitch', false)
 watch(subRule, debounce(() => {
-    console.log(subRule.value.trim().split(/\r?\n/))
+    if (!subRule.value || !subRule.value.trim()) return
     options.value = subRule.value.trim().split(/\r?\n/).map((item, index) => {
-        return { label: item, value: item, id: index+item }
+        return { label: item, value: item, id: index + item }
     })
 }, 1000))
-const subPathSwitch = ref(false)
-const subPath = ref('')
+const subPathSwitch = useStorage('fast_subPathSwitch', true)
+const subPath = useStorage('fast_subPath', '')
 const openLink = () => {
     if (isStepOpen.value) {
         const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
@@ -160,7 +173,7 @@ const openLink = () => {
             } else {
                 ++stepCount.value
             }
-            
+
         }
 
         return
@@ -180,16 +193,12 @@ const clear = () => {
     metaData.value = ''
 }
 
-const numData = ref(1)
+const numData = useStorage('fast_numData', 1)
 
-const numHandleChange = (value) => {
-    console.log(value)
-}
-
-const isStepOpen = ref(false)
-const stepNum = ref(1)
-const stepCount = ref(0);
-const stopStepFlag = ref(true)
+const isStepOpen = useStorage('fast_isStepOpen', false)
+const stepNum = useStorage('fast_stepNum', 1)
+const stepCount = useStorage('fast_stepCount', 0)
+const stopStepFlag = useStorage('fast_stopStepFlag', true)
 
 </script>
 
