@@ -3035,3 +3035,10 @@ html.dark::view-transition-new(root) {
 .el-select-dropdown__item.is-disabled {
   color: var(--g-tabbar-border) !important;
 }
+
+.el-tag {
+  --el-tag-bg-color: var(--g-tabbar-border) !important;
+  --el-tag-text-color: var(--g-body-text-color) !important;
+  --el-tag-border-color: var(--g-home-link-border) !important;
+  --el-tag-hover-color: #6c7bff !important;
+}
