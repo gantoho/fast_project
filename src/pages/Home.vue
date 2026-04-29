@@ -99,7 +99,7 @@
 import { ref, reactive, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Delete, } from '@element-plus/icons-vue'
-import useDomain from '../hooks/useDomain';
+import useDomain from '../composables/useDomain';
 import debounce from '../utils/debounce.js'
 const metaData = ref(`https://zh-hans.react.dev/
 https://svelte.dev/

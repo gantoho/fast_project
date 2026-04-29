@@ -20,7 +20,7 @@
 import Home from './pages/Home.vue'
 import Footer from './components/Footer.vue'
 import { Sunny, Moon } from '@element-plus/icons-vue'
-import useDarkStore from './store/darkStore'
+import useDarkStore from './stores/darkStore'
 
 const darkStore = useDarkStore()
 const themeBtn = ($event) => {
