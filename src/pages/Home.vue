@@ -128,12 +128,20 @@
             </div>
         </template>
     </div>
-    <div class="num_module">
-        <div class="num_header">
-            <span class="num_label">打开次数</span>
-        </div>
-        <div class="num_body">
+    <div class="config_bar">
+        <div class="config_group">
+            <span class="config_label">打开次数</span>
             <el-input-number v-model="numData" :min="1" :max="10" size="small" controls-position="right" />
+            <span class="config_unit">次</span>
+        </div>
+        <span class="config_sep"></span>
+        <div class="config_group">
+            <span class="config_label">打开延迟</span>
+            <el-switch v-model="openDelaySwitch" size="small" />
+            <template v-if="openDelaySwitch">
+                <el-input-number v-model="openDelay" :min="100" :max="10000" :step="100" size="small" controls-position="right" />
+                <span class="config_unit">ms</span>
+            </template>
         </div>
     </div>
     <div class="btn_box">
@@ -236,9 +244,9 @@ const removeCustomPath = (id) => {
 const subPathSwitch = useStorage('fast_subPathSwitch', true)
 const subPath = useStorage('fast_subPath', '')
 
-const openLink = () => {
+const openLink = async () => {
     if (isStepOpen.value) {
-        openStepBatch()
+        await openStepBatch()
         return
     }
     const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
@@ -246,17 +254,22 @@ const openLink = () => {
         console.error(err)
         return
     }
-    urlArr.forEach(item => {
+    for (const item of urlArr) {
         for (let i = 0; i < numData.value; i++) {
             window.open(item, '_blank')
+            if (openDelaySwitch.value) await sleep(openDelay.value)
         }
-    })
+    }
 }
 const clear = () => {
     metaData.value = ''
 }
 
 const numData = useStorage('fast_numData', 1)
+const openDelaySwitch = useStorage('fast_openDelaySwitch', false)
+const openDelay = useStorage('fast_openDelay', 500)
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 const isStepOpen = useStorage('fast_isStepOpen', false)
 const stepIndex = ref(0)
@@ -279,7 +292,7 @@ const markOpened = (idx) => {
     }
 }
 
-const openStepBatch = () => {
+const openStepBatch = async () => {
     if (!linkList.value.length) return
     const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
     if (err) return
@@ -293,6 +306,7 @@ const openStepBatch = () => {
         opened.add(idx)
         for (let j = 0; j < numData.value; j++) {
             window.open(urlArr[idx], '_blank')
+            if (openDelaySwitch.value) await sleep(openDelay.value)
         }
         markOpened(idx)
     }
@@ -423,27 +437,37 @@ const onStepNext = () => {
     opacity: 0.5;
     font-style: normal;
 }
-.num_module {
+.config_bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 14px;
     border: 1px solid var(--g-home-link-border);
     border-radius: 8px;
-    padding: 16px;
     margin-bottom: 20px;
 }
-.num_header {
+.config_group {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    .num_label {
-        font-style: normal;
-        font-size: 15px;
-        font-weight: 600;
-    }
+    gap: 6px;
 }
-.num_body {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 14px;
+.config_label {
+    font-style: normal;
+    font-size: 13px;
+    white-space: nowrap;
+}
+.config_sep {
+    width: 1px;
+    height: 24px;
+    background-color: var(--g-home-link-border);
+}
+.config_unit {
+    font-style: normal;
+    font-size: 12px;
+    color: var(--g-body-text-color);
+    opacity: 0.5;
+    white-space: nowrap;
 }
 .step_module {
     border: 1px solid var(--g-home-link-border);
