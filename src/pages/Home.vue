@@ -92,6 +92,7 @@
                         :effect="tagStatus[i]?.effect || 'plain'"
                         size="small"
                         class="step_tag"
+                        :class="{ 'step_tag-active': tagStatus[i]?.active }"
                         @click="onStepClick(i)"
                     >
                         {{ i + 1 }}
@@ -213,8 +214,9 @@ const tagStatus = computed(() => {
         batchSet.add(idx)
     }
     return linkList.value.map((_, i) => ({
-        type: batchSet.has(i) ? 'primary' : (stepOpened.value.includes(i) ? 'success' : 'info'),
-        effect: batchSet.has(i) ? 'dark' : 'plain'
+        type: batchSet.has(i) ? '' : (stepOpened.value.includes(i) ? 'success' : 'info'),
+        effect: batchSet.has(i) ? 'dark' : 'plain',
+        active: batchSet.has(i)
     }))
 })
 
@@ -494,7 +496,7 @@ const onStepNext = () => {
 .step_tag {
     cursor: pointer;
     font-size: 12px;
-    &.el-tag--primary.el-tag--dark {
+    &.step_tag-active {
         --el-tag-bg-color: #6c7bff;
         --el-tag-text-color: #fff;
         --el-tag-border-color: #6c7bff;
@@ -503,11 +505,6 @@ const onStepNext = () => {
         --el-tag-bg-color: transparent;
         --el-tag-text-color: var(--g-body-text-color);
         --el-tag-border-color: var(--g-home-link-border);
-    }
-    &.el-tag--info.el-tag--dark {
-        --el-tag-bg-color: var(--g-tabbar-border);
-        --el-tag-text-color: var(--g-body-text-color);
-        --el-tag-border-color: var(--g-tabbar-border);
     }
     &.el-tag--success.el-tag--plain {
         --el-tag-bg-color: transparent;
