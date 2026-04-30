@@ -100,12 +100,12 @@
                 <p v-else class="step_tags_empty">暂无有效链接</p>
             </div>
             <div class="step_url_box">
-                <el-button :icon="ArrowLeft" :disabled="!hasLinks || stepIndex <= 0" @click="stepIndex--" circle size="small" />
+                <el-button :icon="ArrowLeft" :disabled="!hasLinks || (!stepLoop && !stepTrueLoop && stepIndex <= 0)" @click="onStepPrev" circle size="small" />
                 <div class="step_url_text">
                     <div v-for="(item, j) in batchLinks" :key="j" class="step_url_item">{{ item.url }}</div>
                     <p v-if="!hasLinks" class="step_url_empty">暂无有效链接</p>
                 </div>
-                <el-button :icon="ArrowRight" :disabled="!hasLinks || stepIndex >= linkList.length - 1" @click="stepIndex++" circle size="small" />
+                <el-button :icon="ArrowRight" :disabled="!hasLinks || (!stepLoop && !stepTrueLoop && stepIndex >= linkList.length - 1)" @click="onStepNext" circle size="small" />
             </div>
             <div class="step_controls">
                 <div class="step_control">
@@ -114,31 +114,36 @@
                     <span class="step_control_unit">个</span>
                 </div>
                 <div class="step_control">
-                    <span class="step_control_label">循环</span>
-                    <el-switch v-model="stepLoop" size="small" />
-                </div>
-                <div class="step_control">
                     <span class="step_control_label">自动推进</span>
                     <el-switch v-model="stepAutoAdvance" size="small" />
                 </div>
-            </div>
-            <div class="step_actions">
-                <el-button type="primary" size="default" :disabled="!hasLinks" @click="openStepBatch">打开下一批 ({{ stepBatchSize }}个，共{{ stepBatchSize * numData }}次)</el-button>
+                <div class="step_control">
+                    <span class="step_control_label">到头重置</span>
+                    <el-switch v-model="stepLoop" size="small" />
+                </div>
+                <div class="step_control">
+                    <span class="step_control_label">连续循环</span>
+                    <el-switch v-model="stepTrueLoop" size="small" />
+                </div>
             </div>
         </template>
     </div>
-    <div class="num">
-        <i class="num_title">打开次数</i>
-        <el-input-number class="num_box" v-model="numData" :min="1" :max="10" size="small" />
+    <div class="num_module">
+        <div class="num_header">
+            <span class="num_label">打开次数</span>
+        </div>
+        <div class="num_body">
+            <el-input-number v-model="numData" :min="1" :max="10" size="small" controls-position="right" />
+        </div>
     </div>
     <div class="btn_box">
-        <el-button type="primary" :disabled="!hasLinks" @click="openLink">{{ isStepOpen ? `打开当前 (共${numData}次)` : `全部打开 (共${linkList.length * numData}次)` }}</el-button>
+        <el-button type="primary" :disabled="!hasLinks" @click="openLink">{{ isStepOpen ? `打开下一批 (${stepBatchSize}个，共${stepBatchSize * numData}次)` : `全部打开 (共${linkList.length * numData}次)` }}</el-button>
         <el-button type="danger" :icon="Delete" circle title="清空" @click="clear" />
     </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
 import { Delete, ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
@@ -175,12 +180,15 @@ const processedUrlList = computed(() => {
     return linkList.value.map(item => processUrl(item))
 })
 
+const useWrap = computed(() => stepTrueLoop.value)
+
 const batchLinks = computed(() => {
     if (!processedUrlList.value.length) return []
     const result = []
     const total = processedUrlList.value.length
     for (let i = 0; i < stepBatchSize.value; i++) {
-        const idx = (stepIndex.value + i) % total
+        const idx = useWrap.value ? (stepIndex.value + i) % total : stepIndex.value + i
+        if (idx >= total) break
         if (result.some(item => item.index === idx)) break
         result.push({ index: idx, url: processedUrlList.value[idx] })
     }
@@ -192,7 +200,9 @@ const tagStatus = computed(() => {
     const total = processedUrlList.value.length
     const batchSet = new Set()
     for (let j = 0; j < stepBatchSize.value; j++) {
-        batchSet.add((stepIndex.value + j) % total)
+        const idx = useWrap.value ? (stepIndex.value + j) % total : stepIndex.value + j
+        if (idx >= total) break
+        batchSet.add(idx)
     }
     return linkList.value.map((_, i) => ({
         type: batchSet.has(i) ? 'primary' : (stepOpened.value.includes(i) ? 'success' : 'info'),
@@ -228,7 +238,7 @@ const subPath = useStorage('fast_subPath', '')
 
 const openLink = () => {
     if (isStepOpen.value) {
-        openStepCurrent()
+        openStepBatch()
         return
     }
     const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
@@ -252,8 +262,16 @@ const isStepOpen = useStorage('fast_isStepOpen', false)
 const stepIndex = ref(0)
 const stepBatchSize = useStorage('fast_stepBatchSize', 1)
 const stepAutoAdvance = useStorage('fast_stepAutoAdvance', true)
-const stepLoop = useStorage('fast_stepLoop', true)
+const stepLoop = useStorage('fast_stepLoop', false)
+const stepTrueLoop = useStorage('fast_stepTrueLoop', true)
 const stepOpened = useStorage('fast_stepOpened', [])
+
+watch(stepLoop, (val) => {
+    if (val) stepTrueLoop.value = false
+})
+watch(stepTrueLoop, (val) => {
+    if (val) stepLoop.value = false
+})
 
 const markOpened = (idx) => {
     if (!stepOpened.value.includes(idx)) {
@@ -261,27 +279,16 @@ const markOpened = (idx) => {
     }
 }
 
-const openStepCurrent = () => {
-    if (!linkList.value.length) return
-    const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
-    if (err) return
-    const idx = stepIndex.value >= urlArr.length ? 0 : stepIndex.value
-    for (let i = 0; i < numData.value; i++) {
-        window.open(urlArr[idx], '_blank')
-    }
-    markOpened(stepIndex.value)
-    if (stepAutoAdvance.value) {
-        advanceIndex(stepBatchSize.value)
-    }
-}
-
 const openStepBatch = () => {
     if (!linkList.value.length) return
     const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
     if (err) return
+    const bothOff = !stepLoop.value && !stepTrueLoop.value
+    const max = bothOff ? Math.min(stepBatchSize.value, urlArr.length - stepIndex.value) : stepBatchSize.value
     const opened = new Set()
-    for (let i = 0; i < stepBatchSize.value; i++) {
-        const idx = (stepIndex.value + i) % urlArr.length
+    for (let i = 0; i < max; i++) {
+        const idx = stepTrueLoop.value ? (stepIndex.value + i) % urlArr.length : stepIndex.value + i
+        if (idx >= urlArr.length) break
         if (opened.has(idx)) break
         opened.add(idx)
         for (let j = 0; j < numData.value; j++) {
@@ -290,20 +297,54 @@ const openStepBatch = () => {
         markOpened(idx)
     }
     if (stepAutoAdvance.value) {
-        advanceIndex(stepBatchSize.value)
+        advanceIndex(opened.size)
     }
 }
 
 const advanceIndex = (step) => {
-    let next = stepIndex.value + step
-    if (next >= linkList.value.length) {
-        next = stepLoop.value ? 0 : linkList.value.length - 1
+    if (stepTrueLoop.value) {
+        stepIndex.value = (stepIndex.value + step) % (linkList.value.length || 1)
+    } else if (stepLoop.value) {
+        let next = stepIndex.value + step
+        if (next >= linkList.value.length) {
+            next = 0
+        }
+        stepIndex.value = next
+    } else {
+        stepIndex.value = Math.min(stepIndex.value + step, linkList.value.length - 1)
     }
-    stepIndex.value = next
 }
 
 const onStepClick = (i) => {
     stepIndex.value = i
+}
+
+const onStepPrev = () => {
+    const step = stepBatchSize.value
+    const total = linkList.value.length
+    if (stepTrueLoop.value) {
+        stepIndex.value = (stepIndex.value - step + total) % total
+    } else if (stepLoop.value) {
+        let next = stepIndex.value - step
+        if (next < 0) next = total - 1
+        stepIndex.value = next
+    } else {
+        stepIndex.value = Math.max(0, stepIndex.value - step)
+    }
+}
+
+const onStepNext = () => {
+    const step = stepBatchSize.value
+    const total = linkList.value.length
+    if (stepTrueLoop.value) {
+        stepIndex.value = (stepIndex.value + step) % total
+    } else if (stepLoop.value) {
+        let next = stepIndex.value + step
+        if (next >= total) next = 0
+        stepIndex.value = next
+    } else {
+        stepIndex.value = Math.min(total - 1, stepIndex.value + step)
+    }
 }
 
 </script>
@@ -382,8 +423,27 @@ const onStepClick = (i) => {
     opacity: 0.5;
     font-style: normal;
 }
-.num_title{
-    font-style: normal;
+.num_module {
+    border: 1px solid var(--g-home-link-border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+.num_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .num_label {
+        font-style: normal;
+        font-size: 15px;
+        font-weight: 600;
+    }
+}
+.num_body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
 }
 .step_module {
     border: 1px solid var(--g-home-link-border);
@@ -486,17 +546,8 @@ const onStepClick = (i) => {
         }
     }
 }
-.step_actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
-}
 .btn_box{
     display: flex;
     justify-content: space-between;
-}
-.num_box{
-    margin-bottom: 20px;
-    margin-left: 10px;
 }
 </style>
