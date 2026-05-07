@@ -3048,9 +3048,52 @@ html .el-select-dropdown__item.is-disabled {
   color: var(--g-tabbar-border);
 }
 
-.el-tag {
-  --el-tag-bg-color: var(--g-tabbar-border);
-  --el-tag-text-color: var(--g-body-text-color);
-  --el-tag-border-color: var(--g-home-link-border);
-  --el-tag-hover-color: #6c7bff;
+html .el-message-box {
+  background: var(--g-body-bg-color);
+  border-color: var(--g-home-link-border);
+}
+html .el-message-box__header {
+  padding-bottom: 10px;
+}
+html .el-message-box__title {
+  color: var(--g-body-text-color);
+}
+html .el-message-box__message {
+  color: var(--g-body-text-color);
+}
+html .el-message-box__btns {
+  padding-top: 14px;
+}
+html .el-message-box__btns .el-button--cancel {
+  --el-button-bg-color: transparent;
+  --el-button-border-color: var(--g-home-link-border);
+  --el-button-text-color: var(--g-body-text-color);
+  --el-button-hover-bg-color: transparent;
+  --el-button-hover-border-color: #6c7bff;
+  --el-button-hover-text-color: #6c7bff;
+}
+html .el-message-box__btns .el-button--cancel:hover {
+  border-color: #6c7bff;
+  color: #6c7bff;
+}
+html .el-message-box__btns .el-button--danger {
+  --el-button-bg-color: #f56c6c;
+  --el-button-border-color: #f56c6c;
+}
+
+html .el-tag.el-tag--info.el-tag--plain {
+  background-color: #f0f0f0;
+  border-color: #d9d9d9;
+  color: #333;
+}
+html .el-tag.el-tag--info.el-tag--plain .el-tag__close {
+  color: #333;
+}
+html.dark .el-tag.el-tag--info.el-tag--plain {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: rgba(255, 255, 255, 0.87);
+}
+html.dark .el-tag.el-tag--info.el-tag--plain .el-tag__close {
+  color: rgba(255, 255, 255, 0.87);
 }

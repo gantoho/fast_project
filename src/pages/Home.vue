@@ -1,4 +1,21 @@
 <template>
+    <div class="preset_tags" v-if="presets.length">
+        <el-tag
+            v-for="item in presets"
+            :key="item.id"
+            :type="activePresetId === item.id ? '' : 'info'"
+            :effect="activePresetId === item.id ? 'dark' : 'plain'"
+            size="small"
+            closable
+            :disable-transitions="false"
+            class="preset_tag"
+            :class="{ 'preset_tag-active': activePresetId === item.id }"
+            @click="applyPreset(item)"
+            @close.stop="deletePreset(item)"
+        >
+            {{ item.name }}
+        </el-tag>
+    </div>
     <el-input
         v-model="metaData"
         :autosize="{ minRows: 10, maxRows: 36 }"
@@ -144,6 +161,19 @@
                 <span class="config_unit">ms</span>
             </template>
         </div>
+        <span class="config_sep"></span>
+        <div class="config_group">
+            <span class="config_label">预设</span>
+            <el-input
+                v-model="presetNameInput"
+                placeholder="预设名称"
+                size="small"
+                class="preset_input"
+                :disabled="isApplyingPreset"
+                @keyup.enter="savePreset"
+            />
+            <el-button type="primary" size="small" :disabled="!presetNameInput.trim() || isApplyingPreset" @click="savePreset">保存</el-button>
+        </div>
     </div>
     <div class="btn_box">
         <el-button type="primary" :disabled="!hasLinks" @click="openLink">{{ isStepOpen ? `打开下一批 (${stepBatchSize}个，共${stepBatchSize * numData}次)` : `全部打开 (共${linkList.length * numData}次)` }}</el-button>
@@ -152,9 +182,9 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { useStorage } from '@vueuse/core'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { Delete, ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import useDomain from '../composables/useDomain'
 
@@ -281,6 +311,113 @@ const stepLoop = useStorage('fast_stepLoop', false)
 const stepTrueLoop = useStorage('fast_stepTrueLoop', true)
 const stepOpened = useStorage('fast_stepOpened', [])
 
+let presetId = useStorage('fast_presetId', 1)
+const presets = useStorage('fast_presets', [])
+const activePresetId = useStorage('fast_activePresetId', '')
+const presetNameInput = ref('')
+const isApplyingPreset = ref(false)
+const presetReady = ref(false)
+
+const getSnapshot = () => ({
+    metaData: metaData.value,
+    subPathSwitch: subPathSwitch.value,
+    subPath: subPath.value,
+    options: options.value,
+    pathId: pathId.value,
+    numData: numData.value,
+    openDelaySwitch: openDelaySwitch.value,
+    openDelay: openDelay.value,
+    isStepOpen: isStepOpen.value,
+    stepBatchSize: stepBatchSize.value,
+    stepAutoAdvance: stepAutoAdvance.value,
+    stepLoop: stepLoop.value,
+    stepTrueLoop: stepTrueLoop.value,
+    stepOpened: stepOpened.value,
+    stepIndex: stepIndex.value
+})
+
+const applySnapshot = (snap) => {
+    metaData.value = snap.metaData
+    subPathSwitch.value = snap.subPathSwitch
+    subPath.value = snap.subPath
+    options.value = snap.options
+    pathId.value = snap.pathId
+    numData.value = snap.numData
+    openDelaySwitch.value = snap.openDelaySwitch
+    openDelay.value = snap.openDelay
+    isStepOpen.value = snap.isStepOpen
+    stepBatchSize.value = snap.stepBatchSize
+    stepAutoAdvance.value = snap.stepAutoAdvance
+    stepLoop.value = snap.stepLoop
+    stepTrueLoop.value = snap.stepTrueLoop
+    stepOpened.value = snap.stepOpened
+    stepIndex.value = snap.stepIndex
+}
+
+const savePreset = () => {
+    const name = presetNameInput.value.trim()
+    if (!name) return
+    const existing = presets.value.find(p => p.name === name)
+    if (existing) {
+        presets.value = presets.value.map(p =>
+            p.id === existing.id ? { ...p, snapshot: getSnapshot() } : p
+        )
+        ElMessage({ message: `预设「${name}」已更新`, type: 'success' })
+        activePresetId.value = existing.id
+    } else {
+        const id = String(presetId.value++)
+        presets.value = [...presets.value, { id, name, snapshot: getSnapshot() }]
+        ElMessage({ message: `预设「${name}」已保存`, type: 'success' })
+        activePresetId.value = id
+    }
+    presetNameInput.value = ''
+}
+
+const applyPreset = async (item) => {
+    isApplyingPreset.value = true
+    applySnapshot(item.snapshot)
+    activePresetId.value = item.id
+    await nextTick()
+    isApplyingPreset.value = false
+    ElMessage({ message: `已恢复预设「${item.name}」`, type: 'success' })
+}
+
+onMounted(async () => {
+    const savedId = activePresetId.value
+    if (savedId) {
+        const preset = presets.value.find(p => p.id === savedId)
+        if (preset) {
+            applySnapshot(preset.snapshot)
+        } else {
+            activePresetId.value = ''
+        }
+    }
+    await nextTick()
+    presetReady.value = true
+})
+
+watch([metaData, subPathSwitch, subPath, options, numData, openDelaySwitch, openDelay, isStepOpen, stepBatchSize, stepAutoAdvance, stepLoop, stepTrueLoop], () => {
+    if (presetReady.value && activePresetId.value && !isApplyingPreset.value) {
+        activePresetId.value = ''
+    }
+}, { deep: true })
+
+const deletePreset = async (item) => {
+    try {
+        await ElMessageBox.confirm(`确定删除预设「${item.name}」？此操作不可恢复。`, '删除预设', {
+            confirmButtonText: '删除',
+            cancelButtonText: '取消',
+            type: 'warning',
+            confirmButtonClass: 'el-button--danger'
+        })
+        presets.value = presets.value.filter(p => p.id !== item.id)
+        if (activePresetId.value === item.id) {
+            activePresetId.value = ''
+        }
+        ElMessage({ message: `预设「${item.name}」已删除`, type: 'success' })
+    } catch { }
+}
+
 watch(stepLoop, (val) => {
     if (val) stepTrueLoop.value = false
 })
@@ -368,6 +505,34 @@ const onStepNext = () => {
 <style lang='scss' scoped>
 .input{
     margin-bottom: 20px;
+}
+
+.preset_tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+.preset_tag {
+    cursor: pointer;
+    min-width: 60px;
+    display: inline-flex;
+    align-items: center;
+    :deep(.el-tag__content) {
+        flex: 1;
+        text-align: center;
+    }
+    :deep(.el-tag__close) {
+        margin-left: auto;
+    }
+}
+.preset_tag-active {
+    --el-tag-bg-color: #6c7bff;
+    --el-tag-text-color: #fff;
+    --el-tag-border-color: #6c7bff;
+}
+.preset_input {
+    max-width: 140px;
 }
 
 .sub_path_module {
