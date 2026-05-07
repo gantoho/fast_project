@@ -243,7 +243,7 @@ const removeCustomPath = (id) => {
     options.value = options.value.filter(item => item.id !== id)
 }
 
-const subPathSwitch = useStorage('fast_subPathSwitch', true)
+const subPathSwitch = useStorage('fast_subPathSwitch', false)
 const subPath = useStorage('fast_subPath', '')
 
 const openLink = async () => {
