@@ -5,7 +5,7 @@
             :key="item.id"
             :type="activePresetId === item.id ? '' : 'info'"
             :effect="activePresetId === item.id ? 'dark' : 'plain'"
-            size="small"
+            size="large"
             closable
             :disable-transitions="false"
             class="preset_tag"
@@ -269,8 +269,18 @@ const addCustomPath = () => {
     options.value.push({ id: String(pathId.value++), label: val, value: val })
     customPathInput.value = ''
 }
-const removeCustomPath = (id) => {
-    options.value = options.value.filter(item => item.id !== id)
+const removeCustomPath = async (id) => {
+    const item = options.value.find(o => o.id === id)
+    if (!item) return
+    try {
+        await ElMessageBox.confirm(`确定删除自定义路径「${item.label}」？`, '删除路径', {
+            confirmButtonText: '删除',
+            cancelButtonText: '取消',
+            type: 'warning',
+            confirmButtonClass: 'el-button--danger'
+        })
+        options.value = options.value.filter(o => o.id !== id)
+    } catch { }
 }
 
 const subPathSwitch = useStorage('fast_subPathSwitch', false)
@@ -312,8 +322,38 @@ const stepTrueLoop = useStorage('fast_stepTrueLoop', true)
 const stepOpened = useStorage('fast_stepOpened', [])
 
 let presetId = useStorage('fast_presetId', 1)
-const presets = useStorage('fast_presets', [])
-const activePresetId = useStorage('fast_activePresetId', '')
+const defaultPresetId = 'default'
+const defaultSnapshot = {
+    metaData: `https://zh-hans.react.dev/
+https://svelte.dev/
+https://cn.vuejs.org/
+https://www.solidjs.com/
+https://go.dev/
+https://rust-lang.org`,
+    subPathSwitch: false,
+    subPath: '',
+    options: [
+        { id: '0', label: '登录', value: '?_login_form=puglogin' },
+        { id: '1', label: '后台', value: 'wp-admin' },
+        { id: '2', label: 'partners检查页面', value: 'news' },
+        { id: '3', label: 'pu检查页面', value: 'client-notices' },
+    ],
+    pathId: 4,
+    numData: 1,
+    openDelaySwitch: false,
+    openDelay: 500,
+    isStepOpen: false,
+    stepBatchSize: 1,
+    stepAutoAdvance: true,
+    stepLoop: false,
+    stepTrueLoop: true,
+    stepOpened: [],
+    stepIndex: 0
+}
+const presets = useStorage('fast_presets', [
+    { id: defaultPresetId, name: '默认预设', snapshot: defaultSnapshot }
+])
+const activePresetId = useStorage('fast_activePresetId', defaultPresetId)
 const presetNameInput = ref('')
 const isApplyingPreset = ref(false)
 const presetReady = ref(false)
@@ -383,6 +423,9 @@ const applyPreset = async (item) => {
 }
 
 onMounted(async () => {
+    if (!presets.value.length) {
+        presets.value = [{ id: defaultPresetId, name: '默认预设', snapshot: defaultSnapshot }]
+    }
     const savedId = activePresetId.value
     if (savedId) {
         const preset = presets.value.find(p => p.id === savedId)
@@ -515,12 +558,14 @@ const onStepNext = () => {
 }
 .preset_tag {
     cursor: pointer;
-    min-width: 60px;
+    min-width: 90px;
     display: inline-flex;
     align-items: center;
     :deep(.el-tag__content) {
         flex: 1;
         text-align: center;
+        font-size: 14px;
+        font-weight: 900;
     }
     :deep(.el-tag__close) {
         margin-left: auto;
@@ -597,6 +642,16 @@ const onStepNext = () => {
 }
 .sub_path_tag {
     font-size: 13px;
+    --el-tag-bg-color: #f0f0f0;
+    --el-tag-border-color: #d9d9d9;
+    --el-tag-text-color: #333;
+    --el-tag-close-color: #333;
+}
+html.dark .sub_path_tag {
+    --el-tag-bg-color: #374151;
+    --el-tag-border-color: #4b5563;
+    --el-tag-text-color: rgba(255, 255, 255, 0.87);
+    --el-tag-close-color: rgba(255, 255, 255, 0.87);
 }
 .sub_path_custom_empty {
     margin-top: 12px;
