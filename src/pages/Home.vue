@@ -642,7 +642,7 @@ const onStepNext = () => {
 }
 .sub_path_tag {
     font-size: 13px;
-    --el-tag-bg-color: #f0f0f0;
+    --el-tag-bg-color: #ffffff;
     --el-tag-border-color: #d9d9d9;
     --el-tag-text-color: #333;
     --el-tag-close-color: #333;
