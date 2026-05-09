@@ -1,0 +1,72 @@
+html .el-select .el-input__wrapper {
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0 0 0 1px var(--g-home-link-border) inset;
+}
+html .el-select .el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset;
+}
+
+html .el-select__wrapper {
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0 0 0 1px var(--g-home-link-border) inset;
+}
+html.dark .el-select__wrapper {
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0 0 0 1px var(--g-home-link-border) inset;
+}
+html .el-select__wrapper.is-focus,
+html .el-select__wrapper.is-focused {
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset;
+}
+html .el-select__wrapper.is-hovering:not(.is-focused) {
+  box-shadow: 0 0 0 1px var(--g-home-link-border) inset;
+}
+html .el-select .el-input__inner {
+  color: var(--g-body-text-color);
+}
+html .el-select .el-select__caret {
+  color: var(--g-body-text-color);
+}
+html .el-select .el-select__close {
+  color: var(--g-body-text-color);
+}
+html .el-select .el-select__close:hover {
+  color: var(--g-home-link-hover);
+}
+
+html .el-popper.is-light {
+  background: var(--g-body-bg-color);
+  border-color: var(--g-home-link-border);
+}
+html .el-select-dropdown {
+  background-color: var(--g-body-bg-color);
+}
+html.dark .el-select-dropdown {
+  background-color: var(--g-body-bg-color);
+}
+html.dark .el-select-dropdown__wrap {
+  background-color: var(--g-body-bg-color);
+}
+html .el-select-dropdown__item {
+  color: var(--g-body-text-color);
+}
+html .el-select-dropdown__item.hover,
+html .el-select-dropdown__item.is-hovering,
+html .el-select-dropdown__item:hover {
+  background-color: var(--g-tabbar-border);
+  color: var(--g-body-text-color);
+}
+html .el-select-dropdown__item.is-hovering:not(:hover) {
+  background-color: transparent;
+}
+html .el-select-dropdown__item.selected,
+html .el-select-dropdown__item.is-selected {
+  color: var(--el-color-primary);
+}
+html.dark .el-select-dropdown__item.selected,
+html.dark .el-select-dropdown__item.is-selected {
+  background-color: rgba(34, 197, 94, 0.15);
+}
+html .el-select-dropdown__item.is-disabled {
+  color: var(--g-tabbar-border);
+}

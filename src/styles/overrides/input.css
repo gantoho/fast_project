@@ -1,0 +1,15 @@
+html .el-input__wrapper{
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0 0 0 1px var(--g-home-link-border) inset;
+}
+html .el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset;
+}
+html .el-textarea__inner {
+  box-shadow: 0 0 0 1px var(--g-home-link-border) inset;
+  background-color: rgba(0,0,0,0);
+  border-radius: 8px;
+}
+html .el-textarea__inner:focus {
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset;
+}

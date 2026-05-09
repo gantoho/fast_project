@@ -1,0 +1,16 @@
+html .el-tag.el-tag--info.el-tag--plain {
+  background-color: #ffffff;
+  border-color: #d9d9d9;
+  color: #333;
+}
+html .el-tag.el-tag--info.el-tag--plain .el-tag__close {
+  color: #333;
+}
+html.dark .el-tag.el-tag--info.el-tag--plain {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: rgba(255, 255, 255, 0.87);
+}
+html.dark .el-tag.el-tag--info.el-tag--plain .el-tag__close {
+  color: rgba(255, 255, 255, 0.87);
+}

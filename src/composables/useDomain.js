@@ -23,6 +23,7 @@ export default function(metaData, subPathSwitch, subPath) {
         return { urlArr: [], err: new Error('至少输入一个域名') }
     }
     const lines = metaData.value.trim().split(/\r?\n/).filter(item => item.trim().length > 0)
+    const currentSubPath = subPath.value ?? ''
     const urlArr = lines.map(line => {
         let item = line.trim()
         if (item.indexOf('https://') === 0 || item.indexOf('http://') === 0) {
@@ -40,13 +41,13 @@ export default function(metaData, subPathSwitch, subPath) {
             }
         }
         if (item.indexOf("http://") === -1 && item.indexOf("https://") === -1) {
-            if (subPathSwitch.value && subPath.value.trim().length > 0) {
-                return 'http://' + (item.endsWith('/') ? item : item + '/') + subPath.value.trim()
+            if (subPathSwitch.value && currentSubPath.trim().length > 0) {
+                return 'http://' + (item.endsWith('/') ? item : item + '/') + currentSubPath.trim()
             }
             return 'http://' + item
         }
-        if (subPathSwitch.value && subPath.value.trim().length > 0) {
-            return (item.endsWith('/') ? item : item + '/') + subPath.value.trim()
+        if (subPathSwitch.value && currentSubPath.trim().length > 0) {
+            return (item.endsWith('/') ? item : item + '/') + currentSubPath.trim()
         }
         return item
     })
