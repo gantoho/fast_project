@@ -8,10 +8,8 @@ export function useSubPath() {
 
   let pathId = useStorage('fast_pathId', 4)
   const options = useStorage('fast_options', [
-    { id: '0', label: '登录', value: '?_login_form=puglogin' },
-    { id: '1', label: '后台', value: 'wp-admin' },
-    { id: '2', label: 'partners检查页面', value: 'news' },
-    { id: '3', label: 'pu检查页面', value: 'client-notices' },
+    { id: '0', label: 'pu检查页面', value: 'client-notices' },
+    { id: '1', label: 'partners检查页面', value: 'news' },
   ])
 
   const customPathInput = ref('')
