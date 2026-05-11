@@ -72,7 +72,7 @@ export function useStepNav(processedUrlList, linkList) {
       stepIndex.value = (stepIndex.value - step + total) % total
     } else if (stepLoop.value) {
       let next = stepIndex.value - step
-      if (next < 0) next = total - 1
+      if (next < 0) next = total - (total % step || step)
       stepIndex.value = next
     } else {
       stepIndex.value = Math.max(0, stepIndex.value - step)
