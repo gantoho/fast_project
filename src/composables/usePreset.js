@@ -12,11 +12,6 @@ https://go.dev/
 https://rust-lang.org`,
   subPathSwitch: false,
   subPath: '',
-  options: [
-    { id: '0', label: 'pu检查页面', value: 'client-notices' },
-    { id: '1', label: 'partners检查页面', value: 'news' },
-  ],
-  pathId: 2,
   numData: 1,
   openDelaySwitch: false,
   openDelay: 500,
@@ -43,8 +38,6 @@ export function usePreset(state) {
     metaData: state.metaData.value,
     subPathSwitch: state.subPathSwitch.value,
     subPath: state.subPath.value,
-    options: state.options.value,
-    pathId: state.pathId.value,
     numData: state.numData.value,
     openDelaySwitch: state.openDelaySwitch.value,
     openDelay: state.openDelay.value,
@@ -61,8 +54,6 @@ export function usePreset(state) {
     state.metaData.value = snap.metaData
     state.subPathSwitch.value = snap.subPathSwitch
     state.subPath.value = snap.subPath
-    state.options.value = snap.options
-    state.pathId.value = snap.pathId
     state.numData.value = snap.numData
     state.openDelaySwitch.value = snap.openDelaySwitch
     state.openDelay.value = snap.openDelay
@@ -141,7 +132,6 @@ export function usePreset(state) {
       state.metaData.value,
       state.subPathSwitch.value,
       state.subPath.value,
-      state.options.value,
       state.numData.value,
       state.openDelaySwitch.value,
       state.openDelay.value,

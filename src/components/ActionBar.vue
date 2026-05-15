@@ -2,6 +2,7 @@
     <div class="btn_box">
         <el-button type="primary" :disabled="!hasLinks" @click="$emit('openLink')">
             {{ isStepOpen ? `打开下一批 (${stepBatchSize}个，共${stepBatchSize * numData}次)` : `全部打开 (共${linkListLen * numData}次)` }}
+            <span class="shortcut-hint">Ctrl+Enter</span>
         </el-button>
         <el-button type="danger" :icon="Delete" circle title="清空" @click="$emit('clear')" />
     </div>
@@ -25,5 +26,11 @@ defineEmits(['openLink', 'clear'])
 .btn_box{
     display: flex;
     justify-content: space-between;
+}
+.shortcut-hint {
+    margin-left: 6px;
+    font-size: 11px;
+    opacity: 0.6;
+    font-style: normal;
 }
 </style>

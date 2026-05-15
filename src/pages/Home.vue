@@ -71,6 +71,7 @@ import { useLinks } from '../composables/useLinks'
 import { useStepNav } from '../composables/useStepNav'
 import { useOpenLink } from '../composables/useOpenLink'
 import { usePreset } from '../composables/usePreset'
+import { onKeyStroke } from '@vueuse/core'
 import PresetBar from '../components/PresetBar.vue'
 import SubPathPanel from '../components/SubPathPanel.vue'
 import StepNavPanel from '../components/StepNavPanel.vue'
@@ -143,8 +144,6 @@ const {
   metaData,
   subPathSwitch,
   subPath,
-  options,
-  pathId,
   numData,
   openDelaySwitch,
   openDelay,
@@ -155,6 +154,14 @@ const {
   stepTrueLoop,
   stepOpened,
   stepIndex
+})
+
+onKeyStroke('Enter', (e) => {
+  if (e.ctrlKey || e.metaKey) {
+    if (hasLinks.value) {
+      openLink()
+    }
+  }
 })
 </script>
 
