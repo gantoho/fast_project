@@ -324,7 +324,7 @@ const onDragEnd = () => {
     &.is-manage-mode {
         border-color: var(--el-color-primary);
         padding: 4px 6px;
-        gap: 2px;
+        gap: 4px;
         cursor: grab;
         &:active {
             cursor: grabbing;
@@ -436,7 +436,7 @@ html .sub_path_popover {
         gap: 2px;
     }
     .el-button + .el-button {
-        margin-left: 0 !important;
+        margin-left: 4px !important;
     }
     .el-button {
         justify-content: flex-start;

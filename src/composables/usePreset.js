@@ -110,6 +110,39 @@ export function usePreset(state) {
     } catch { }
   }
 
+  const renamePreset = (id, newName) => {
+    const name = newName.trim()
+    if (!name) return
+    const dup = presets.value.find(p => p.name === name && p.id !== id)
+    if (dup) {
+      ElMessage({ message: '预设名称已存在', type: 'warning' })
+      return
+    }
+    const item = presets.value.find(p => p.id === id)
+    if (item) {
+      item.name = name
+      ElMessage({ message: `已重命名为「${name}」`, type: 'success' })
+    }
+  }
+
+  const updatePresetContent = (id, newName, newSnapshot) => {
+    const name = newName.trim()
+    if (!name) return
+    const dup = presets.value.find(p => p.name === name && p.id !== id)
+    if (dup) {
+      ElMessage({ message: '预设名称已存在', type: 'warning' })
+      return
+    }
+    presets.value = presets.value.map(p =>
+      p.id === id ? { ...p, name, snapshot: newSnapshot } : p
+    )
+    ElMessage({ message: `预设「${name}」已更新`, type: 'success' })
+  }
+
+  const reorderPresets = (newPresets) => {
+    presets.value = newPresets
+  }
+
   onMounted(async () => {
     if (!presets.value.length) {
       presets.value = [{ id: defaultPresetId, name: '默认预设', snapshot: defaultSnapshot }]
@@ -157,6 +190,9 @@ export function usePreset(state) {
     presetReady,
     savePreset,
     applyPreset,
-    deletePreset
+    deletePreset,
+    renamePreset,
+    updatePresetContent,
+    reorderPresets
   }
 }

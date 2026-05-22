@@ -4,6 +4,8 @@
         :active-preset-id="activePresetId"
         @apply-preset="applyPreset"
         @delete-preset="deletePreset"
+        @update-preset-content="updatePresetContent"
+        @reorder-presets="reorderPresets"
     />
     <el-input
         v-model="metaData"
@@ -145,7 +147,10 @@ const {
   isApplyingPreset,
   savePreset,
   applyPreset,
-  deletePreset
+  deletePreset,
+  renamePreset,
+  updatePresetContent,
+  reorderPresets
 } = usePreset({
   metaData,
   subPathSwitch,
