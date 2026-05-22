@@ -43,6 +43,7 @@
         @step-click="onStepClick"
         @step-prev="onStepPrev"
         @step-next="onStepNext"
+        @reset-opened="resetOpened"
     />
     <ConfigBar
         :num-data="numData"
@@ -111,6 +112,7 @@ const {
   tagStatus,
   markOpened,
   advanceIndex,
+  resetOpened,
   onStepClick,
   onStepPrev,
   onStepNext

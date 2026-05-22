@@ -100,6 +100,10 @@ export function useStepNav(processedUrlList, linkList) {
     if (val) stepLoop.value = false
   })
 
+  const resetOpened = () => {
+    stepOpened.value = []
+  }
+
   return {
     isStepOpen,
     stepIndex,
@@ -112,6 +116,7 @@ export function useStepNav(processedUrlList, linkList) {
     tagStatus,
     markOpened,
     advanceIndex,
+    resetOpened,
     onStepClick,
     onStepPrev,
     onStepNext

@@ -26,6 +26,9 @@
                     >
                         {{ i + 1 }}
                     </el-tag>
+                    <el-button size="small" text type="warning" class="step_reset_btn" @click="$emit('resetOpened')">
+                        <el-icon style="font-size:13px"><RefreshLeft /></el-icon> 重置标记
+                    </el-button>
                 </template>
                 <p v-else class="step_tags_empty">暂无有效链接</p>
             </div>
@@ -61,7 +64,7 @@
 </template>
 
 <script setup>
-import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { ArrowLeft, ArrowRight, RefreshLeft } from '@element-plus/icons-vue'
 
 defineProps({
     isStepOpen: { type: Boolean, default: false },
@@ -84,7 +87,8 @@ defineEmits([
     'update:stepTrueLoop',
     'stepClick',
     'stepPrev',
-    'stepNext'
+    'stepNext',
+    'resetOpened'
 ])
 </script>
 
@@ -128,6 +132,18 @@ defineEmits([
         --el-tag-bg-color: transparent;
         --el-tag-text-color: var(--el-color-primary);
         --el-tag-border-color: var(--el-color-primary);
+    }
+}
+.step_reset_btn {
+    font-size: 12px;
+    padding: 0 8px;
+    height: 22px;
+    margin-left: 2px;
+    color: var(--el-color-warning);
+    &:hover {
+        background-color: rgba(230, 162, 60, 0.12) !important;
+        border-color: rgba(230, 162, 60, 0.3) !important;
+        color: var(--el-color-warning) !important;
     }
 }
 .step_tags_empty {

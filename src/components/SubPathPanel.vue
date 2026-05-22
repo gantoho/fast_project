@@ -22,23 +22,15 @@
             <div class="sub_path_custom">
                 <div class="sub_path_custom_header">
                     <span class="sub_path_custom_title">管理自定义路径</span>
-                </div>
-                <div class="sub_path_custom_add">
-                    <el-input
-                        v-model="labelInput"
-                        class="sub_path_custom_input"
-                        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
-                        placeholder="输入显示名称"
-                        @keyup.enter="addCustomPath"
-                    />
-                    <el-input
-                        v-model="valueInput"
-                        class="sub_path_custom_input"
-                        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
-                        placeholder="输入实际路径"
-                        @keyup.enter="addCustomPath"
-                    />
-                    <el-button type="primary" size="default" @click="addCustomPath" :disabled="!labelInput.trim() || !valueInput.trim()">添加</el-button>
+                    <el-button v-if="!manageMode" size="small" text class="manage_btn" @click="manageMode = true">
+                        <el-icon style="font-size:14px"><Setting /></el-icon> 管理
+                    </el-button>
+                    <template v-else>
+                        <span class="manage_mode_hint">已进入管理模式</span>
+                        <el-button size="small" text type="primary" class="manage_btn done_btn" @click="exitManageMode">
+                            <el-icon style="font-size:14px"><CircleCheck /></el-icon> 完成
+                        </el-button>
+                    </template>
                 </div>
                 <div class="sub_path_list" v-if="options.length">
                     <div
@@ -48,39 +40,49 @@
                         :class="{
                             'is-dragging': dragIndex === index,
                             'is-drag-over': dragOverIndex === index,
-                            'is-active': subPath === item.value
+                            'is-active': subPath === item.value,
+                            'is-manage-mode': manageMode
                         }"
-                        draggable="true"
+                        :draggable="manageMode"
                         @dragstart="onDragStart(index, $event)"
                         @dragover.prevent="onDragOver(index)"
                         @dragleave="onDragLeave(index)"
                         @drop.prevent="onDrop(index)"
                         @dragend="onDragEnd"
                     >
-                        <span class="sub_path_item_label" :title="item.label + ' (' + item.value + ')'" @click="emit('update:subPath', item.value)">{{ item.label }}</span>
-                        <el-popover trigger="hover" placement="top" :width="130" popper-class="sub_path_popover">
-                            <template #reference>
-                                <el-icon class="action-trigger"><MoreFilled /></el-icon>
-                            </template>
-                            <div class="popover_actions">
-                                <el-button text size="small" @click="openEditDialog(item)">
-                                    <el-icon style="font-size:14px"><Edit /></el-icon> 编辑
-                                </el-button>
-                                <el-button text size="small" type="danger" @click="handleDelete(item.id)">
-                                    <el-icon style="font-size:14px"><Delete /></el-icon> 删除
-                                </el-button>
-                            </div>
-                        </el-popover>
+                        <el-icon v-if="manageMode" class="drag-handle"><Rank /></el-icon>
+                        <span class="sub_path_item_label" :title="item.label + ' (' + item.value + ')'" @click="!manageMode && emit('update:subPath', item.value)">{{ item.label }}</span>
+                        <template v-if="manageMode">
+                            <el-icon class="action-trigger manage-action" @click="openEditDialog(item)"><Edit /></el-icon>
+                            <el-icon class="action-trigger manage-action delete-action" @click="handleDelete(item.id)"><Delete /></el-icon>
+                        </template>
                     </div>
                 </div>
-                <p class="sub_path_custom_empty" v-else>暂无自定义路径，在上方添加</p>
+                <p class="sub_path_custom_empty" v-else>暂无自定义路径，在下方添加</p>
+                <div class="sub_path_custom_add" v-if="manageMode">
+                    <el-input
+                        v-model="labelInput"
+                        class="sub_path_custom_input"
+                        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
+                        placeholder="输入显示名称（可选，默认使用路径）"
+                        @keyup.enter="addCustomPath"
+                    />
+                    <el-input
+                        v-model="valueInput"
+                        class="sub_path_custom_input"
+                        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
+                        placeholder="输入实际路径"
+                        @keyup.enter="addCustomPath"
+                    />
+                    <el-button type="primary" size="default" @click="addCustomPath" :disabled="!valueInput.trim()">添加</el-button>
+                </div>
             </div>
 
             <el-dialog v-model="dialogVisible" title="编辑路径" width="400px" append-to-body>
                 <div class="dialog_fields">
                     <div class="dialog_field">
                         <label class="dialog_label">名称</label>
-                        <el-input v-model="dialogLabel" placeholder="输入显示名称" />
+                        <el-input v-model="dialogLabel" placeholder="输入显示名称（可选，默认使用路径）" />
                     </div>
                     <div class="dialog_field">
                         <label class="dialog_label">路径</label>
@@ -89,7 +91,7 @@
                 </div>
                 <template #footer>
                     <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="saveEditDialog" :disabled="!dialogLabel.trim() || !dialogValue.trim()">保存</el-button>
+                    <el-button type="primary" @click="saveEditDialog" :disabled="!dialogValue.trim()">保存</el-button>
                 </template>
             </el-dialog>
         </template>
@@ -99,7 +101,7 @@
 <script setup>
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { MoreFilled, Edit, Delete } from '@element-plus/icons-vue'
+import { Edit, Delete, Setting, CircleCheck, Rank } from '@element-plus/icons-vue'
 
 const props = defineProps({
     subPathSwitch: { type: Boolean, default: false },
@@ -109,17 +111,25 @@ const props = defineProps({
 
 const emit = defineEmits(['update:subPathSwitch', 'update:subPath', 'addCustomPath', 'removeCustomPath', 'updateCustomPath', 'reorderPaths'])
 
+const manageMode = ref(false)
+
+const exitManageMode = () => {
+    manageMode.value = false
+    dragIndex.value = null
+    dragOverIndex.value = null
+}
+
 const labelInput = ref('')
 const valueInput = ref('')
 
 const addCustomPath = () => {
-    const label = labelInput.value.trim()
     const value = valueInput.value.trim()
-    if (!label || !value) return
+    if (!value) return
     if (props.options.some(item => item.value === value)) {
         ElMessage({ message: '该路径已存在', type: 'warning' })
         return
     }
+    const label = labelInput.value.trim() || value
     emit('addCustomPath', label, value)
     labelInput.value = ''
     valueInput.value = ''
@@ -138,9 +148,9 @@ const openEditDialog = (item) => {
 }
 
 const saveEditDialog = () => {
-    const label = dialogLabel.value.trim()
     const value = dialogValue.value.trim()
-    if (!label || !value) return
+    if (!value) return
+    const label = dialogLabel.value.trim() || value
     emit('updateCustomPath', dialogEditId.value, label, value)
     dialogVisible.value = false
     dialogEditId.value = ''
@@ -227,16 +237,38 @@ const onDragEnd = () => {
     border-top: 1px solid var(--g-home-link-border);
 }
 .sub_path_custom_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 10px;
     .sub_path_custom_title {
         font-style: normal;
         font-size: 13px;
         opacity: 0.7;
     }
+    .manage_mode_hint {
+        font-size: 12px;
+        color: var(--el-color-primary);
+        opacity: 0.7;
+        font-style: normal;
+    }
+    .manage_btn {
+        font-size: 12px;
+        &:hover {
+            background-color: rgba(64, 158, 255, 0.1) !important;
+            border-color: rgba(64, 158, 255, 0.25) !important;
+        }
+        &.done_btn:hover {
+            background-color: rgba(103, 194, 58, 0.1) !important;
+            border-color: rgba(103, 194, 58, 0.25) !important;
+        }
+    }
 }
 .sub_path_custom_add {
     display: flex;
     gap: 10px;
+    margin-top: 12px;
     .sub_path_custom_input {
         flex: 1;
     }
@@ -276,13 +308,46 @@ const onDragEnd = () => {
             color: rgba(255,255,255,0.7);
             opacity: 1;
         }
+        .drag-handle {
+            color: rgba(255,255,255,0.7);
+        }
+        .manage-action {
+            color: rgba(255,255,255,0.7);
+            &:hover {
+                color: #fff;
+            }
+        }
+        .delete-action:hover {
+            color: #fff;
+        }
+    }
+    &.is-manage-mode {
+        border-color: var(--el-color-primary);
+        padding: 4px 6px;
+        gap: 2px;
+        cursor: grab;
+        &:active {
+            cursor: grabbing;
+        }
+        .sub_path_item_label {
+            max-width: 110px;
+            cursor: default;
+            &:hover {
+                color: inherit;
+            }
+        }
     }
     &.is-dragging {
-        opacity: 0.3;
+        opacity: 0.4;
+        border-style: dashed;
     }
     &.is-drag-over {
         border-color: var(--el-color-primary);
-        background-color: rgba(34, 197, 94, 0.08);
+        background-color: color-mix(in srgb, var(--el-color-primary) 12%, transparent);
+        box-shadow: 0 0 0 2px var(--el-color-primary-light-5);
+        .sub_path_item_label {
+            color: var(--el-color-primary);
+        }
     }
     .sub_path_item_label {
         font-size: 12px;
@@ -297,6 +362,18 @@ const onDragEnd = () => {
             color: var(--el-color-primary);
         }
     }
+    .drag-handle {
+        font-size: 14px;
+        color: var(--g-body-text-color);
+        opacity: 0.4;
+        cursor: grab;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
     .action-trigger {
         font-size: 14px;
         cursor: pointer;
@@ -304,8 +381,24 @@ const onDragEnd = () => {
         opacity: 0;
         transition: opacity 0.15s;
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
         &:hover {
             opacity: 1 !important;
+        }
+    }
+    .manage-action {
+        opacity: 0.5;
+        display: flex;
+        align-items: center;
+        &:hover {
+            opacity: 1 !important;
+        }
+    }
+    .delete-action {
+        color: #f56c6c;
+        &:hover {
+            color: #f56c6c;
         }
     }
 }
