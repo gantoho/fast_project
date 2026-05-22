@@ -1,4 +1,5 @@
 import { ElMessage } from 'element-plus'
+import { buildUrl } from '../utils/buildUrl'
 
 const isValidHostname = (hostname) => {
     if (!hostname) return false
@@ -16,41 +17,35 @@ const isValidHostname = (hostname) => {
     return true
 }
 
-export default function(metaData, subPathSwitch, subPath) {
-    let count = 0
+const extractHostname = (raw) => {
+    const item = raw.trim()
+    const hasPrefix = item.startsWith('http://') || item.startsWith('https://')
+    if (hasPrefix) {
+        const rest = item.indexOf('://') + 3
+        const slashIdx = item.indexOf('/', rest)
+        return slashIdx === -1 ? item.slice(rest) : item.slice(rest, slashIdx)
+    }
+    const slashIdx = item.indexOf('/')
+    return slashIdx === -1 ? item : item.slice(0, slashIdx)
+}
+
+export default function (metaData, subPathSwitch, subPath) {
     if (metaData.value.trim().length <= 0) {
         ElMessage({ message: '至少输入一个域名', type: 'warning' })
         return { urlArr: [], err: new Error('至少输入一个域名') }
     }
+
     const lines = metaData.value.trim().split(/\r?\n/).filter(item => item.trim().length > 0)
-    const currentSubPath = subPath.value ?? ''
-    const urlArr = lines.map(line => {
-        let item = line.trim()
-        if (item.indexOf('https://') === 0 || item.indexOf('http://') === 0) {
-            const rest = item.indexOf('://') + 3
-            const slashIdx = item.indexOf('/', rest)
-            const hostname = slashIdx === -1 ? item.slice(rest) : item.slice(rest, slashIdx)
-            if (!isValidHostname(hostname)) {
-                count++
-            }
-        } else {
-            const slashIdx = item.indexOf('/')
-            const hostname = slashIdx === -1 ? item : item.slice(0, slashIdx)
-            if (!isValidHostname(hostname)) {
-                count++
-            }
+    let count = 0
+    const urlArr = []
+
+    for (const line of lines) {
+        if (!isValidHostname(extractHostname(line))) {
+            count++
         }
-        if (item.indexOf("http://") === -1 && item.indexOf("https://") === -1) {
-            if (subPathSwitch.value && currentSubPath.trim().length > 0) {
-                return 'http://' + (item.endsWith('/') ? item : item + '/') + currentSubPath.trim()
-            }
-            return 'http://' + item
-        }
-        if (subPathSwitch.value && currentSubPath.trim().length > 0) {
-            return (item.endsWith('/') ? item : item + '/') + currentSubPath.trim()
-        }
-        return item
-    })
+        urlArr.push(buildUrl(line, subPathSwitch.value, subPath.value))
+    }
+
     if (count > 0) {
         ElMessage({ message: '请检查域名有误！！！', type: 'error' })
         console.warn('请检查域名有误！！！')

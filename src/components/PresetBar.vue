@@ -8,9 +8,18 @@
                 </el-button>
                 <template v-else>
                     <span class="manage_mode_hint">已进入管理模式</span>
-                    <el-button size="small" text type="primary" class="manage_btn done_btn" @click="manageMode = false">
-                        <el-icon style="font-size:14px"><CircleCheck /></el-icon> 完成
-                    </el-button>
+                    <div class="manage_actions">
+                        <el-button size="small" text class="manage_btn io_btn" @click="exportPresets">
+                            <el-icon style="font-size:13px"><Download /></el-icon> 导出
+                        </el-button>
+                        <el-button size="small" text class="manage_btn io_btn" @click="triggerImport">
+                            <el-icon style="font-size:13px"><Upload /></el-icon> 导入
+                        </el-button>
+                        <input ref="importInput" type="file" accept=".json" style="display:none" @change="handleImport" />
+                        <el-button size="small" text type="primary" class="manage_btn done_btn" @click="manageMode = false">
+                            <el-icon style="font-size:14px"><CircleCheck /></el-icon> 完成
+                        </el-button>
+                    </div>
                 </template>
             </template>
         </div>
@@ -87,7 +96,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Setting, CircleCheck, Edit, Delete } from '@element-plus/icons-vue'
+import { Setting, CircleCheck, Edit, Delete, Download, Upload } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const props = defineProps({
     presets: { type: Array, required: true },
@@ -160,6 +170,56 @@ const confirmEdit = () => {
     editMetaData.value = ''
 }
 
+// ---- import/export ----
+const importInput = ref(null)
+
+const triggerImport = () => {
+    importInput.value?.click()
+}
+
+const exportPresets = () => {
+    const data = JSON.stringify(props.presets, null, 2)
+    const blob = new Blob([data], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `fast_presets_${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+    ElMessage({ message: '预设已导出', type: 'success' })
+}
+
+const handleImport = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    try {
+        const text = await file.text()
+        const data = JSON.parse(text)
+        if (!Array.isArray(data)) {
+            ElMessage({ message: '文件格式不正确，需要 JSON 数组', type: 'error' })
+            return
+        }
+        for (const item of data) {
+            if (!item.id || !item.name || !item.snapshot) {
+                ElMessage({ message: '文件格式不正确，缺少必要字段', type: 'error' })
+                return
+            }
+        }
+        await ElMessageBox.confirm(
+            `将导入 ${data.length} 个预设，现有预设将被替换。确定继续？`,
+            '导入预设',
+            { confirmButtonText: '导入', cancelButtonText: '取消', type: 'warning' }
+        )
+        emit('reorderPresets', data)
+        ElMessage({ message: `已导入 ${data.length} 个预设`, type: 'success' })
+    } catch (err) {
+        if (err !== 'cancel') {
+            ElMessage({ message: '文件解析失败，请检查文件格式', type: 'error' })
+        }
+    }
+    e.target.value = ''
+}
+
 // ---- click ----
 const onTagClick = (item) => {
     if (manageMode.value) return
@@ -190,6 +250,12 @@ const onTagClick = (item) => {
     color: var(--el-color-primary);
 }
 
+.manage_actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
 .manage_btn {
     font-size: 12px;
     &:hover {
@@ -199,6 +265,10 @@ const onTagClick = (item) => {
     &.done_btn:hover {
         background-color: rgba(103, 194, 58, 0.1) !important;
         border-color: rgba(103, 194, 58, 0.25) !important;
+    }
+    &.io_btn:hover {
+        background-color: rgba(230, 162, 60, 0.1) !important;
+        border-color: rgba(230, 162, 60, 0.25) !important;
     }
 }
 

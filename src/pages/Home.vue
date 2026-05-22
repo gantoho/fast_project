@@ -174,6 +174,22 @@ onKeyStroke('Enter', (e) => {
     }
   }
 })
+
+onKeyStroke('ArrowLeft', () => {
+  if (isStepOpen.value && hasLinks.value) {
+    const activeEl = document.activeElement
+    if (activeEl?.tagName === 'INPUT' || activeEl?.tagName === 'TEXTAREA') return
+    onStepPrev()
+  }
+})
+
+onKeyStroke('ArrowRight', () => {
+  if (isStepOpen.value && hasLinks.value) {
+    const activeEl = document.activeElement
+    if (activeEl?.tagName === 'INPUT' || activeEl?.tagName === 'TEXTAREA') return
+    onStepNext()
+  }
+})
 </script>
 
 <style lang='scss' scoped>

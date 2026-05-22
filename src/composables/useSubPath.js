@@ -5,7 +5,7 @@ export function useSubPath() {
   const subPathSwitch = useStorage('fast_subPathSwitch', false)
   const subPath = useStorage('fast_subPath', '')
 
-  let pathId = useStorage('fast_pathId', 4)
+  const pathId = useStorage('fast_pathId', 4)
   const options = useStorage('fast_options', [
     { id: '0', label: 'pu检查页面', value: 'client-notices' },
     { id: '1', label: 'partners检查页面', value: 'news' },

@@ -1,5 +1,6 @@
 import { computed } from 'vue'
 import { useStorage } from '@vueuse/core'
+import { buildUrl } from '../utils/buildUrl'
 
 export function useLinks(subPathRef, subPathSwitchRef) {
   const metaData = useStorage('fast_metaData', `https://zh-hans.react.dev/
@@ -15,23 +16,8 @@ https://rust-lang.org`)
 
   const hasLinks = computed(() => linkList.value.length > 0)
 
-  const processUrl = (raw) => {
-    const item = raw.trim()
-    const currentSubPath = subPathRef.value ?? ''
-    if (item.indexOf('http://') === 0 || item.indexOf('https://') === 0) {
-      if (subPathSwitchRef.value && currentSubPath.trim().length > 0) {
-        return (item.endsWith('/') ? item : item + '/') + currentSubPath.trim()
-      }
-      return item
-    }
-    if (subPathSwitchRef.value && currentSubPath.trim().length > 0) {
-      return 'http://' + (item.endsWith('/') ? item : item + '/') + currentSubPath.trim()
-    }
-    return 'http://' + item
-  }
-
   const processedUrlList = computed(() => {
-    return linkList.value.map(item => processUrl(item))
+    return linkList.value.map(item => buildUrl(item, subPathSwitchRef.value, subPathRef.value))
   })
 
   const clear = () => {
