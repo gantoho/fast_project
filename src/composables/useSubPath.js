@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
@@ -12,15 +11,16 @@ export function useSubPath() {
     { id: '1', label: 'partners检查页面', value: 'news' },
   ])
 
-  const customPathInput = ref('')
-
-  const addCustomPath = (val) => {
-    if (!val) return
-    if (options.value.some(item => item.value === val)) {
+  const addCustomPath = (label, value) => {
+    if (!label || !value) {
+      ElMessage({ message: '名称和路径不能为空', type: 'warning' })
+      return
+    }
+    if (options.value.some(item => item.value === value)) {
       ElMessage({ message: '该路径已存在', type: 'warning' })
       return
     }
-    options.value.push({ id: String(pathId.value++), label: val, value: val })
+    options.value.push({ id: String(pathId.value++), label, value })
   }
 
   const removeCustomPath = async (id) => {
@@ -37,13 +37,38 @@ export function useSubPath() {
     } catch { }
   }
 
+  const updateCustomPath = (id, label, value) => {
+    const trimmedLabel = label.trim()
+    const trimmedValue = value.trim()
+    if (!trimmedLabel || !trimmedValue) {
+      ElMessage({ message: '名称和路径不能为空', type: 'warning' })
+      return false
+    }
+    const dup = options.value.find(o => o.value === trimmedValue && o.id !== id)
+    if (dup) {
+      ElMessage({ message: '该路径已存在', type: 'warning' })
+      return false
+    }
+    const item = options.value.find(o => o.id === id)
+    if (item) {
+      item.label = trimmedLabel
+      item.value = trimmedValue
+    }
+    return true
+  }
+
+  const reorderPaths = (newOptions) => {
+    options.value = newOptions
+  }
+
   return {
     subPathSwitch,
     subPath,
     options,
     pathId,
-    customPathInput,
     addCustomPath,
-    removeCustomPath
+    removeCustomPath,
+    updateCustomPath,
+    reorderPaths
   }
 }

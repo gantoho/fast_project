@@ -1,0 +1,37 @@
+html .el-dialog {
+  background: var(--g-body-bg-color);
+  border-color: var(--g-home-link-border);
+  border-radius: 8px;
+}
+html .el-dialog__header {
+  padding: 16px 20px 0;
+}
+html .el-dialog__title {
+  color: var(--g-body-text-color);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+}
+html .el-dialog__body {
+  color: var(--g-body-text-color);
+  padding: 20px;
+}
+html .el-dialog__footer {
+  padding: 0 20px 16px;
+}
+html .el-dialog__headerbtn {
+  font-size: 16px;
+}
+html .el-dialog__headerbtn .el-dialog__close {
+  color: var(--g-body-text-color);
+  opacity: 0.5;
+}
+html .el-dialog__headerbtn .el-dialog__close:hover {
+  opacity: 1;
+}
+html .el-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+html.dark .el-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}

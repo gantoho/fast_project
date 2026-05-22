@@ -21,6 +21,8 @@
         @update:sub-path="subPath = $event ?? ''"
         @add-custom-path="addCustomPath"
         @remove-custom-path="removeCustomPath"
+        @update-custom-path="updateCustomPath"
+        @reorder-paths="reorderPaths"
     />
     <StepNavPanel
         :is-step-open="isStepOpen"
@@ -84,7 +86,9 @@ const {
   options,
   pathId,
   addCustomPath,
-  removeCustomPath
+  removeCustomPath,
+  updateCustomPath,
+  reorderPaths
 } = useSubPath()
 
 const {

@@ -12,65 +12,94 @@
             />
         </div>
         <template v-if="subPathSwitch">
-            <div class="sub_path_selector">
-                <el-select
-                    :model-value="subPath"
-                    @update:model-value="$emit('update:subPath', $event)"
-                    placeholder="选择已有路径"
-                    clearable
-                    class="sub_path_select"
-                >
-                    <el-option
-                        v-for="item in options"
-                        :key="item.id"
-                        :label="item.label"
-                        :value="item.value"
-                    />
-                </el-select>
-                <span class="sub_path_or">或</span>
-                <el-input
-                    :model-value="subPath"
-                    @update:model-value="$emit('update:subPath', $event)"
-                    class="sub_path_input"
-                    :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
-                    placeholder="手动输入子路径"
-                />
-            </div>
+            <el-input
+                :model-value="subPath"
+                @update:model-value="$emit('update:subPath', $event)"
+                class="sub_path_input"
+                :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
+                placeholder="输入子路径（或点击下方选项选择）"
+            />
             <div class="sub_path_custom">
                 <div class="sub_path_custom_header">
                     <span class="sub_path_custom_title">管理自定义路径</span>
                 </div>
                 <div class="sub_path_custom_add">
                     <el-input
-                        v-model="customPathInput"
+                        v-model="labelInput"
                         class="sub_path_custom_input"
                         :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
-                        placeholder="输入自定义路径，按 Enter 或点击添加"
+                        placeholder="输入显示名称"
                         @keyup.enter="addCustomPath"
                     />
-                    <el-button type="primary" size="default" @click="addCustomPath" :disabled="!customPathInput.trim()">添加</el-button>
+                    <el-input
+                        v-model="valueInput"
+                        class="sub_path_custom_input"
+                        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
+                        placeholder="输入实际路径"
+                        @keyup.enter="addCustomPath"
+                    />
+                    <el-button type="primary" size="default" @click="addCustomPath" :disabled="!labelInput.trim() || !valueInput.trim()">添加</el-button>
                 </div>
-                <div class="sub_path_custom_tags" v-if="options.length">
-                    <el-tag
-                        v-for="item in options"
+                <div class="sub_path_list" v-if="options.length">
+                    <div
+                        v-for="(item, index) in options"
                         :key="item.id"
-                        closable
-                        :disable-transitions="false"
-                        @close="$emit('removeCustomPath', item.id)"
-                        class="sub_path_tag"
+                        class="sub_path_item"
+                        :class="{
+                            'is-dragging': dragIndex === index,
+                            'is-drag-over': dragOverIndex === index,
+                            'is-active': subPath === item.value
+                        }"
+                        draggable="true"
+                        @dragstart="onDragStart(index, $event)"
+                        @dragover.prevent="onDragOver(index)"
+                        @dragleave="onDragLeave(index)"
+                        @drop.prevent="onDrop(index)"
+                        @dragend="onDragEnd"
                     >
-                        {{ item.label }}
-                    </el-tag>
+                        <span class="sub_path_item_label" :title="item.label + ' (' + item.value + ')'" @click="emit('update:subPath', item.value)">{{ item.label }}</span>
+                        <el-popover trigger="hover" placement="top" :width="130" popper-class="sub_path_popover">
+                            <template #reference>
+                                <el-icon class="action-trigger"><MoreFilled /></el-icon>
+                            </template>
+                            <div class="popover_actions">
+                                <el-button text size="small" @click="openEditDialog(item)">
+                                    <el-icon style="font-size:14px"><Edit /></el-icon> 编辑
+                                </el-button>
+                                <el-button text size="small" type="danger" @click="handleDelete(item.id)">
+                                    <el-icon style="font-size:14px"><Delete /></el-icon> 删除
+                                </el-button>
+                            </div>
+                        </el-popover>
+                    </div>
                 </div>
                 <p class="sub_path_custom_empty" v-else>暂无自定义路径，在上方添加</p>
             </div>
+
+            <el-dialog v-model="dialogVisible" title="编辑路径" width="400px" append-to-body>
+                <div class="dialog_fields">
+                    <div class="dialog_field">
+                        <label class="dialog_label">名称</label>
+                        <el-input v-model="dialogLabel" placeholder="输入显示名称" />
+                    </div>
+                    <div class="dialog_field">
+                        <label class="dialog_label">路径</label>
+                        <el-input v-model="dialogValue" placeholder="输入实际路径" />
+                    </div>
+                </div>
+                <template #footer>
+                    <el-button @click="dialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="saveEditDialog" :disabled="!dialogLabel.trim() || !dialogValue.trim()">保存</el-button>
+                </template>
+            </el-dialog>
         </template>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { MoreFilled, Edit, Delete } from '@element-plus/icons-vue'
 
 const props = defineProps({
     subPathSwitch: { type: Boolean, default: false },
@@ -78,19 +107,97 @@ const props = defineProps({
     options: { type: Array, required: true }
 })
 
-const emit = defineEmits(['update:subPathSwitch', 'update:subPath', 'addCustomPath', 'removeCustomPath'])
+const emit = defineEmits(['update:subPathSwitch', 'update:subPath', 'addCustomPath', 'removeCustomPath', 'updateCustomPath', 'reorderPaths'])
 
-const customPathInput = ref('')
+const labelInput = ref('')
+const valueInput = ref('')
 
 const addCustomPath = () => {
-    const val = customPathInput.value.trim()
-    if (!val) return
-    if (props.options.some(item => item.value === val)) {
+    const label = labelInput.value.trim()
+    const value = valueInput.value.trim()
+    if (!label || !value) return
+    if (props.options.some(item => item.value === value)) {
         ElMessage({ message: '该路径已存在', type: 'warning' })
         return
     }
-    emit('addCustomPath', val)
-    customPathInput.value = ''
+    emit('addCustomPath', label, value)
+    labelInput.value = ''
+    valueInput.value = ''
+}
+
+const dialogVisible = ref(false)
+const dialogEditId = ref('')
+const dialogLabel = ref('')
+const dialogValue = ref('')
+
+const openEditDialog = (item) => {
+    dialogEditId.value = item.id
+    dialogLabel.value = item.label
+    dialogValue.value = item.value
+    dialogVisible.value = true
+}
+
+const saveEditDialog = () => {
+    const label = dialogLabel.value.trim()
+    const value = dialogValue.value.trim()
+    if (!label || !value) return
+    emit('updateCustomPath', dialogEditId.value, label, value)
+    dialogVisible.value = false
+    dialogEditId.value = ''
+    dialogLabel.value = ''
+    dialogValue.value = ''
+}
+
+const handleDelete = async (id) => {
+    const item = props.options.find(o => o.id === id)
+    if (!item) return
+    try {
+        await ElMessageBox.confirm(`确定删除自定义路径「${item.label}」？`, '删除路径', {
+            confirmButtonText: '删除',
+            cancelButtonText: '取消',
+            type: 'warning',
+            confirmButtonClass: 'el-button--danger'
+        })
+        emit('removeCustomPath', id)
+    } catch { }
+}
+
+const dragIndex = ref(null)
+const dragOverIndex = ref(null)
+
+const onDragStart = (index, event) => {
+    dragIndex.value = index
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('text/plain', String(index))
+}
+
+const onDragOver = (index) => {
+    dragOverIndex.value = index
+}
+
+const onDragLeave = (index) => {
+    if (dragOverIndex.value === index) {
+        dragOverIndex.value = null
+    }
+}
+
+const onDrop = (index) => {
+    if (dragIndex.value === null || dragIndex.value === index) {
+        dragIndex.value = null
+        dragOverIndex.value = null
+        return
+    }
+    const list = [...props.options]
+    const [removed] = list.splice(dragIndex.value, 1)
+    list.splice(index, 0, removed)
+    emit('reorderPaths', list)
+    dragIndex.value = null
+    dragOverIndex.value = null
+}
+
+const onDragEnd = () => {
+    dragIndex.value = null
+    dragOverIndex.value = null
 }
 </script>
 
@@ -111,23 +218,8 @@ const addCustomPath = () => {
         font-weight: 600;
     }
 }
-.sub_path_selector {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.sub_path_input {
     margin-top: 14px;
-    .sub_path_select {
-        flex: 1;
-    }
-    .sub_path_or {
-        color: var(--g-body-text-color);
-        font-size: 13px;
-        white-space: nowrap;
-        opacity: 0.6;
-    }
-    .sub_path_input {
-        flex: 1;
-    }
 }
 .sub_path_custom {
     margin-top: 16px;
@@ -149,29 +241,143 @@ const addCustomPath = () => {
         flex: 1;
     }
 }
-.sub_path_custom_tags {
+.sub_path_list {
+    margin-top: 12px;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 6px;
 }
-.sub_path_tag {
-    font-size: 13px;
-    --el-tag-bg-color: #ffffff;
-    --el-tag-border-color: #d9d9d9;
-    --el-tag-text-color: #333;
-    --el-tag-close-color: #333;
-}
-html.dark .sub_path_tag {
-    --el-tag-bg-color: #374151;
-    --el-tag-border-color: #4b5563;
-    --el-tag-text-color: rgba(255, 255, 255, 0.87);
-    --el-tag-close-color: rgba(255, 255, 255, 0.87);
+.sub_path_item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid var(--g-home-link-border);
+    border-radius: 4px;
+    transition: all 0.2s;
+    user-select: none;
+    cursor: default;
+    &:hover {
+        border-color: var(--el-color-primary);
+        .action-trigger {
+            opacity: 0.5;
+        }
+    }
+    &.is-active {
+        border-color: var(--el-color-primary);
+        background-color: var(--el-color-primary);
+        .sub_path_item_label {
+            color: #fff;
+            &:hover {
+                color: #fff;
+            }
+        }
+        .action-trigger {
+            color: rgba(255,255,255,0.7);
+            opacity: 1;
+        }
+    }
+    &.is-dragging {
+        opacity: 0.3;
+    }
+    &.is-drag-over {
+        border-color: var(--el-color-primary);
+        background-color: rgba(34, 197, 94, 0.08);
+    }
+    .sub_path_item_label {
+        font-size: 12px;
+        font-style: normal;
+        line-height: 1.4;
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        &:hover {
+            color: var(--el-color-primary);
+        }
+    }
+    .action-trigger {
+        font-size: 14px;
+        cursor: pointer;
+        color: var(--g-body-text-color);
+        opacity: 0;
+        transition: opacity 0.15s;
+        flex-shrink: 0;
+        &:hover {
+            opacity: 1 !important;
+        }
+    }
 }
 .sub_path_custom_empty {
     margin-top: 12px;
     font-size: 13px;
     opacity: 0.5;
     font-style: normal;
+}
+.dialog_fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.dialog_field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    .dialog_label {
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 500;
+    }
+}
+</style>
+
+<style lang="scss">
+html .sub_path_popover {
+    padding: 4px !important;
+    background: var(--g-body-bg-color) !important;
+    border-color: var(--g-home-link-border) !important;
+    .popover_actions {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .el-button + .el-button {
+        margin-left: 0 !important;
+    }
+    .el-button {
+        justify-content: flex-start;
+        width: 100%;
+        color: var(--g-body-text-color);
+        border: none;
+        height: auto;
+        padding: 6px 8px;
+        .el-icon {
+            margin-right: 4px;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+    }
+    .el-button:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+    .el-button--danger {
+        color: #f56c6c;
+    }
+    .el-button--danger:hover {
+        background-color: rgba(245, 108, 108, 0.1);
+    }
+}
+html.dark .sub_path_popover {
+    .el-button:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+    .el-button--danger:hover {
+        background-color: rgba(245, 108, 108, 0.15);
+    }
+}
+html .sub_path_popover .el-popper__arrow::before {
+    background: var(--g-body-bg-color);
+    border-color: var(--g-home-link-border);
 }
 </style>
