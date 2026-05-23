@@ -14,20 +14,6 @@
                 <span class="config_unit">ms</span>
             </template>
         </div>
-        <span class="config_sep"></span>
-        <div class="config_group">
-            <span class="config_label">预设</span>
-            <el-input
-                :model-value="presetNameInput"
-                @update:model-value="$emit('update:presetNameInput', $event)"
-                placeholder="预设名称"
-                size="small"
-                class="preset_input"
-                :disabled="isApplyingPreset"
-                @keyup.enter="$emit('savePreset')"
-            />
-            <el-button type="primary" size="small" :disabled="!presetNameInput.trim() || isApplyingPreset" @click="$emit('savePreset')">保存</el-button>
-        </div>
     </div>
 </template>
 
@@ -35,17 +21,13 @@
 defineProps({
     numData: { type: Number, default: 1 },
     openDelaySwitch: { type: Boolean, default: false },
-    openDelay: { type: Number, default: 500 },
-    presetNameInput: { type: String, default: '' },
-    isApplyingPreset: { type: Boolean, default: false }
+    openDelay: { type: Number, default: 500 }
 })
 
 defineEmits([
     'update:numData',
     'update:openDelaySwitch',
-    'update:openDelay',
-    'update:presetNameInput',
-    'savePreset'
+    'update:openDelay'
 ])
 </script>
 
@@ -81,8 +63,5 @@ defineEmits([
     color: var(--g-body-text-color);
     opacity: 0.5;
     white-space: nowrap;
-}
-.preset_input {
-    max-width: 140px;
 }
 </style>

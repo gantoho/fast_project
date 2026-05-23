@@ -2,10 +2,14 @@
     <PresetBar
         :presets="presets"
         :active-preset-id="activePresetId"
+        :preset-name-input="presetNameInput"
+        :is-applying-preset="isApplyingPreset"
         @apply-preset="applyPreset"
         @delete-preset="deletePreset"
         @update-preset-content="updatePresetContent"
         @reorder-presets="reorderPresets"
+        @update:preset-name-input="presetNameInput = $event"
+        @save-preset="savePreset"
     />
     <el-input
         v-model="metaData"
@@ -58,13 +62,9 @@
         :num-data="numData"
         :open-delay-switch="openDelaySwitch"
         :open-delay="openDelay"
-        :preset-name-input="presetNameInput"
-        :is-applying-preset="isApplyingPreset"
         @update:num-data="numData = $event"
         @update:open-delay-switch="openDelaySwitch = $event"
         @update:open-delay="openDelay = $event"
-        @update:preset-name-input="presetNameInput = $event"
-        @save-preset="savePreset"
     />
     <ActionBar
         :has-links="hasLinks"

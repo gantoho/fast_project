@@ -3,6 +3,18 @@
         <div class="preset_header">
             <template v-if="presets.length">
                 <span class="preset_title">预设列表</span>
+                <div class="preset_save_area">
+                    <el-input
+                        :model-value="presetNameInput"
+                        @update:model-value="$emit('update:presetNameInput', $event)"
+                        placeholder="预设名称"
+                        size="small"
+                        class="preset_save_input"
+                        :disabled="isApplyingPreset"
+                        @keyup.enter="$emit('savePreset')"
+                    />
+                    <el-button type="primary" size="small" :disabled="!presetNameInput?.trim() || isApplyingPreset" @click="$emit('savePreset')">保存</el-button>
+                </div>
                 <el-button v-if="!manageMode" size="small" text class="manage_btn" @click="manageMode = true">
                     <el-icon style="font-size:14px"><Setting /></el-icon> 管理
                 </el-button>
@@ -50,15 +62,15 @@
                     @click="onTagClick(item)"
                 >
                     {{ item.name }}
+                    <span v-if="manageMode" class="tag_actions">
+                        <el-button size="small" text class="tag_action_btn" @click.stop="openEdit(item)">
+                            <el-icon style="font-size:13px"><Edit /></el-icon>
+                        </el-button>
+                        <el-button size="small" text class="tag_action_btn delete_btn" @click.stop="$emit('deletePreset', item)">
+                            <el-icon style="font-size:13px"><Delete /></el-icon>
+                        </el-button>
+                    </span>
                 </el-tag>
-                <span v-if="manageMode" class="tag_actions">
-                    <el-button size="small" text class="tag_action_btn" @click.stop="openEdit(item)">
-                        <el-icon style="font-size:13px"><Edit /></el-icon>
-                    </el-button>
-                    <el-button size="small" text class="tag_action_btn delete_btn" @click.stop="$emit('deletePreset', item)">
-                        <el-icon style="font-size:13px"><Delete /></el-icon>
-                    </el-button>
-                </span>
             </div>
         </div>
 
@@ -101,10 +113,12 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 const props = defineProps({
     presets: { type: Array, required: true },
-    activePresetId: { type: String, default: '' }
+    activePresetId: { type: String, default: '' },
+    presetNameInput: { type: String, default: '' },
+    isApplyingPreset: { type: Boolean, default: false }
 })
 
-const emit = defineEmits(['applyPreset', 'deletePreset', 'updatePresetContent', 'reorderPresets'])
+const emit = defineEmits(['applyPreset', 'deletePreset', 'updatePresetContent', 'reorderPresets', 'update:presetNameInput', 'savePreset'])
 
 const manageMode = ref(false)
 
@@ -243,6 +257,18 @@ const onTagClick = (item) => {
     font-size: 13px;
     color: var(--g-body-text-color);
     opacity: 0.7;
+    white-space: nowrap;
+}
+
+.preset_save_area {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 12px;
+    flex: 1;
+    .preset_save_input {
+        max-width: 160px;
+    }
 }
 
 .manage_mode_hint {
@@ -279,7 +305,6 @@ const onTagClick = (item) => {
 }
 
 .preset_tag_wrapper {
-    position: relative;
     display: inline-flex;
     align-items: center;
     padding: 2px;
@@ -290,9 +315,6 @@ const onTagClick = (item) => {
 
     &.manage_mode {
         cursor: grab;
-        .preset_tag {
-            padding-right: 40px;
-        }
     }
 
     &.is_dragging {
@@ -327,34 +349,27 @@ const onTagClick = (item) => {
     --el-tag-border-color: var(--el-color-primary);
 }
 
+.tag_actions {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 4px;
+    .el-button+.el-button {
+        margin-left: 4px;
+    }
+}
+
 .tag_action_btn {
     padding: 1px;
     min-height: auto;
     color: var(--el-color-primary);
-
     &:hover {
         background-color: rgba(64, 158, 255, 0.1) !important;
     }
-
     &.delete_btn {
         color: var(--el-color-danger);
         &:hover {
             background-color: rgba(245, 108, 108, 0.1) !important;
         }
-    }
-}
-
-.tag_actions {
-    position: absolute;
-    right: 3px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    gap: 0;
-    z-index: 1;
-
-    .el-button+.el-button {
-        margin-left: 4px;
     }
 }
 </style>
