@@ -21,9 +21,7 @@ https://rust-lang.org`,
   stepLoop: false,
   stepTrueLoop: true,
   stepOpened: [],
-  stepIndex: 0,
-  queryOptions: [],
-  selectedQueryIds: []
+  stepIndex: 0
 }
 
 export function usePreset(state) {
@@ -49,9 +47,7 @@ export function usePreset(state) {
     stepLoop: state.stepLoop.value,
     stepTrueLoop: state.stepTrueLoop.value,
     stepOpened: state.stepOpened.value,
-    stepIndex: state.stepIndex.value,
-    queryOptions: state.queryOptions?.value ?? [],
-    selectedQueryIds: state.selectedQueryIds?.value ?? []
+    stepIndex: state.stepIndex.value
   })
 
   const applySnapshot = (snap) => {
@@ -68,8 +64,6 @@ export function usePreset(state) {
     state.stepTrueLoop.value = snap.stepTrueLoop
     state.stepOpened.value = snap.stepOpened
     state.stepIndex.value = snap.stepIndex
-    if (snap.queryOptions != null && state.queryOptions) state.queryOptions.value = snap.queryOptions
-    if (snap.selectedQueryIds != null && state.selectedQueryIds) state.selectedQueryIds.value = snap.selectedQueryIds
   }
 
   const savePreset = () => {
@@ -178,9 +172,7 @@ export function usePreset(state) {
       state.stepBatchSize.value,
       state.stepAutoAdvance.value,
       state.stepLoop.value,
-      state.stepTrueLoop.value,
-      state.queryOptions?.value,
-      state.selectedQueryIds?.value
+      state.stepTrueLoop.value
     ],
     () => {
       if (presetReady.value && activePresetId.value && !isApplyingPreset.value) {

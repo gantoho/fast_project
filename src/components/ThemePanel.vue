@@ -1,5 +1,27 @@
 <template>
   <div class="theme_panel">
+    <!-- 数据导入导出 -->
+    <el-popover placement="bottom-end" :width="180" trigger="click" :show-arrow="false">
+      <template #reference>
+        <div class="theme_trigger data_trigger">
+          <el-icon :size="22"><Setting /></el-icon>
+        </div>
+      </template>
+      <div class="panel_content">
+        <div class="data_actions">
+          <el-button size="small" text class="data_btn" @click="exportAll">
+            <el-icon :size="14"><Download /></el-icon>
+            <span>导出备份</span>
+          </el-button>
+          <el-button size="small" text class="data_btn" @click="triggerImport">
+            <el-icon :size="14"><Upload /></el-icon>
+            <span>导入恢复</span>
+          </el-button>
+        </div>
+        <input ref="importInput" type="file" accept=".json" style="display:none" @change="onImportFile" />
+      </div>
+    </el-popover>
+    <!-- 主题/风格 -->
     <el-popover placement="bottom-end" :width="240" trigger="click" :show-arrow="false">
       <template #reference>
         <div class="theme_trigger">
@@ -51,12 +73,31 @@
 </template>
 
 <script setup>
-import { Sunny, Moon } from '@element-plus/icons-vue'
+import { ref } from 'vue'
+import { Sunny, Moon, Download, Upload, Setting } from '@element-plus/icons-vue'
 import useDarkStore from '../stores/darkStore'
 import { useStyle } from '../composables/useStyle'
+import { useGlobalExportBridge } from '../composables/useGlobalExport'
 
 const darkStore = useDarkStore()
 const { currentStyle, setStyle, STYLE_OPTIONS } = useStyle()
+const { exportBridge, importBridge } = useGlobalExportBridge()
+
+const importInput = ref(null)
+
+const exportAll = () => {
+  exportBridge.value?.()
+}
+
+const triggerImport = () => {
+  importInput.value?.click()
+  // 移除焦点，避免 popover 关闭后 aria-hidden 警告
+  document.activeElement?.blur()
+}
+
+const onImportFile = (e) => {
+  importBridge.value?.(e)
+}
 
 const onDarkSwitch = (val) => {
   darkStore.setDark(val)
@@ -154,5 +195,38 @@ const onDarkSwitch = (val) => {
 .style_badge_light {
   background-color: color-mix(in srgb, var(--el-color-primary) 15%, transparent);
   color: var(--el-color-primary);
+}
+.theme_panel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.data_trigger {
+  background-color: color-mix(in srgb, var(--el-color-primary) 6%, transparent);
+  border-radius: 6px;
+  padding: 6px;
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: color-mix(in srgb, var(--el-color-primary) 12%, transparent);
+  }
+}
+.data_actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.data_btn {
+  width: 100%;
+  justify-content: flex-start;
+  font-size: 13px;
+  padding: 8px 12px;
+  gap: 8px;
+  border-radius: 6px;
+  color: var(--g-body-text-color);
+  margin-left: 0 !important;
+  &:hover {
+    background-color: color-mix(in srgb, var(--el-color-primary-light-3) 20%, transparent) !important;
+    color: var(--el-color-primary);
+  }
 }
 </style>

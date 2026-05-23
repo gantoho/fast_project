@@ -83,7 +83,10 @@ import { useLinks } from '../composables/useLinks'
 import { useStepNav } from '../composables/useStepNav'
 import { useOpenLink } from '../composables/useOpenLink'
 import { usePreset } from '../composables/usePreset'
-import { onKeyStroke } from '@vueuse/core'
+import { useGlobalExport } from '../composables/useGlobalExport'
+import { useStyle } from '../composables/useStyle'
+import useDarkStore from '../stores/darkStore'
+import { onKeyStroke, useDark } from '@vueuse/core'
 import PresetBar from '../components/PresetBar.vue'
 import SubPathPanel from '../components/SubPathPanel.vue'
 import StepNavPanel from '../components/StepNavPanel.vue'
@@ -181,6 +184,31 @@ const {
   stepIndex,
   queryOptions,
   selectedQueryIds,
+})
+
+// 全局导入导出
+const darkStore = useDarkStore()
+const { currentStyle: styleKey } = useStyle()
+const isDark = useDark()
+const { exportAll, importAll } = useGlobalExport({
+  metaData,
+  subPathSwitch,
+  subPath,
+  options,
+  queryOptions,
+  selectedQueryIds,
+  numData,
+  openDelaySwitch,
+  openDelay,
+  isStepOpen,
+  stepBatchSize,
+  stepAutoAdvance,
+  stepLoop,
+  stepTrueLoop,
+  presets,
+  activePresetId,
+  darkMode: isDark,
+  styleKey
 })
 
 onKeyStroke('Enter', (e) => {

@@ -273,7 +273,10 @@ const triggerImport = () => {
 }
 
 const exportPaths = () => {
-    const data = JSON.stringify(props.options, null, 2)
+    const data = JSON.stringify({
+        paths: props.options,
+        queries: props.queryOptions
+    }, null, 2)
     const blob = new Blob([data], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -281,7 +284,7 @@ const exportPaths = () => {
     a.download = `fast_custom_paths_${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     URL.revokeObjectURL(url)
-    ElMessage({ message: '自定义路径已导出', type: 'success' })
+    ElMessage({ message: '已导出自定义路径和 Query 参数', type: 'success' })
 }
 
 const handleImportPaths = async (e) => {
@@ -290,23 +293,54 @@ const handleImportPaths = async (e) => {
     try {
         const text = await file.text()
         const data = JSON.parse(text)
-        if (!Array.isArray(data)) {
-            ElMessage({ message: '文件格式不正确，需要 JSON 数组', type: 'error' })
+
+        // 兼容旧格式（纯路径数组）和新格式（{ paths, queries }）
+        let paths, queries
+        if (Array.isArray(data)) {
+            paths = data
+            queries = null
+        } else {
+            paths = data.paths || []
+            queries = data.queries || null
+        }
+
+        if (!Array.isArray(paths)) {
+            ElMessage({ message: '文件格式不正确', type: 'error' })
             return
         }
-        for (const item of data) {
+        for (const item of paths) {
             if (!item.id || !item.label || item.value === undefined) {
-                ElMessage({ message: '文件格式不正确，缺少必要字段', type: 'error' })
+                ElMessage({ message: '路径数据格式不正确，缺少必要字段', type: 'error' })
                 return
             }
         }
+        if (queries) {
+            if (!Array.isArray(queries)) {
+                ElMessage({ message: 'Query 数据格式不正确', type: 'error' })
+                return
+            }
+            for (const item of queries) {
+                if (!item.id || !item.label || item.value === undefined) {
+                    ElMessage({ message: 'Query 数据格式不正确，缺少必要字段', type: 'error' })
+                    return
+                }
+            }
+        }
+
+        const pathMsg = paths.length ? `${paths.length} 个自定义路径` : ''
+        const queryMsg = queries?.length ? `${queries.length} 个 Query` : ''
+        const both = [pathMsg, queryMsg].filter(Boolean).join('和 ')
+
         await ElMessageBox.confirm(
-            `将导入 ${data.length} 个自定义路径，现有路径将被替换。确定继续？`,
-            '导入路径',
+            `将导入 ${both}，现有数据将被替换。确定继续？`,
+            '导入',
             { confirmButtonText: '导入', cancelButtonText: '取消', type: 'warning' }
         )
-        emit('reorderPaths', data)
-        ElMessage({ message: `已导入 ${data.length} 个路径`, type: 'success' })
+        emit('reorderPaths', paths)
+        if (queries) {
+            emit('reorderQueryOptions', queries)
+        }
+        ElMessage({ message: `已导入 ${both}`, type: 'success' })
     } catch (err) {
         if (err !== 'cancel') {
             ElMessage({ message: '文件解析失败，请检查文件格式', type: 'error' })
@@ -698,7 +732,7 @@ const onDragEnd = () => {
         font-size: 12px;
         font-style: normal;
         line-height: 1.4;
-        max-width: 40px;
+        max-width: 120px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

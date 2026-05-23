@@ -64,6 +64,12 @@ export function useSubPath() {
 
   const reorderPaths = (newOptions) => {
     options.value = newOptions
+    let maxId = 0
+    for (const item of newOptions) {
+      const num = Number(item.id)
+      if (!isNaN(num) && num > maxId) maxId = num
+    }
+    if (maxId >= pathId.value) pathId.value = maxId + 1
   }
 
   // ---- query methods ----
@@ -118,6 +124,15 @@ export function useSubPath() {
 
   const reorderQueryOptions = (newOptions) => {
     queryOptions.value = newOptions
+    let maxId = 0
+    for (const item of newOptions) {
+      const num = Number(item.id)
+      if (!isNaN(num) && num > maxId) maxId = num
+    }
+    if (maxId >= queryId.value) queryId.value = maxId + 1
+    // 清理已不存在的选中项
+    const validIds = new Set(newOptions.map(o => o.id))
+    selectedQueryIds.value = selectedQueryIds.value.filter(id => validIds.has(id))
   }
 
   const toggleQuery = (id) => {
