@@ -1,0 +1,21 @@
+/* ===== 赛博朋克风格 ===== */
+:root:root[data-style="cyberpunk"] {
+  --el-color-primary: #00ff88;
+  --el-color-primary-dark-2: #00cc6a;
+  --g-home-link-hover: #00ff88;
+}
+:root:root[data-style="cyberpunk"]:not(.dark) {
+  --g-body-bg-color: #1a1a2e;
+  --g-body-text-color: #e0e0e0;
+  --g-tabbar-border: #00ff88;
+  --g-tabbar-item-after: #00ff88;
+  --g-home-link-border: #16213e;
+  --g-home-link-hover: #00ff88;
+}
+:root:root.dark[data-style="cyberpunk"] {
+  --g-body-bg-color: #0a0a15;
+  --g-body-text-color: #ccffdd;
+  --g-tabbar-border: #00ff88;
+  --g-tabbar-item-after: #00ff88;
+  --g-home-link-border: #0f3460;
+}

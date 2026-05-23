@@ -4,21 +4,12 @@
             <h1>快速批量打开网站</h1>
             <p>一行只能存在一个需要打开的链接</p>
         </div>
-        <div class="theme-switch" @click="themeBtn">
-            <el-icon v-if="darkStore.darkMode === 'light'" :size="30"><Sunny /></el-icon>
-            <el-icon v-else :size="30"><Moon /></el-icon>
-        </div>
+        <ThemePanel />
     </div>
 </template>
 
 <script setup>
-import { Sunny, Moon } from '@element-plus/icons-vue'
-import useDarkStore from '../stores/darkStore'
-
-const darkStore = useDarkStore()
-const themeBtn = ($event) => {
-    darkStore.toggleTheme($event)
-}
+import ThemePanel from './ThemePanel.vue'
 </script>
 
 <style lang='scss' scoped>
@@ -35,8 +26,5 @@ const themeBtn = ($event) => {
             margin-bottom: 10px;
         }
     }
-}
-.theme-switch {
-    cursor: pointer;
 }
 </style>

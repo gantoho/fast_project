@@ -1,0 +1,158 @@
+<template>
+  <div class="theme_panel">
+    <el-popover placement="bottom-end" :width="240" trigger="click" :show-arrow="false">
+      <template #reference>
+        <div class="theme_trigger">
+          <el-icon v-if="darkStore.darkMode === 'light'" :size="30"><Sunny /></el-icon>
+          <el-icon v-else :size="30"><Moon /></el-icon>
+        </div>
+      </template>
+      <div class="panel_content">
+        <!-- 亮/暗切换 -->
+        <div class="panel_section">
+          <span class="section_label">主题模式</span>
+          <div class="mode_row">
+            <span class="mode_label" :class="{ 'is-active': darkStore.darkMode === 'light' }">
+              <el-icon :size="16"><Sunny /></el-icon> 浅色
+            </span>
+            <el-switch
+              :model-value="darkStore.darkMode === 'dark'"
+              @update:model-value="onDarkSwitch"
+              size="small"
+            />
+            <span class="mode_label" :class="{ 'is-active': darkStore.darkMode === 'dark' }">
+              <el-icon :size="16"><Moon /></el-icon> 深色
+            </span>
+          </div>
+        </div>
+        <!-- 风格选择 -->
+        <div class="panel_section">
+          <span class="section_label">视觉风格</span>
+          <div class="style_grid">
+            <div
+              v-for="opt in STYLE_OPTIONS"
+              :key="opt.key"
+              class="style_card"
+              :class="{ 'is-active': currentStyle === opt.key }"
+              @click="setStyle(opt.key)"
+            >
+              <div class="style_card_header">
+                <span class="style_card_name">{{ opt.label }}</span>
+                <span v-if="opt.preferDark === true" class="style_badge style_badge_dark">深色最佳</span>
+                <span v-else-if="opt.preferDark === false" class="style_badge style_badge_light">浅色最佳</span>
+              </div>
+              <span class="style_card_desc">{{ opt.desc }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-popover>
+  </div>
+</template>
+
+<script setup>
+import { Sunny, Moon } from '@element-plus/icons-vue'
+import useDarkStore from '../stores/darkStore'
+import { useStyle } from '../composables/useStyle'
+
+const darkStore = useDarkStore()
+const { currentStyle, setStyle, STYLE_OPTIONS } = useStyle()
+
+const onDarkSwitch = (val) => {
+  darkStore.setDark(val)
+}
+</script>
+
+<style lang='scss' scoped>
+.theme_trigger {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.panel_content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.panel_section {
+  padding: 6px 0;
+}
+.section_label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--g-body-text-color);
+  opacity: 0.45;
+  display: block;
+  margin-bottom: 8px;
+}
+.mode_row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.mode_label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--g-body-text-color);
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  &.is-active {
+    opacity: 1;
+    color: var(--el-color-primary);
+  }
+}
+.style_grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.style_card {
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s, outline 0.15s;
+  outline: 1.5px solid transparent;
+  &:hover {
+    background-color: color-mix(in srgb, var(--el-color-primary) 8%, transparent);
+  }
+  &.is-active {
+    background-color: color-mix(in srgb, var(--el-color-primary) 15%, transparent);
+    outline-color: var(--el-color-primary);
+  }
+}
+.style_card_header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.style_card_name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--g-body-text-color);
+}
+.style_card_desc {
+  font-size: 12px;
+  color: var(--g-body-text-color);
+  opacity: 0.55;
+}
+.style_badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.style_badge_dark {
+  background-color: color-mix(in srgb, var(--el-color-primary) 15%, transparent);
+  color: var(--el-color-primary);
+}
+.style_badge_light {
+  background-color: color-mix(in srgb, var(--el-color-primary) 15%, transparent);
+  color: var(--el-color-primary);
+}
+</style>

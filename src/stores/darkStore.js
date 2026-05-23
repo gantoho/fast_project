@@ -12,6 +12,10 @@ const useDarkStore = defineStore('dark', () => {
     return dark.value? 'dark' : 'light'
   })
 
+  const setDark = (value) => {
+    dark.value = value
+  }
+
   const toggleTheme = ($event) => {
     const x = $event.clientX
     const y = $event.clientY
@@ -34,6 +38,7 @@ const useDarkStore = defineStore('dark', () => {
   return {
     dark,
     darkMode,
+    setDark,
     toggleTheme
   }
 })

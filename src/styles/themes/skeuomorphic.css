@@ -1,0 +1,20 @@
+/* ===== 拟物风格 ===== */
+:root:root[data-style="skeuomorphic"] {
+  --el-color-primary: #5b7db1;
+  --el-color-primary-dark-2: #4a6a9e;
+  --g-home-link-hover: #3d5a80;
+}
+:root:root[data-style="skeuomorphic"]:not(.dark) {
+  --g-body-bg-color: #e8ecf1;
+  --g-body-text-color: #2c3e50;
+  --g-tabbar-border: #b0bec5;
+  --g-tabbar-item-after: #37474f;
+  --g-home-link-border: #cfd8dc;
+}
+:root:root.dark[data-style="skeuomorphic"] {
+  --g-body-bg-color: #1e252e;
+  --g-body-text-color: #b0c4de;
+  --g-tabbar-border: #3e4a56;
+  --g-tabbar-item-after: #5b7db1;
+  --g-home-link-border: #2a3540;
+}

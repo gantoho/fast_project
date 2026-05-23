@@ -1,0 +1,20 @@
+/* ===== 复古风格 ===== */
+:root:root[data-style="retro"] {
+  --el-color-primary: #d4a574;
+  --el-color-primary-dark-2: #b8854a;
+  --g-home-link-hover: #c59050;
+}
+:root:root[data-style="retro"]:not(.dark) {
+  --g-body-bg-color: #f5e6d3;
+  --g-body-text-color: #4a3728;
+  --g-tabbar-border: #c9a87c;
+  --g-tabbar-item-after: #8b5e3c;
+  --g-home-link-border: #d4c4a8;
+}
+:root:root.dark[data-style="retro"] {
+  --g-body-bg-color: #2c1f14;
+  --g-body-text-color: #f0d9b5;
+  --g-tabbar-border: #5c4033;
+  --g-tabbar-item-after: #d4a574;
+  --g-home-link-border: #3d2b1f;
+}
