@@ -18,6 +18,8 @@
     <SubPathPanel
         :sub-path-switch="subPathSwitch"
         :sub-path="subPath"
+        :query-options="queryOptions"
+        :selected-query-ids="selectedQueryIds"
         :options="options"
         @update:sub-path-switch="subPathSwitch = $event"
         @update:sub-path="subPath = $event ?? ''"
@@ -25,6 +27,11 @@
         @remove-custom-path="removeCustomPath"
         @update-custom-path="updateCustomPath"
         @reorder-paths="reorderPaths"
+        @add-query-option="addQueryOption"
+        @remove-query-option="removeQueryOption"
+        @update-query-option="updateQueryOption"
+        @reorder-query-options="reorderQueryOptions"
+        @toggle-query="toggleQuery"
     />
     <StepNavPanel
         :is-step-open="isStepOpen"
@@ -86,12 +93,19 @@ import ActionBar from '../components/ActionBar.vue'
 const {
   subPathSwitch,
   subPath,
+  queryOptions,
+  selectedQueryIds,
   options,
   pathId,
   addCustomPath,
   removeCustomPath,
   updateCustomPath,
-  reorderPaths
+  reorderPaths,
+  addQueryOption,
+  removeQueryOption,
+  updateQueryOption,
+  reorderQueryOptions,
+  toggleQuery
 } = useSubPath()
 
 const {
@@ -100,7 +114,7 @@ const {
   hasLinks,
   processedUrlList,
   clear
-} = useLinks(subPath, subPathSwitch)
+} = useLinks(subPath, subPathSwitch, selectedQueryIds, queryOptions)
 
 const {
   isStepOpen,
@@ -137,8 +151,8 @@ const {
   stepAutoAdvance,
   linkList,
   markOpened,
-  advanceIndex
-})
+  advanceIndex,
+}, selectedQueryIds, queryOptions)
 
 const {
   presets,
@@ -164,7 +178,9 @@ const {
   stepLoop,
   stepTrueLoop,
   stepOpened,
-  stepIndex
+  stepIndex,
+  queryOptions,
+  selectedQueryIds,
 })
 
 onKeyStroke('Enter', (e) => {

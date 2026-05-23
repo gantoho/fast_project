@@ -29,7 +29,7 @@ const extractHostname = (raw) => {
     return slashIdx === -1 ? item : item.slice(0, slashIdx)
 }
 
-export default function (metaData, subPathSwitch, subPath) {
+export default function (metaData, subPathSwitch, subPath, selectedQueryIds = [], queryOptions = []) {
     if (metaData.value.trim().length <= 0) {
         ElMessage({ message: '至少输入一个域名', type: 'warning' })
         return { urlArr: [], err: new Error('至少输入一个域名') }
@@ -43,7 +43,7 @@ export default function (metaData, subPathSwitch, subPath) {
         if (!isValidHostname(extractHostname(line))) {
             count++
         }
-        urlArr.push(buildUrl(line, subPathSwitch.value, subPath.value))
+        urlArr.push(buildUrl(line, subPathSwitch.value, subPath.value, selectedQueryIds, queryOptions))
     }
 
     if (count > 0) {

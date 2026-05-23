@@ -16,14 +16,16 @@ export function useOpenLink({
   linkList,
   markOpened,
   advanceIndex
-}) {
+}, selectedQueryIds, queryOptions) {
   const numData = useStorage('fast_numData', 1)
   const openDelaySwitch = useStorage('fast_openDelaySwitch', false)
   const openDelay = useStorage('fast_openDelay', 500)
 
   const openStepBatch = async () => {
     if (!linkList.value.length) return
-    const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
+    const sq = selectedQueryIds?.value ?? []
+    const qo = queryOptions?.value ?? []
+    const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath, sq, qo)
     if (err) return
     const bothOff = !stepLoop.value && !stepTrueLoop.value
     const max = bothOff ? Math.min(stepBatchSize.value, urlArr.length - stepIndex.value) : stepBatchSize.value
@@ -49,7 +51,9 @@ export function useOpenLink({
       await openStepBatch()
       return
     }
-    const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath)
+    const sq = selectedQueryIds?.value ?? []
+    const qo = queryOptions?.value ?? []
+    const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath, sq, qo)
     if (err != null) {
       console.error(err)
       return

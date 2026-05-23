@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { buildUrl } from '../utils/buildUrl'
 
-export function useLinks(subPathRef, subPathSwitchRef) {
+export function useLinks(subPathRef, subPathSwitchRef, selectedQueryIdsRef, queryOptionsRef) {
   const metaData = useStorage('fast_metaData', `https://zh-hans.react.dev/
 https://svelte.dev/
 https://cn.vuejs.org/
@@ -17,7 +17,9 @@ https://rust-lang.org`)
   const hasLinks = computed(() => linkList.value.length > 0)
 
   const processedUrlList = computed(() => {
-    return linkList.value.map(item => buildUrl(item, subPathSwitchRef.value, subPathRef.value))
+    return linkList.value.map(item =>
+      buildUrl(item, subPathSwitchRef.value, subPathRef.value, selectedQueryIdsRef?.value ?? [], queryOptionsRef?.value ?? [])
+    )
   })
 
   const clear = () => {

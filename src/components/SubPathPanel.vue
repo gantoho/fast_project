@@ -87,6 +87,57 @@
                 </div>
             </div>
 
+            <!-- Query 选择区域 -->
+            <div class="query_section">
+                <div class="query_section_header">
+                    <span class="query_label">Query</span>
+                    <el-button v-if="!queryManageMode" size="small" text class="manage_btn" @click="queryManageMode = true">
+                        <el-icon style="font-size:14px"><Setting /></el-icon> 管理
+                    </el-button>
+                    <template v-else>
+                        <span class="manage_mode_hint">已进入管理模式</span>
+                        <el-button size="small" text type="primary" class="manage_btn done_btn" @click="queryManageMode = false">
+                            <el-icon style="font-size:14px"><CircleCheck /></el-icon> 完成
+                        </el-button>
+                    </template>
+                </div>
+                <div class="query_list" v-if="queryOptions.length">
+                    <div
+                        v-for="(item, index) in queryOptions"
+                        :key="item.id"
+                        class="query_item"
+                        :class="{
+                            'is-active': selectedQueryIds.includes(item.id),
+                            'is-manage-mode': queryManageMode
+                        }"
+                    >
+                        <span class="query_item_text" :title="item.label + ' (' + item.value + ')'" @click="!queryManageMode && emit('toggleQuery', item.id)">{{ item.label }}</span>
+                        <template v-if="queryManageMode">
+                            <el-icon class="action-trigger manage-action" @click="openQueryEditDialog(item)"><Edit /></el-icon>
+                            <el-icon class="action-trigger manage-action delete-action" @click="handleQueryDelete(item.id)"><Delete /></el-icon>
+                        </template>
+                    </div>
+                </div>
+                <p class="sub_path_custom_empty" v-else-if="queryManageMode">暂无 query 参数，在下方添加</p>
+                <div class="query_add_row" v-if="queryManageMode">
+                    <el-input
+                        v-model="queryLabelInput"
+                        class="query_label_input"
+                        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
+                        placeholder="名称（可选）"
+                        @keyup.enter="addQuery"
+                    />
+                    <el-input
+                        v-model="queryValueInput"
+                        class="query_value_input"
+                        :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
+                        placeholder="参数值，如 ?d=22"
+                        @keyup.enter="addQuery"
+                    />
+                    <el-button type="primary" size="default" @click="addQuery" :disabled="!queryValueInput.trim()">添加</el-button>
+                </div>
+            </div>
+
             <el-dialog v-model="dialogVisible" title="编辑路径" width="400px" append-to-body>
                 <div class="dialog_fields">
                     <div class="dialog_field">
@@ -103,6 +154,23 @@
                     <el-button type="primary" @click="saveEditDialog" :disabled="!dialogValue.trim()">保存</el-button>
                 </template>
             </el-dialog>
+
+            <el-dialog v-model="queryDialogVisible" title="编辑 Query" width="400px" append-to-body>
+                <div class="dialog_fields">
+                    <div class="dialog_field">
+                        <label class="dialog_label">名称</label>
+                        <el-input v-model="queryDialogLabel" placeholder="输入显示名称（可选，默认使用参数值）" />
+                    </div>
+                    <div class="dialog_field">
+                        <label class="dialog_label">参数</label>
+                        <el-input v-model="queryDialogValue" placeholder="如 ?d=22" />
+                    </div>
+                </div>
+                <template #footer>
+                    <el-button @click="queryDialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="saveQueryEditDialog" :disabled="!queryDialogValue.trim()">保存</el-button>
+                </template>
+            </el-dialog>
         </template>
     </div>
 </template>
@@ -115,10 +183,24 @@ import { Edit, Delete, Setting, CircleCheck, Rank, Download, Upload } from '@ele
 const props = defineProps({
     subPathSwitch: { type: Boolean, default: false },
     subPath: { type: String, default: '' },
+    queryOptions: { type: Array, default: () => [] },
+    selectedQueryIds: { type: Array, default: () => [] },
     options: { type: Array, required: true }
 })
 
-const emit = defineEmits(['update:subPathSwitch', 'update:subPath', 'addCustomPath', 'removeCustomPath', 'updateCustomPath', 'reorderPaths'])
+const emit = defineEmits([
+    'update:subPathSwitch',
+    'update:subPath',
+    'addCustomPath',
+    'removeCustomPath',
+    'updateCustomPath',
+    'reorderPaths',
+    'addQueryOption',
+    'removeQueryOption',
+    'updateQueryOption',
+    'reorderQueryOptions',
+    'toggleQuery'
+])
 
 const manageMode = ref(false)
 
@@ -126,6 +208,61 @@ const exitManageMode = () => {
     manageMode.value = false
     dragIndex.value = null
     dragOverIndex.value = null
+}
+
+// ---- query ----
+const queryManageMode = ref(false)
+const queryLabelInput = ref('')
+const queryValueInput = ref('')
+
+const addQuery = () => {
+    const value = queryValueInput.value.trim()
+    if (!value) return
+    if (props.queryOptions.some(item => item.value === value)) {
+        ElMessage({ message: '该参数已存在', type: 'warning' })
+        return
+    }
+    const label = queryLabelInput.value.trim() || value
+    emit('addQueryOption', label, value)
+    queryLabelInput.value = ''
+    queryValueInput.value = ''
+}
+
+const queryDialogVisible = ref(false)
+const queryDialogEditId = ref('')
+const queryDialogLabel = ref('')
+const queryDialogValue = ref('')
+
+const openQueryEditDialog = (item) => {
+    queryDialogEditId.value = item.id
+    queryDialogLabel.value = item.label
+    queryDialogValue.value = item.value
+    queryDialogVisible.value = true
+}
+
+const saveQueryEditDialog = () => {
+    const value = queryDialogValue.value.trim()
+    if (!value) return
+    const label = queryDialogLabel.value.trim() || value
+    emit('updateQueryOption', queryDialogEditId.value, label, value)
+    queryDialogVisible.value = false
+    queryDialogEditId.value = ''
+    queryDialogLabel.value = ''
+    queryDialogValue.value = ''
+}
+
+const handleQueryDelete = async (id) => {
+    const item = props.queryOptions.find(o => o.id === id)
+    if (!item) return
+    try {
+        await ElMessageBox.confirm(`确定删除 query「${item.label}」？`, '删除参数', {
+            confirmButtonText: '删除',
+            cancelButtonText: '取消',
+            type: 'warning',
+            confirmButtonClass: 'el-button--danger'
+        })
+        emit('removeQueryOption', id)
+    } catch { }
 }
 
 // ---- import/export ----
@@ -341,6 +478,146 @@ const onDragEnd = () => {
         flex: 1;
     }
 }
+.query_section {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--g-home-link-border);
+}
+.query_section_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    .query_label {
+        font-style: normal;
+        font-size: 13px;
+        opacity: 0.7;
+    }
+    .manage_mode_hint {
+        font-size: 12px;
+        color: var(--el-color-primary);
+        opacity: 0.7;
+        font-style: normal;
+    }
+    .manage_btn {
+        font-size: 12px;
+        &:hover {
+            background-color: rgba(64, 158, 255, 0.1) !important;
+            border-color: rgba(64, 158, 255, 0.25) !important;
+        }
+        &.done_btn:hover {
+            background-color: rgba(103, 194, 58, 0.1) !important;
+            border-color: rgba(103, 194, 58, 0.25) !important;
+        }
+    }
+}
+.query_add_row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    .query_label_input {
+        width: 140px;
+        flex-shrink: 0;
+    }
+    .query_value_input {
+        flex: 1;
+    }
+}
+.query_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.query_item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid var(--g-home-link-border);
+    border-radius: 4px;
+    transition: all 0.2s;
+    user-select: none;
+    cursor: default;
+    &:hover {
+        border-color: var(--el-color-primary);
+        .action-trigger {
+            opacity: 0.5;
+        }
+    }
+    &.is-active {
+        border-color: var(--el-color-primary);
+        background-color: var(--el-color-primary);
+        .query_item_text {
+            color: #fff;
+            &:hover {
+                color: #fff;
+            }
+        }
+        .action-trigger {
+            color: rgba(255,255,255,0.7);
+            opacity: 1;
+        }
+        .manage-action {
+            color: rgba(255,255,255,0.7);
+            &:hover {
+                color: #fff;
+            }
+        }
+        .delete-action:hover {
+            color: #fff;
+        }
+    }
+    &.is-manage-mode {
+        border-color: var(--el-color-primary);
+        .query_item_text {
+            cursor: default;
+            &:hover {
+                color: inherit;
+            }
+        }
+    }
+    .query_item_text {
+        font-size: 12px;
+        font-style: normal;
+        line-height: 1.4;
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        &:hover {
+            color: var(--el-color-primary);
+        }
+    }
+    .action-trigger {
+        font-size: 14px;
+        cursor: pointer;
+        color: var(--g-body-text-color);
+        opacity: 0;
+        transition: opacity 0.15s;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        &:hover {
+            opacity: 1 !important;
+        }
+    }
+    .manage-action {
+        opacity: 0.5;
+        display: flex;
+        align-items: center;
+        &:hover {
+            opacity: 1 !important;
+        }
+    }
+    .delete-action {
+        color: #f56c6c;
+        &:hover {
+            color: #f56c6c;
+        }
+    }
+}
 .sub_path_list {
     margin-top: 12px;
     display: flex;
@@ -421,7 +698,7 @@ const onDragEnd = () => {
         font-size: 12px;
         font-style: normal;
         line-height: 1.4;
-        max-width: 140px;
+        max-width: 40px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -490,55 +767,5 @@ const onDragEnd = () => {
         font-style: normal;
         font-weight: 500;
     }
-}
-</style>
-
-<style lang="scss">
-html .sub_path_popover {
-    padding: 4px !important;
-    background: var(--g-body-bg-color) !important;
-    border-color: var(--g-home-link-border) !important;
-    .popover_actions {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
-    .el-button + .el-button {
-        margin-left: 4px !important;
-    }
-    .el-button {
-        justify-content: flex-start;
-        width: 100%;
-        color: var(--g-body-text-color);
-        border: none;
-        height: auto;
-        padding: 6px 8px;
-        .el-icon {
-            margin-right: 4px;
-            font-size: 14px;
-            vertical-align: middle;
-        }
-    }
-    .el-button:hover {
-        background-color: rgba(0, 0, 0, 0.06);
-    }
-    .el-button--danger {
-        color: #f56c6c;
-    }
-    .el-button--danger:hover {
-        background-color: rgba(245, 108, 108, 0.1);
-    }
-}
-html.dark .sub_path_popover {
-    .el-button:hover {
-        background-color: rgba(255, 255, 255, 0.08);
-    }
-    .el-button--danger:hover {
-        background-color: rgba(245, 108, 108, 0.15);
-    }
-}
-html .sub_path_popover .el-popper__arrow::before {
-    background: var(--g-body-bg-color);
-    border-color: var(--g-home-link-border);
 }
 </style>
