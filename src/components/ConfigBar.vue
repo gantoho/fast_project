@@ -10,8 +10,13 @@
             <span class="config_label">打开延迟</span>
             <el-switch :model-value="openDelaySwitch" @update:model-value="$emit('update:openDelaySwitch', $event)" size="small" />
             <template v-if="openDelaySwitch">
-                <el-input-number :model-value="openDelay" @update:model-value="$emit('update:openDelay', $event)" :min="100" :max="10000" :step="100" size="small" controls-position="right" />
+                <el-input-number :model-value="openDelay" @update:model-value="$emit('update:openDelay', $event)" :min="100" :max="30000" :step="100" size="small" controls-position="right" />
+                <template v-if="openDelayRandom">
+                    <span class="config_sep_text">~</span>
+                    <el-input-number :model-value="openDelayMax" @update:model-value="$emit('update:openDelayMax', $event)" :min="openDelay + 100" :max="30000" :step="100" size="small" controls-position="right" />
+                </template>
                 <span class="config_unit">ms</span>
+                <el-switch :model-value="openDelayRandom" @update:model-value="$emit('update:openDelayRandom', $event)" size="small" active-text="随机" inactive-text="固定" />
             </template>
         </div>
     </div>
@@ -21,13 +26,17 @@
 defineProps({
     numData: { type: Number, default: 1 },
     openDelaySwitch: { type: Boolean, default: false },
-    openDelay: { type: Number, default: 500 }
+    openDelay: { type: Number, default: 500 },
+    openDelayMax: { type: Number, default: 1500 },
+    openDelayRandom: { type: Boolean, default: false }
 })
 
 defineEmits([
     'update:numData',
     'update:openDelaySwitch',
-    'update:openDelay'
+    'update:openDelay',
+    'update:openDelayMax',
+    'update:openDelayRandom'
 ])
 </script>
 
@@ -56,6 +65,11 @@ defineEmits([
     width: 1px;
     height: 24px;
     background-color: var(--g-home-link-border);
+}
+.config_sep_text {
+    font-size: 13px;
+    color: var(--g-body-text-color);
+    opacity: 0.5;
 }
 .config_unit {
     font-style: normal;

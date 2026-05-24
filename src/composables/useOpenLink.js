@@ -20,6 +20,17 @@ export function useOpenLink({
   const numData = useStorage('fast_numData', 1)
   const openDelaySwitch = useStorage('fast_openDelaySwitch', false)
   const openDelay = useStorage('fast_openDelay', 500)
+  const openDelayMax = useStorage('fast_openDelayMax', 1500)
+  const openDelayRandom = useStorage('fast_openDelayRandom', false)
+
+  const getDelay = () => {
+    if (openDelayRandom.value) {
+      const min = openDelay.value
+      const max = openDelayMax.value
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+    return openDelay.value
+  }
 
   const openStepBatch = async () => {
     if (!linkList.value.length) return
@@ -37,7 +48,7 @@ export function useOpenLink({
       opened.add(idx)
       for (let j = 0; j < numData.value; j++) {
         window.open(urlArr[idx], '_blank')
-        if (openDelaySwitch.value) await sleep(openDelay.value)
+        if (openDelaySwitch.value) await sleep(getDelay())
       }
       markOpened(idx)
     }
@@ -61,7 +72,7 @@ export function useOpenLink({
     for (const item of urlArr) {
       for (let i = 0; i < numData.value; i++) {
         window.open(item, '_blank')
-        if (openDelaySwitch.value) await sleep(openDelay.value)
+        if (openDelaySwitch.value) await sleep(getDelay())
       }
     }
   }
@@ -70,6 +81,8 @@ export function useOpenLink({
     numData,
     openDelaySwitch,
     openDelay,
+    openDelayMax,
+    openDelayRandom,
     openLink
   }
 }

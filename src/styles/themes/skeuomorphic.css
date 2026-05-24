@@ -1,20 +1,458 @@
 /* ===== 拟物风格 ===== */
 :root:root[data-style="skeuomorphic"] {
-  --el-color-primary: #5b7db1;
-  --el-color-primary-dark-2: #4a6a9e;
-  --g-home-link-hover: #3d5a80;
+  --el-color-primary: #5b7fdb;
+  --el-color-primary-dark-2: #4a6ec0;
+  --g-home-link-hover: #5b7fdb;
 }
 :root:root[data-style="skeuomorphic"]:not(.dark) {
   --g-body-bg-color: #e8ecf1;
   --g-body-text-color: #2c3e50;
-  --g-tabbar-border: #b0bec5;
-  --g-tabbar-item-after: #37474f;
-  --g-home-link-border: #cfd8dc;
+  --g-tabbar-border: #c0c8d4;
+  --g-tabbar-item-after: #5b7fdb;
+  --g-home-link-border: #c0c8d4;
+  --g-home-link-hover: #5b7fdb;
 }
 :root:root.dark[data-style="skeuomorphic"] {
-  --g-body-bg-color: #1e252e;
-  --g-body-text-color: #b0c4de;
-  --g-tabbar-border: #3e4a56;
-  --g-tabbar-item-after: #5b7db1;
-  --g-home-link-border: #2a3540;
+  --g-body-bg-color: #151d28;
+  --g-body-text-color: #c8d8f0;
+  --g-tabbar-border: #2a3a50;
+  --g-tabbar-item-after: #6b8fd4;
+  --g-home-link-border: #2a3a50;
+}
+
+/* ========================================
+   按钮（模拟 3D 凸起效果）
+   ======================================== */
+
+/* primary 按钮 */
+[data-style="skeuomorphic"] .el-button--primary {
+  background: linear-gradient(180deg, #6b9cf0 0%, #4a70c0 100%) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 4px 8px rgba(91, 127, 219, 0.3),
+    0 2px 0 #3058a8,
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  font-weight: 700 !important;
+  transition: all 0.15s !important;
+  color: #fff !important;
+}
+[data-style="skeuomorphic"] .el-button--primary:hover:not(.is-disabled) {
+  background: linear-gradient(180deg, #7aaaf8 0%, #5880d0 100%) !important;
+  box-shadow:
+    0 6px 12px rgba(91, 127, 219, 0.35),
+    0 2px 0 #3058a8,
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+[data-style="skeuomorphic"] .el-button--primary:active:not(.is-disabled) {
+  background: linear-gradient(180deg, #3a5ea0 0%, #4a6eb8 100%) !important;
+  box-shadow:
+    0 1px 2px rgba(91, 127, 219, 0.15),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(1px) !important;
+}
+[data-style="skeuomorphic"] .el-button--primary.is-disabled,
+[data-style="skeuomorphic"] .el-button--primary.is-disabled:hover {
+  background: rgba(91, 127, 219, 0.2) !important;
+  box-shadow: none !important;
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* danger 按钮 */
+[data-style="skeuomorphic"] .el-button--danger {
+  background: linear-gradient(180deg, #f06060 0%, #c04040 100%) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 4px 8px rgba(220, 60, 60, 0.25),
+    0 2px 0 #902020,
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  font-weight: 600 !important;
+}
+[data-style="skeuomorphic"] .el-button--danger:hover:not(.is-disabled) {
+  background: linear-gradient(180deg, #f87070 0%, #d45050 100%) !important;
+  box-shadow:
+    0 6px 12px rgba(220, 60, 60, 0.3),
+    0 2px 0 #902020,
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+[data-style="skeuomorphic"] .el-button--danger:active:not(.is-disabled) {
+  background: linear-gradient(180deg, #a03030 0%, #b84040 100%) !important;
+  box-shadow:
+    0 1px 2px rgba(220, 60, 60, 0.1),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(1px) !important;
+}
+
+/* text 按钮 */
+[data-style="skeuomorphic"] .el-button.is-text {
+  color: #5b7fdb !important;
+  font-weight: 600 !important;
+}
+[data-style="skeuomorphic"].dark .el-button.is-text {
+  color: #7aaaf8 !important;
+}
+[data-style="skeuomorphic"] .el-button.is-text:hover:not(.is-disabled) {
+  background-color: rgba(91, 127, 219, 0.08) !important;
+}
+[data-style="skeuomorphic"].dark .el-button.is-text:hover:not(.is-disabled) {
+  background-color: rgba(122, 170, 248, 0.08) !important;
+}
+
+/* circle 按钮 */
+[data-style="skeuomorphic"] .el-button.is-circle {
+  border-radius: 10px !important;
+  border: none !important;
+  background: linear-gradient(180deg, #f0f4f8 0%, #dde2e8 100%) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 1px 0 #fff,
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  color: #4a5568 !important;
+}
+[data-style="skeuomorphic"].dark .el-button.is-circle {
+  background: linear-gradient(180deg, #2a3a50 0%, #1a2535 100%) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  color: #8aa8d0 !important;
+}
+[data-style="skeuomorphic"] .el-button.is-circle:hover:not(.is-disabled) {
+  background: linear-gradient(180deg, #f8fafc 0%, #e4eaf0 100%) !important;
+}
+[data-style="skeuomorphic"].dark .el-button.is-circle:hover:not(.is-disabled) {
+  background: linear-gradient(180deg, #354860 0%, #223040 100%) !important;
+}
+
+/* ========================================
+   Tags（预设标签 / 逐个打开标签）
+   ======================================== */
+
+[data-style="skeuomorphic"]:not(.dark) .el-tag.el-tag--info.el-tag--plain {
+  background: linear-gradient(180deg, #f8fafc 0%, #eaf0f6 100%) !important;
+  border: none !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 1px 0 #fff,
+    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  border-radius: 8px !important;
+  color: #2c3e50 !important;
+}
+[data-style="skeuomorphic"].dark .el-tag.el-tag--info.el-tag--plain {
+  background: linear-gradient(180deg, #2a3a50 0%, #1e2a3a 100%) !important;
+  border: none !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px !important;
+  color: #a8c0e0 !important;
+}
+[data-style="skeuomorphic"] .el-tag.el-tag--dark {
+  background: linear-gradient(180deg, #6b9cf0, #4a70c0) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 3px 6px rgba(91, 127, 219, 0.25),
+    0 1px 0 #3058a8,
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  color: #fff !important;
+}
+[data-style="skeuomorphic"] .el-tag__close {
+  color: #5b7fdb !important;
+}
+[data-style="skeuomorphic"].dark .el-tag__close {
+  color: #7aaaf8 !important;
+}
+[data-style="skeuomorphic"] .el-tag__close:hover {
+  background-color: rgba(91, 127, 219, 0.12) !important;
+}
+
+/* ========================================
+   输入框（凹陷内嵌效果）
+   ======================================== */
+
+[data-style="skeuomorphic"]:not(.dark) .el-textarea__inner,
+[data-style="skeuomorphic"]:not(.dark) .el-input__wrapper {
+  border: none !important;
+  border-radius: 10px !important;
+  background: #d5dce4 !important;
+  color: #2c3e50 !important;
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  transition: box-shadow 0.2s !important;
+}
+[data-style="skeuomorphic"].dark .el-textarea__inner,
+[data-style="skeuomorphic"].dark .el-input__wrapper {
+  background: #1a2330 !important;
+  color: #c8d8f0 !important;
+  border: none !important;
+  box-shadow:
+    inset 0 3px 8px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+[data-style="skeuomorphic"] .el-textarea__inner:focus,
+[data-style="skeuomorphic"] .el-input__wrapper.is-focus {
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.6),
+    0 0 0 2px rgba(91, 127, 219, 0.3) !important;
+}
+[data-style="skeuomorphic"].dark .el-textarea__inner:focus,
+[data-style="skeuomorphic"].dark .el-input__wrapper.is-focus {
+  box-shadow:
+    inset 0 3px 8px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.03),
+    0 0 0 2px rgba(91, 127, 219, 0.3) !important;
+}
+[data-style="skeuomorphic"] .el-textarea__inner::placeholder,
+[data-style="skeuomorphic"] .el-input__inner::placeholder {
+  color: rgba(44, 62, 80, 0.4) !important;
+}
+[data-style="skeuomorphic"].dark .el-textarea__inner::placeholder,
+[data-style="skeuomorphic"].dark .el-input__inner::placeholder {
+  color: rgba(200, 216, 240, 0.3) !important;
+}
+
+/* ========================================
+   Input Number
+   ======================================== */
+
+[data-style="skeuomorphic"] .el-input-number .el-input__wrapper {
+  border-radius: 10px !important;
+}
+[data-style="skeuomorphic"] .el-input-number__decrease,
+[data-style="skeuomorphic"] .el-input-number__increase {
+  color: #4a5568 !important;
+  background: linear-gradient(180deg, #f0f4f8 0%, #dde2e8 100%) !important;
+  border: none !important;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+[data-style="skeuomorphic"].dark .el-input-number__decrease,
+[data-style="skeuomorphic"].dark .el-input-number__increase {
+  color: #8aa8d0 !important;
+  background: linear-gradient(180deg, #2a3a50 0%, #1a2535 100%) !important;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+[data-style="skeuomorphic"] .el-input-number__decrease:hover:not(.is-disabled),
+[data-style="skeuomorphic"] .el-input-number__increase:hover:not(.is-disabled) {
+  background: linear-gradient(180deg, #f8fafc 0%, #e4eaf0 100%) !important;
+}
+[data-style="skeuomorphic"].dark .el-input-number__decrease:hover:not(.is-disabled),
+[data-style="skeuomorphic"].dark .el-input-number__increase:hover:not(.is-disabled) {
+  background: linear-gradient(180deg, #354860 0%, #223040 100%) !important;
+}
+
+/* ========================================
+   Switch
+   ======================================== */
+
+[data-style="skeuomorphic"] .el-switch.is-checked .el-switch__core {
+  border-color: #5b7fdb !important;
+  background: linear-gradient(180deg, #7aaaf8, #5b7fdb) !important;
+}
+[data-style="skeuomorphic"] .el-switch__core {
+  border-color: #c0c8d4 !important;
+  background: linear-gradient(180deg, #f0f4f8, #d5dce4) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+[data-style="skeuomorphic"].dark .el-switch__core {
+  border-color: #2a3a50 !important;
+  background: linear-gradient(180deg, #354860, #1a2330) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ========================================
+   Select 下拉
+   ======================================== */
+
+[data-style="skeuomorphic"] .el-select .el-input__wrapper {
+  border: none !important;
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+[data-style="skeuomorphic"].dark .el-select .el-input__wrapper {
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.02) !important;
+}
+[data-style="skeuomorphic"] .el-select__wrapper {
+  border: none !important;
+}
+[data-style="skeuomorphic"] .el-select__wrapper.is-focus,
+[data-style="skeuomorphic"] .el-select__wrapper.is-focused {
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgba(91, 127, 219, 0.3) !important;
+}
+[data-style="skeuomorphic"] .el-select-dropdown__item.hover,
+[data-style="skeuomorphic"] .el-select-dropdown__item:hover {
+  background: linear-gradient(180deg, rgba(91, 127, 219, 0.1), rgba(91, 127, 219, 0.06)) !important;
+}
+
+/* ========================================
+   Dialog
+   ======================================== */
+
+[data-style="skeuomorphic"] .el-dialog {
+  border: none !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+[data-style="skeuomorphic"].dark .el-dialog {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+/* ========================================
+   Message Box
+   ======================================== */
+
+[data-style="skeuomorphic"] .el-message-box {
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+[data-style="skeuomorphic"].dark .el-message-box {
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+[data-style="skeuomorphic"] .el-message-box__btns .el-button:not(.el-button--primary):not(.el-button--danger) {
+  background: linear-gradient(180deg, #f0f4f8, #dde2e8) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 1px 0 #fff,
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  color: #4a5568 !important;
+}
+[data-style="skeuomorphic"].dark .el-message-box__btns .el-button:not(.el-button--primary):not(.el-button--danger) {
+  background: linear-gradient(180deg, #2a3a50, #1a2535) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  color: #8aa8d0 !important;
+}
+
+/* ========================================
+   自定义路径 / Query 条目
+   ======================================== */
+
+/* 容器模块 */
+[data-style="skeuomorphic"] .sub_path_module,
+[data-style="skeuomorphic"] .step_module {
+  border: none !important;
+  border-radius: 14px !important;
+  background: linear-gradient(180deg, #f5f7fa 0%, #e0e5ec 100%) !important;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+[data-style="skeuomorphic"].dark .sub_path_module,
+[data-style="skeuomorphic"].dark .step_module {
+  background: linear-gradient(180deg, #1e2a3a 0%, #151d28 100%) !important;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+/* URL 展示框 */
+[data-style="skeuomorphic"] .step_url_box {
+  border: none !important;
+  border-radius: 10px !important;
+  background: #d5dce4 !important;
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.6) !important;
+}
+[data-style="skeuomorphic"].dark .step_url_box {
+  background: #1a2330 !important;
+  box-shadow:
+    inset 0 3px 8px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+/* 路径条目（默认） */
+[data-style="skeuomorphic"] .sub_path_item,
+[data-style="skeuomorphic"] .query_item {
+  border: none !important;
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, #f8fafc 0%, #eaf0f6 100%) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 1px 0 #fff,
+    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  color: #2c3e50 !important;
+}
+[data-style="skeuomorphic"].dark .sub_path_item,
+[data-style="skeuomorphic"].dark .query_item {
+  background: linear-gradient(180deg, #2a3a50 0%, #1e2a3a 100%) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  color: #a8c0e0 !important;
+}
+[data-style="skeuomorphic"] .sub_path_item:hover,
+[data-style="skeuomorphic"] .query_item:hover {
+  background: linear-gradient(180deg, #fff 0%, #f0f4f8 100%) !important;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.08),
+    0 1px 0 #fff,
+    inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+[data-style="skeuomorphic"].dark .sub_path_item:hover,
+[data-style="skeuomorphic"].dark .query_item:hover {
+  background: linear-gradient(180deg, #354860 0%, #223040 100%) !important;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.25),
+    0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 路径条目（激活） */
+[data-style="skeuomorphic"] .sub_path_item.is-active,
+[data-style="skeuomorphic"] .query_item.is-active {
+  border: none !important;
+  background: linear-gradient(180deg, #6b9cf0, #4a70c0) !important;
+  color: #fff !important;
+  box-shadow:
+    0 4px 8px rgba(91, 127, 219, 0.3),
+    0 2px 0 #3058a8,
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+[data-style="skeuomorphic"] .sub_path_item.is-active .sub_path_item_label,
+[data-style="skeuomorphic"] .query_item.is-active .query_item_text {
+  color: #fff !important;
+}
+
+/* 管理模式 */
+[data-style="skeuomorphic"] .sub_path_item.is-manage-mode,
+[data-style="skeuomorphic"] .query_item.is-manage-mode {
+  border: 1px solid #5b7fdb !important;
+  background: linear-gradient(180deg, rgba(91, 127, 219, 0.06), rgba(91, 127, 219, 0.02)) !important;
+}
+
+/* 拖拽悬停 */
+[data-style="skeuomorphic"] .sub_path_item.is-drag-over {
+  border: 1px solid #5b7fdb !important;
+  background: linear-gradient(180deg, rgba(91, 127, 219, 0.12), rgba(91, 127, 219, 0.06)) !important;
+  box-shadow:
+    0 0 0 2px rgba(91, 127, 219, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.06) !important;
 }

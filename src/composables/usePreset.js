@@ -15,6 +15,8 @@ https://rust-lang.org`,
   numData: 1,
   openDelaySwitch: false,
   openDelay: 500,
+  openDelayMax: 1500,
+  openDelayRandom: false,
   isStepOpen: false,
   stepBatchSize: 1,
   stepAutoAdvance: true,
@@ -41,6 +43,8 @@ export function usePreset(state) {
     numData: state.numData.value,
     openDelaySwitch: state.openDelaySwitch.value,
     openDelay: state.openDelay.value,
+    openDelayMax: state.openDelayMax.value,
+    openDelayRandom: state.openDelayRandom.value,
     isStepOpen: state.isStepOpen.value,
     stepBatchSize: state.stepBatchSize.value,
     stepAutoAdvance: state.stepAutoAdvance.value,
@@ -57,6 +61,8 @@ export function usePreset(state) {
     state.numData.value = snap.numData
     state.openDelaySwitch.value = snap.openDelaySwitch
     state.openDelay.value = snap.openDelay
+    state.openDelayMax.value = snap.openDelayMax ?? 1500
+    state.openDelayRandom.value = snap.openDelayRandom ?? false
     state.isStepOpen.value = snap.isStepOpen
     state.stepBatchSize.value = snap.stepBatchSize
     state.stepAutoAdvance.value = snap.stepAutoAdvance
@@ -168,6 +174,8 @@ export function usePreset(state) {
       state.numData.value,
       state.openDelaySwitch.value,
       state.openDelay.value,
+      state.openDelayMax.value,
+      state.openDelayRandom.value,
       state.isStepOpen.value,
       state.stepBatchSize.value,
       state.stepAutoAdvance.value,

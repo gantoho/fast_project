@@ -1,7 +1,7 @@
 <template>
   <div class="theme_panel">
     <!-- 数据导入导出 -->
-    <el-popover placement="bottom-end" :width="180" trigger="click" :show-arrow="false">
+    <el-popover placement="bottom-end" :width="200" trigger="click" :show-arrow="false">
       <template #reference>
         <div class="theme_trigger data_trigger">
           <el-icon :size="22"><Setting /></el-icon>
@@ -91,7 +91,6 @@ const exportAll = () => {
 
 const triggerImport = () => {
   importInput.value?.click()
-  // 移除焦点，避免 popover 关闭后 aria-hidden 警告
   document.activeElement?.blur()
 }
 

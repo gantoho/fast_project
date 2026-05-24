@@ -26,6 +26,8 @@ export function useGlobalExport(state) {
       numData: state.numData.value,
       openDelaySwitch: state.openDelaySwitch.value,
       openDelay: state.openDelay.value,
+      openDelayMax: state.openDelayMax.value,
+      openDelayRandom: state.openDelayRandom.value,
       isStepOpen: state.isStepOpen.value,
       stepBatchSize: state.stepBatchSize.value,
       stepAutoAdvance: state.stepAutoAdvance.value,
@@ -100,6 +102,8 @@ export function useGlobalExport(state) {
         if (data.numData !== undefined) state.numData.value = data.numData
         if (data.openDelaySwitch !== undefined) state.openDelaySwitch.value = data.openDelaySwitch
         if (data.openDelay !== undefined) state.openDelay.value = data.openDelay
+        if (data.openDelayMax !== undefined) state.openDelayMax.value = data.openDelayMax
+        if (data.openDelayRandom !== undefined) state.openDelayRandom.value = data.openDelayRandom
         if (data.isStepOpen !== undefined) state.isStepOpen.value = data.isStepOpen
         if (data.stepBatchSize !== undefined) state.stepBatchSize.value = data.stepBatchSize
         if (data.stepAutoAdvance !== undefined) state.stepAutoAdvance.value = data.stepAutoAdvance

@@ -19,6 +19,20 @@
         :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
         class="input"
     />
+    <!-- 去重警告 -->
+    <el-alert
+        v-if="hasDuplicates"
+        title="检测到重复链接（已忽略协议和末尾斜杠）"
+        type="warning"
+        :closable="false"
+        show-icon
+        class="dup_alert"
+    />
+    <!-- 撤销清空 -->
+    <div v-if="clearedBackup != null" class="undo_bar">
+        <span>已清空链接列表</span>
+        <el-button size="small" text type="primary" @click="undoClear">撤销</el-button>
+    </div>
     <SubPathPanel
         :sub-path-switch="subPathSwitch"
         :sub-path="subPath"
@@ -62,9 +76,13 @@
         :num-data="numData"
         :open-delay-switch="openDelaySwitch"
         :open-delay="openDelay"
+        :open-delay-max="openDelayMax"
+        :open-delay-random="openDelayRandom"
         @update:num-data="numData = $event"
         @update:open-delay-switch="openDelaySwitch = $event"
         @update:open-delay="openDelay = $event"
+        @update:open-delay-max="openDelayMax = $event"
+        @update:open-delay-random="openDelayRandom = $event"
     />
     <ActionBar
         :has-links="hasLinks"
@@ -72,6 +90,7 @@
         :step-batch-size="stepBatchSize"
         :num-data="numData"
         :link-list-len="linkList.length"
+        :processed-url-list="processedUrlList"
         @open-link="openLink"
         @clear="clear"
     />
@@ -116,7 +135,11 @@ const {
   linkList,
   hasLinks,
   processedUrlList,
-  clear
+  duplicateLines,
+  hasDuplicates,
+  clear,
+  undoClear,
+  clearedBackup
 } = useLinks(subPath, subPathSwitch, selectedQueryIds, queryOptions)
 
 const {
@@ -141,6 +164,8 @@ const {
   numData,
   openDelaySwitch,
   openDelay,
+  openDelayMax,
+  openDelayRandom,
   openLink
 } = useOpenLink({
   metaData,
@@ -175,6 +200,8 @@ const {
   numData,
   openDelaySwitch,
   openDelay,
+  openDelayMax,
+  openDelayRandom,
   isStepOpen,
   stepBatchSize,
   stepAutoAdvance,
@@ -200,6 +227,8 @@ const { exportAll, importAll } = useGlobalExport({
   numData,
   openDelaySwitch,
   openDelay,
+  openDelayMax,
+  openDelayRandom,
   isStepOpen,
   stepBatchSize,
   stepAutoAdvance,
@@ -239,5 +268,20 @@ onKeyStroke('ArrowRight', () => {
 <style lang='scss' scoped>
 .input{
     margin-bottom: 20px;
+}
+.dup_alert {
+    margin-bottom: 20px;
+}
+.undo_bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    margin-bottom: 20px;
+    border: 1px solid var(--el-color-primary-light-5);
+    border-radius: 6px;
+    background-color: color-mix(in srgb, var(--el-color-primary) 6%, transparent);
+    font-size: 13px;
+    color: var(--g-body-text-color);
 }
 </style>

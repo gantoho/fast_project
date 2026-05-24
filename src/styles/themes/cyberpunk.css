@@ -19,3 +19,261 @@
   --g-tabbar-item-after: #00ff88;
   --g-home-link-border: #0f3460;
 }
+
+/* ========================================
+   按钮
+   ======================================== */
+
+/* primary 按钮 */
+[data-style="cyberpunk"] .el-button--primary {
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%) !important;
+  border: 1px solid #00ff88 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.35), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  color: #0a0a15 !important;
+  transition: all 0.2s !important;
+}
+[data-style="cyberpunk"] .el-button--primary:hover:not(.is-disabled) {
+  box-shadow: 0 0 24px rgba(0, 255, 136, 0.6), 0 0 48px rgba(0, 255, 136, 0.2), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+  transform: translateY(-1px) !important;
+}
+[data-style="cyberpunk"] .el-button--primary:active:not(.is-disabled) {
+  box-shadow: 0 0 6px rgba(0, 255, 136, 0.3), inset 0 2px 4px rgba(0,0,0,0.2) !important;
+  transform: translateY(0) !important;
+}
+[data-style="cyberpunk"] .el-button--primary.is-disabled,
+[data-style="cyberpunk"] .el-button--primary.is-disabled:hover {
+  background: rgba(0, 255, 136, 0.15) !important;
+  border-color: rgba(0, 255, 136, 0.2) !important;
+  color: rgba(0, 255, 136, 0.4) !important;
+  box-shadow: none !important;
+}
+
+/* danger 按钮 */
+[data-style="cyberpunk"] .el-button--danger {
+  border-radius: 3px !important;
+  box-shadow: 0 0 10px rgba(255, 68, 136, 0.25) !important;
+  background: linear-gradient(135deg, #ff4488, #d6336c) !important;
+  border-color: #ff4488 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+}
+[data-style="cyberpunk"] .el-button--danger:hover:not(.is-disabled) {
+  box-shadow: 0 0 20px rgba(255, 68, 136, 0.5), 0 0 40px rgba(255, 68, 136, 0.15) !important;
+}
+
+/* text 按钮 */
+[data-style="cyberpunk"] .el-button.is-text {
+  color: #00ff88 !important;
+  letter-spacing: 0.3px !important;
+}
+[data-style="cyberpunk"] .el-button.is-text:hover:not(.is-disabled) {
+  background-color: rgba(0, 255, 136, 0.08) !important;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.3) !important;
+}
+
+/* circle 按钮 */
+[data-style="cyberpunk"] .el-button.is-circle {
+  border-radius: 3px !important;
+  border-color: rgba(0, 255, 136, 0.3) !important;
+  background: rgba(0, 255, 136, 0.05) !important;
+  color: #00ff88 !important;
+}
+[data-style="cyberpunk"] .el-button.is-circle:hover:not(.is-disabled) {
+  border-color: #00ff88 !important;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3) !important;
+}
+
+/* ========================================
+   Tags（预设标签 / 逐个打开标签）
+   ======================================== */
+
+[data-style="cyberpunk"]:not(.dark) .el-tag.el-tag--info.el-tag--plain {
+  background-color: rgba(0, 255, 136, 0.06) !important;
+  border-color: rgba(0, 255, 136, 0.2) !important;
+  color: #00ff88 !important;
+}
+[data-style="cyberpunk"].dark .el-tag.el-tag--info.el-tag--plain {
+  background-color: rgba(0, 255, 136, 0.08) !important;
+  border-color: rgba(0, 255, 136, 0.25) !important;
+  color: #00ff88 !important;
+}
+[data-style="cyberpunk"] .el-tag.el-tag--dark {
+  background-color: #00ff88 !important;
+  border-color: #00ff88 !important;
+  color: #0a0a15 !important;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.3) !important;
+}
+[data-style="cyberpunk"] .el-tag__close {
+  color: #00ff88 !important;
+}
+[data-style="cyberpunk"] .el-tag__close:hover {
+  background-color: rgba(255, 68, 136, 0.2) !important;
+  color: #ff4488 !important;
+}
+
+/* ========================================
+   输入框
+   ======================================== */
+
+[data-style="cyberpunk"] .el-textarea__inner,
+[data-style="cyberpunk"] .el-input__wrapper {
+  border: 1px solid rgba(0, 255, 136, 0.25) !important;
+  border-radius: 3px !important;
+  background: rgba(0, 255, 136, 0.03) !important;
+  color: var(--g-body-text-color) !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+[data-style="cyberpunk"] .el-textarea__inner::placeholder,
+[data-style="cyberpunk"] .el-input__inner::placeholder {
+  color: rgba(0, 255, 136, 0.25) !important;
+}
+[data-style="cyberpunk"] .el-textarea__inner:focus,
+[data-style="cyberpunk"] .el-input__wrapper.is-focus {
+  border-color: #00ff88 !important;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.2), inset 0 0 8px rgba(0, 255, 136, 0.05) !important;
+}
+
+/* ========================================
+   Input Number
+   ======================================== */
+
+[data-style="cyberpunk"] .el-input-number .el-input__wrapper {
+  border-radius: 3px !important;
+}
+[data-style="cyberpunk"] .el-input-number__decrease,
+[data-style="cyberpunk"] .el-input-number__increase {
+  color: #00ff88 !important;
+  background: rgba(0, 255, 136, 0.05) !important;
+  border-radius: 0 !important;
+  border-color: rgba(0, 255, 136, 0.2) !important;
+}
+[data-style="cyberpunk"] .el-input-number__decrease:hover:not(.is-disabled),
+[data-style="cyberpunk"] .el-input-number__increase:hover:not(.is-disabled) {
+  color: #0a0a15 !important;
+  background: #00ff88 !important;
+}
+
+/* ========================================
+   Switch
+   ======================================== */
+
+[data-style="cyberpunk"] .el-switch.is-checked .el-switch__core {
+  border-color: #00ff88 !important;
+  background-color: #00ff88 !important;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.4) !important;
+}
+[data-style="cyberpunk"] .el-switch__core {
+  border-color: rgba(0, 255, 136, 0.25) !important;
+  background-color: rgba(0, 255, 136, 0.08) !important;
+}
+
+/* ========================================
+   Select 下拉
+   ======================================== */
+
+[data-style="cyberpunk"] .el-select .el-input__wrapper {
+  border-color: rgba(0, 255, 136, 0.25) !important;
+  background: rgba(0, 255, 136, 0.03) !important;
+}
+[data-style="cyberpunk"] .el-select__wrapper {
+  border-color: rgba(0, 255, 136, 0.25) !important;
+}
+[data-style="cyberpunk"] .el-select__wrapper.is-focus,
+[data-style="cyberpunk"] .el-select__wrapper.is-focused {
+  border-color: #00ff88 !important;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.2) !important;
+}
+[data-style="cyberpunk"] .el-select-dropdown__item.hover,
+[data-style="cyberpunk"] .el-select-dropdown__item:hover {
+  background-color: rgba(0, 255, 136, 0.1) !important;
+}
+
+/* ========================================
+   Dialog
+   ======================================== */
+
+[data-style="cyberpunk"] .el-dialog {
+  border: 1px solid rgba(0, 255, 136, 0.2) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.08) !important;
+}
+
+/* ========================================
+   Message Box
+   ======================================== */
+
+[data-style="cyberpunk"] .el-message-box {
+  border: 1px solid rgba(0, 255, 136, 0.3) !important;
+  border-radius: 3px !important;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.1) !important;
+}
+[data-style="cyberpunk"] .el-message-box__btns .el-button:not(.el-button--primary):not(.el-button--danger) {
+  border-color: rgba(0, 255, 136, 0.3) !important;
+  color: #00ff88 !important;
+  background: rgba(0, 255, 136, 0.05) !important;
+}
+
+/* ========================================
+   自定义路径 / Query 条目
+   ======================================== */
+
+/* 容器模块 */
+[data-style="cyberpunk"] .sub_path_module,
+[data-style="cyberpunk"] .step_module {
+  border-color: rgba(0, 255, 136, 0.15) !important;
+  border-radius: 3px !important;
+  background: rgba(0, 255, 136, 0.02) !important;
+}
+
+/* URL 展示框 */
+[data-style="cyberpunk"] .step_url_box {
+  border-color: rgba(0, 255, 136, 0.2) !important;
+  border-radius: 3px !important;
+  background: rgba(0, 255, 136, 0.03) !important;
+}
+
+/* 路径条目（默认） */
+[data-style="cyberpunk"] .sub_path_item,
+[data-style="cyberpunk"] .query_item {
+  border-color: rgba(0, 255, 136, 0.15) !important;
+  border-radius: 3px !important;
+  background: rgba(0, 255, 136, 0.04) !important;
+  color: var(--g-body-text-color) !important;
+}
+[data-style="cyberpunk"] .sub_path_item:hover,
+[data-style="cyberpunk"] .query_item:hover {
+  border-color: #00ff88 !important;
+  background: rgba(0, 255, 136, 0.08) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.15) !important;
+}
+
+/* 路径条目（激活） */
+[data-style="cyberpunk"] .sub_path_item.is-active,
+[data-style="cyberpunk"] .query_item.is-active {
+  border-color: #00ff88 !important;
+  background: #00ff88 !important;
+  color: #0a0a15 !important;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.4) !important;
+}
+[data-style="cyberpunk"] .sub_path_item.is-active .sub_path_item_label,
+[data-style="cyberpunk"] .query_item.is-active .query_item_text {
+  color: #0a0a15 !important;
+}
+
+/* 管理模式 */
+[data-style="cyberpunk"] .sub_path_item.is-manage-mode,
+[data-style="cyberpunk"] .query_item.is-manage-mode {
+  border-color: rgba(0, 255, 136, 0.3) !important;
+  background: rgba(0, 255, 136, 0.06) !important;
+}
+
+/* 拖拽悬停 */
+[data-style="cyberpunk"] .sub_path_item.is-drag-over {
+  border-color: #00ff88 !important;
+  background: rgba(0, 255, 136, 0.12) !important;
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3) !important;
+}
