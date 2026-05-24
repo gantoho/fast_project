@@ -18,6 +18,8 @@
   --g-tabbar-border: #2a3a50;
   --g-tabbar-item-after: #6b8fd4;
   --g-home-link-border: #2a3a50;
+  --el-text-color-primary: #c8d8f0;
+  --el-text-color-regular: rgba(200, 216, 240, 0.72);
 }
 
 /* ========================================
@@ -447,6 +449,38 @@
   border: 1px solid #5b7fdb !important;
   background: linear-gradient(180deg, rgba(91, 127, 219, 0.06), rgba(91, 127, 219, 0.02)) !important;
 }
+[data-style="skeuomorphic"].dark .sub_path_item.is-manage-mode,
+[data-style="skeuomorphic"].dark .query_item.is-manage-mode {
+  border-color: #6b8fd4 !important;
+  background: linear-gradient(180deg, rgba(107, 143, 212, 0.08), rgba(107, 143, 212, 0.03)) !important;
+}
+
+/* 同时激活 + 管理模式（确保文字可见） */
+[data-style="skeuomorphic"] .sub_path_item.is-active.is-manage-mode,
+[data-style="skeuomorphic"] .query_item.is-active.is-manage-mode {
+  border: none !important;
+  background: linear-gradient(180deg, #6b9cf0, #4a70c0) !important;
+}
+[data-style="skeuomorphic"] .sub_path_item.is-active.is-manage-mode .sub_path_item_label,
+[data-style="skeuomorphic"] .query_item.is-active.is-manage-mode .query_item_text {
+  color: #fff !important;
+}
+
+/* 管理/完成按钮（在 3D 面板内确保文字与背景高对比度） */
+[data-style="skeuomorphic"] .el-button.is-text.manage_btn {
+  color: #1a3355 !important;
+  font-weight: 700 !important;
+}
+[data-style="skeuomorphic"].dark .el-button.is-text.manage_btn {
+  color: #8ab4f0 !important;
+  font-weight: 700 !important;
+}
+
+/* 管理模式下的删除图标 */
+[data-style="skeuomorphic"] .sub_path_item.is-active.is-manage-mode .manage-action,
+[data-style="skeuomorphic"] .query_item.is-active.is-manage-mode .manage-action {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
 
 /* 拖拽悬停 */
 [data-style="skeuomorphic"] .sub_path_item.is-drag-over {
@@ -455,4 +489,45 @@
   box-shadow:
     0 0 0 2px rgba(91, 127, 219, 0.2),
     0 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ========================================
+   ConfigBar（底部配置栏）
+   ======================================== */
+
+[data-style="skeuomorphic"] .config_bar {
+  border: none !important;
+  border-radius: 12px !important;
+  background: linear-gradient(180deg, #f8fafc 0%, #eaf0f6 100%) !important;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+[data-style="skeuomorphic"].dark .config_bar {
+  background: linear-gradient(180deg, #2a3a50 0%, #1e2a3a 100%) !important;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.25),
+    0 1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+[data-style="skeuomorphic"] .config_sep {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+[data-style="skeuomorphic"].dark .config_sep {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+[data-style="skeuomorphic"] .config_label {
+  color: #4a5568 !important;
+  font-weight: 600 !important;
+}
+[data-style="skeuomorphic"].dark .config_label {
+  color: #8aa8d0 !important;
+}
+[data-style="skeuomorphic"] .config_sep_text {
+  color: #4a5568 !important;
+  opacity: 0.5 !important;
+}
+[data-style="skeuomorphic"].dark .config_sep_text {
+  color: #8aa8d0 !important;
 }

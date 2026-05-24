@@ -8,7 +8,7 @@ const STYLE_OPTIONS = [
 ]
 
 export function useStyle() {
-  const currentStyle = useStorage('fast_themeStyle', 'default')
+  const currentStyle = useStorage('fast_themeStyle', 'skeuomorphic')
 
   const setStyle = (key) => {
     currentStyle.value = key

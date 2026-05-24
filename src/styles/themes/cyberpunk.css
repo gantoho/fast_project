@@ -18,6 +18,8 @@
   --g-tabbar-border: #00ff88;
   --g-tabbar-item-after: #00ff88;
   --g-home-link-border: #0f3460;
+  --el-text-color-primary: #ccffdd;
+  --el-text-color-regular: rgba(204, 255, 221, 0.72);
 }
 
 /* ========================================
@@ -271,9 +273,47 @@
   background: rgba(0, 255, 136, 0.06) !important;
 }
 
+/* 同时激活 + 管理模式（确保文字可见） */
+[data-style="cyberpunk"] .sub_path_item.is-active.is-manage-mode,
+[data-style="cyberpunk"] .query_item.is-active.is-manage-mode {
+  border-color: #00ff88 !important;
+  background: #00ff88 !important;
+}
+[data-style="cyberpunk"] .sub_path_item.is-active.is-manage-mode .sub_path_item_label,
+[data-style="cyberpunk"] .query_item.is-active.is-manage-mode .query_item_text {
+  color: #0a0a15 !important;
+}
+
+/* 管理/完成按钮 */
+[data-style="cyberpunk"] .el-button.is-text.manage_btn {
+  color: #00ff88 !important;
+  font-weight: 700 !important;
+}
+
 /* 拖拽悬停 */
 [data-style="cyberpunk"] .sub_path_item.is-drag-over {
   border-color: #00ff88 !important;
   background: rgba(0, 255, 136, 0.12) !important;
   box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3) !important;
+}
+
+/* ========================================
+   ConfigBar（底部配置栏）
+   ======================================== */
+
+[data-style="cyberpunk"] .config_bar {
+  border-color: rgba(0, 255, 136, 0.15) !important;
+  border-radius: 3px !important;
+  background: rgba(0, 255, 136, 0.02) !important;
+}
+[data-style="cyberpunk"] .config_sep {
+  background-color: rgba(0, 255, 136, 0.15) !important;
+}
+[data-style="cyberpunk"] .config_label {
+  color: #00ff88 !important;
+  letter-spacing: 0.3px !important;
+}
+[data-style="cyberpunk"] .config_sep_text {
+  color: #00ff88 !important;
+  opacity: 0.6 !important;
 }

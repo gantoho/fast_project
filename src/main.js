@@ -6,9 +6,11 @@ import App from './App.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
-// 初始化风格 data-style 属性
+// 初始化风格 data-style 属性（默认：拟物风格）
 const savedStyle = localStorage.getItem('fast_themeStyle')
-if (savedStyle && savedStyle !== '"default"') {
+if (!savedStyle || savedStyle === '"default"') {
+  document.documentElement.setAttribute('data-style', 'skeuomorphic')
+} else {
   const key = savedStyle.replace(/^"|"$/g, '')
   if (key !== 'default') {
     document.documentElement.setAttribute('data-style', key)

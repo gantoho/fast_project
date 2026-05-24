@@ -34,6 +34,12 @@ body, html{
   --g-home-link-hover: #374151;
   --el-color-primary: #22c55e;
   --el-color-primary-dark-2: #16a34a;
+  /* 覆盖 Element Plus 预编译的蓝色 light-* 变量，动态从 --el-color-primary 派生 */
+  --el-color-primary-light-3: color-mix(in srgb, var(--el-color-primary) 70%, white);
+  --el-color-primary-light-5: color-mix(in srgb, var(--el-color-primary) 50%, white);
+  --el-color-primary-light-7: color-mix(in srgb, var(--el-color-primary) 30%, white);
+  --el-color-primary-light-8: color-mix(in srgb, var(--el-color-primary) 20%, white);
+  --el-color-primary-light-9: color-mix(in srgb, var(--el-color-primary) 10%, white);
 }
 :root:root.dark {
   --g-body-bg-color: #242424;
@@ -44,6 +50,14 @@ body, html{
   --g-home-link-hover: #fff;
   --el-color-primary: #22c55e;
   --el-color-primary-dark-2: #16a34a;
+  --el-text-color-primary: rgba(255, 255, 255, 0.87);
+  --el-text-color-regular: rgba(255, 255, 255, 0.72);
+  /* 深色模式下与黑色混合，保持较低亮度 */
+  --el-color-primary-light-3: color-mix(in srgb, var(--el-color-primary) 70%, black);
+  --el-color-primary-light-5: color-mix(in srgb, var(--el-color-primary) 50%, black);
+  --el-color-primary-light-7: color-mix(in srgb, var(--el-color-primary) 30%, black);
+  --el-color-primary-light-8: color-mix(in srgb, var(--el-color-primary) 20%, black);
+  --el-color-primary-light-9: color-mix(in srgb, var(--el-color-primary) 10%, black);
 }
 ::view-transition-old(*) {
   animation: none;
