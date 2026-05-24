@@ -2,7 +2,7 @@
   <div class="main">
     <ThemeToggle />
     <Home />
-    <Footer />
+    <Footer @click-footer="handleFooterClick" />
   </div>
 </template>
 
@@ -10,6 +10,9 @@
 import Home from './pages/Home.vue'
 import Footer from './components/Footer.vue'
 import ThemeToggle from './components/ThemeToggle.vue'
+import { useEasterEgg } from './composables/useEasterEgg'
+
+const { handleFooterClick } = useEasterEgg()
 </script>
 
 <style lang='scss' scoped>

@@ -1,0 +1,101 @@
+/* ===== 霓虹派对彩蛋 ===== */
+/* 通过 Konami Code 或连击底部文字触发 */
+
+/* 全局彩虹流光背景 */
+[data-easter-egg="party"] {
+  --party-speed: 3s;
+}
+
+[data-easter-egg="party"] body {
+  animation: party-rainbow-bg 6s linear infinite;
+}
+[data-easter-egg="party"] #app {
+  animation: party-rainbow-bg 6s linear infinite;
+}
+
+@keyframes party-rainbow-bg {
+  0%   { background: linear-gradient(135deg, #ff000033, #ff880033); }
+  17%  { background: linear-gradient(135deg, #ff880033, #ffff0033); }
+  33%  { background: linear-gradient(135deg, #ffff0033, #00ff0033); }
+  50%  { background: linear-gradient(135deg, #00ff0033, #0088ff33); }
+  67%  { background: linear-gradient(135deg, #0088ff33, #8800ff33); }
+  83%  { background: linear-gradient(135deg, #8800ff33, #ff00ff33); }
+  100% { background: linear-gradient(135deg, #ff00ff33, #ff000033); }
+}
+
+/* 按钮流光动画 */
+[data-easter-egg="party"] .el-button--primary {
+  animation: party-border-glow 2s linear infinite !important;
+}
+@keyframes party-border-glow {
+  0%   { box-shadow: 0 0 8px #ff0000, 0 0 16px #ff000066; }
+  17%  { box-shadow: 0 0 8px #ff8800, 0 0 16px #ff880066; }
+  33%  { box-shadow: 0 0 8px #ffff00, 0 0 16px #ffff0066; }
+  50%  { box-shadow: 0 0 8px #00ff00, 0 0 16px #00ff0066; }
+  67%  { box-shadow: 0 0 8px #0088ff, 0 0 16px #0088ff66; }
+  83%  { box-shadow: 0 0 8px #8800ff, 0 0 16px #8800ff66; }
+  100% { box-shadow: 0 0 8px #ff00ff, 0 0 16px #ff00ff66; }
+}
+
+/* 文本区域霓虹边框 */
+[data-easter-egg="party"] .input .el-textarea__inner {
+  animation: party-border-rainbow 3s linear infinite !important;
+  border-width: 2px !important;
+}
+
+/* 配置栏边框流动 */
+[data-easter-egg="party"] .config_bar {
+  animation: party-border-rainbow 3s linear infinite !important;
+}
+
+/* 卡片边框发光 */
+[data-easter-egg="party"] .style_card {
+  animation: party-border-glow 2s linear infinite !important;
+}
+
+@keyframes party-border-rainbow {
+  0%   { border-color: #ff0000; box-shadow: 0 0 6px #ff000033, inset 0 0 6px #ff000011; }
+  17%  { border-color: #ff8800; box-shadow: 0 0 6px #ff880033, inset 0 0 6px #ff880011; }
+  33%  { border-color: #ffff00; box-shadow: 0 0 6px #ffff0033, inset 0 0 6px #ffff0011; }
+  50%  { border-color: #00ff00; box-shadow: 0 0 6px #00ff0033, inset 0 0 6px #00ff0011; }
+  67%  { border-color: #0088ff; box-shadow: 0 0 6px #0088ff33, inset 0 0 6px #0088ff11; }
+  83%  { border-color: #8800ff; box-shadow: 0 0 6px #8800ff33, inset 0 0 6px #8800ff11; }
+  100% { border-color: #ff00ff; box-shadow: 0 0 6px #ff00ff33, inset 0 0 6px #ff00ff11; }
+}
+
+/* 底部文字闪烁 */
+[data-easter-egg="party"] .footer_text {
+  animation: party-text-glow 1.5s ease-in-out infinite !important;
+  opacity: 0.6 !important;
+}
+[data-easter-egg="party"] .footer_link {
+  animation: party-text-glow 1.5s ease-in-out 0.3s infinite !important;
+  opacity: 0.6 !important;
+}
+@keyframes party-text-glow {
+  0%, 100% { color: #ff00ff; }
+  25%  { color: #00ffff; }
+  50%  { color: #ff8800; }
+  75%  { color: #00ff88; }
+}
+
+/* 标题/标签微微跳动 */
+[data-easter-egg="party"] .config_label {
+  animation: party-bounce 0.6s ease-in-out infinite;
+}
+[data-easter-egg="party"] .section_label {
+  animation: party-bounce 0.6s ease-in-out 0.2s infinite;
+}
+@keyframes party-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+/* 预设卡片闪烁 */
+[data-easter-egg="party"] .preset_item.is-active {
+  animation: party-active-pulse 1.5s ease-in-out infinite !important;
+}
+@keyframes party-active-pulse {
+  0%, 100% { box-shadow: 0 0 4px var(--el-color-primary); }
+  50% { box-shadow: 0 0 16px var(--el-color-primary), 0 0 32px var(--el-color-primary); }
+}

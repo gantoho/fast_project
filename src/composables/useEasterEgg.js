@@ -1,0 +1,103 @@
+import { onMounted, onUnmounted, ref } from 'vue'
+
+// Konami Code: ↑ ↑ ↓ ↓ ← → ← → B A
+const KONAMI_CODE = [
+  'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+  'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+  'KeyB', 'KeyA'
+]
+
+export function useEasterEgg() {
+  const isPartyMode = ref(false)
+  const keySequence = ref([])
+  const footerClicks = ref(0)
+  let footerClickTimer = null
+
+  // ===== 1. 控制台欢迎彩蛋 =====
+  const printConsoleEgg = () => {
+    console.log(
+      '%c  ⚡ Fast Project — 快速批量打开网站 ⚡\n' +
+      '%c  如果你看到了这条消息，说明你在探索… 👀\n' +
+      '%c  试试键盘上的 ↑↑↓↓←→←→BA 吧 ~\n',
+      'color: #22c55e; font-size: 15px; font-weight: bold;',
+      'color: #888; font-size: 12px;',
+      'color: #aaa; font-size: 11px; font-style: italic;'
+    )
+  }
+
+  // ===== 2. Konami Code 检测 =====
+  const handleKeydown = (e) => {
+    // 不干扰输入框中的正常打字
+    const tag = e.target.tagName
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) {
+      return
+    }
+
+    keySequence.value.push(e.code)
+    if (keySequence.value.length > KONAMI_CODE.length) {
+      keySequence.value = keySequence.value.slice(-KONAMI_CODE.length)
+    }
+
+    if (
+      keySequence.value.length === KONAMI_CODE.length &&
+      keySequence.value.every((k, i) => k === KONAMI_CODE[i])
+    ) {
+      activatePartyMode()
+      keySequence.value = []
+    }
+  }
+
+  // ===== 3. 底部文字连击 =====
+  const handleFooterClick = () => {
+    footerClicks.value++
+    clearTimeout(footerClickTimer)
+    footerClickTimer = setTimeout(() => {
+      footerClicks.value = 0
+    }, 800)
+
+    if (footerClicks.value >= 5) {
+      activatePartyMode()
+      footerClicks.value = 0
+    }
+  }
+
+  // ===== 派对模式 =====
+  const activatePartyMode = () => {
+    if (isPartyMode.value) {
+      document.documentElement.removeAttribute('data-easter-egg')
+      isPartyMode.value = false
+      console.log('%c🎬 霓虹派对已关闭', 'color: #888;')
+      return
+    }
+
+    document.documentElement.setAttribute('data-easter-egg', 'party')
+    isPartyMode.value = true
+
+    console.log(
+      '%c 🎉 恭喜！你发现了隐藏彩蛋 — 霓虹派对模式！🎉\n' +
+      '%c 再次触发可关闭',
+      'color: #ff00ff; font-size: 16px; font-weight: bold;',
+      'color: #888; font-size: 12px;'
+    )
+  }
+
+  onMounted(() => {
+    printConsoleEgg()
+    window.addEventListener('keydown', handleKeydown)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeydown)
+    clearTimeout(footerClickTimer)
+  })
+
+  return {
+    isPartyMode,
+    handleFooterClick,
+    activatePartyMode,
+    partyOff: () => {
+      document.documentElement.removeAttribute('data-easter-egg')
+      isPartyMode.value = false
+    }
+  }
+}

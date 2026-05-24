@@ -1,9 +1,13 @@
 <template>
     <div class="footer">
-        <span class="footer_text">快速批量打开网站 &mdash;</span>
+        <span class="footer_text" @click="$emit('clickFooter')">快速批量打开网站 &mdash;</span>
         <a href="https://github.com/gantoho/fast_project" target="_blank" class="footer_link">GitHub</a>
     </div>
 </template>
+
+<script setup>
+defineEmits(['clickFooter'])
+</script>
 
 <style lang='scss' scoped>
 .footer{

@@ -8,6 +8,7 @@
 @import url('./themes/cyberpunk.css');
 @import url('./themes/retro.css');
 @import url('./themes/skeuomorphic.css');
+@import url('./themes/easter-egg.css');
 
 *{
   margin: 0;
@@ -23,6 +24,7 @@ body, html{
   display: flex;
   justify-content: center;
   padding: 60px 20px;
+  min-height: 100vh;
 }
 
 :root:root {
