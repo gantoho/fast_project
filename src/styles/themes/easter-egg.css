@@ -1,101 +1,506 @@
 /* ===== 霓虹派对彩蛋 ===== */
 /* 通过 Konami Code 或连击底部文字触发 */
+/* 越乱越疯狂越好！所有组件一个不落 */
 
-/* 全局彩虹流光背景 */
-[data-easter-egg="party"] {
-  --party-speed: 3s;
+/* ---- 全局彩虹流光遮罩 ---- */
+[data-easter-egg="party"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  animation: party-overlay 2s linear infinite;
+}
+@keyframes party-overlay {
+  0%   { background: linear-gradient(45deg, rgba(255,0,50,0.1), rgba(0,255,100,0.1), rgba(0,50,255,0.1)); }
+  33%  { background: linear-gradient(225deg, rgba(0,255,100,0.1), rgba(255,0,200,0.1), rgba(255,200,0,0.1)); }
+  66%  { background: linear-gradient(135deg, rgba(255,0,200,0.1), rgba(0,200,255,0.1), rgba(255,50,0,0.1)); }
+  100% { background: linear-gradient(45deg, rgba(255,0,50,0.1), rgba(0,255,100,0.1), rgba(0,50,255,0.1)); }
 }
 
-[data-easter-egg="party"] body {
-  animation: party-rainbow-bg 6s linear infinite;
+/* ================================================================ */
+/* 通用：所有模块边框 + 小部件微抖                                   */
+/* ================================================================ */
+[data-easter-egg="party"] .step_module,
+[data-easter-egg="party"] .sub_path_module {
+  animation: party-module-shake 0.18s linear infinite;
 }
-[data-easter-egg="party"] #app {
-  animation: party-rainbow-bg 6s linear infinite;
+[data-easter-egg="party"] .sub_path_module { animation-delay: 0.06s; }
+
+@keyframes party-module-shake {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(-1px, 0.5px) rotate(-0.15deg); }
+  50%  { transform: translate(1px, -0.5px) rotate(0.1deg); }
+  75%  { transform: translate(-0.5px, -0.8px) rotate(-0.05deg); }
+  100% { transform: translate(0.8px, 0.3px) rotate(0.15deg); }
 }
 
-@keyframes party-rainbow-bg {
-  0%   { background: linear-gradient(135deg, #ff000033, #ff880033); }
-  17%  { background: linear-gradient(135deg, #ff880033, #ffff0033); }
-  33%  { background: linear-gradient(135deg, #ffff0033, #00ff0033); }
-  50%  { background: linear-gradient(135deg, #00ff0033, #0088ff33); }
-  67%  { background: linear-gradient(135deg, #0088ff33, #8800ff33); }
-  83%  { background: linear-gradient(135deg, #8800ff33, #ff00ff33); }
-  100% { background: linear-gradient(135deg, #ff00ff33, #ff000033); }
+/* ---- 小型容器微抖 ---- */
+[data-easter-egg="party"] .preset_item,
+[data-easter-egg="party"] .config_bar,
+[data-easter-egg="party"] .sub_path_item,
+[data-easter-egg="party"] .query_item,
+[data-easter-egg="party"] .step_url_box,
+[data-easter-egg="party"] .step_tag,
+[data-easter-egg="party"] .preset_tag,
+[data-easter-egg="party"] .btn_box,
+[data-easter-egg="party"] .query_add_row,
+[data-easter-egg="party"] .sub_path_custom_add {
+  animation: party-shake 0.15s linear infinite;
+}
+@keyframes party-shake {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-1px, 0.5px); }
+  50%  { transform: translate(1px, -0.5px); }
+  75%  { transform: translate(-0.5px, -1px); }
+  100% { transform: translate(0.5px, 1px); }
 }
 
-/* 按钮流光动画 */
+/* ================================================================ */
+/* 按钮组：主按钮 + 危险按钮 + 普通按钮 + 管理按钮                    */
+/* ================================================================ */
+
+/* ---- 主按钮狂暴彩虹 ---- */
 [data-easter-egg="party"] .el-button--primary {
-  animation: party-border-glow 2s linear infinite !important;
+  animation: party-btn-mad 0.5s steps(1) infinite !important;
+  transition: none !important;
 }
-@keyframes party-border-glow {
-  0%   { box-shadow: 0 0 8px #ff0000, 0 0 16px #ff000066; }
-  17%  { box-shadow: 0 0 8px #ff8800, 0 0 16px #ff880066; }
-  33%  { box-shadow: 0 0 8px #ffff00, 0 0 16px #ffff0066; }
-  50%  { box-shadow: 0 0 8px #00ff00, 0 0 16px #00ff0066; }
-  67%  { box-shadow: 0 0 8px #0088ff, 0 0 16px #0088ff66; }
-  83%  { box-shadow: 0 0 8px #8800ff, 0 0 16px #8800ff66; }
-  100% { box-shadow: 0 0 8px #ff00ff, 0 0 16px #ff00ff66; }
+@keyframes party-btn-mad {
+  0%   { background: #ff0000; color: #ffff00; transform: rotate(1deg) scale(1.03); }
+  10%  { background: #ff6600; color: #00ffff; transform: rotate(-1.5deg) scale(1.05); }
+  20%  { background: #ffdd00; color: #0000ff; transform: rotate(0.5deg) scale(0.97); }
+  30%  { background: #33cc00; color: #ff00ff; transform: rotate(-2deg) scale(1.04); }
+  40%  { background: #00cc88; color: #ff0000; transform: rotate(1.5deg) scale(1.02); }
+  50%  { background: #00aaff; color: #ffff00; transform: rotate(-0.5deg) scale(0.96); }
+  60%  { background: #4400ff; color: #00ff88; transform: rotate(2deg) scale(1.06); }
+  70%  { background: #cc00ff; color: #00ff00; transform: rotate(-1deg) scale(1.01); }
+  80%  { background: #ff0088; color: #88ff00; transform: rotate(0.8deg) scale(0.98); }
+  90%  { background: #ff0044; color: #00aaff; transform: rotate(-1.8deg) scale(1.05); }
+  100% { background: #ff0000; color: #ffff00; transform: rotate(1.2deg) scale(1.03); }
 }
 
-/* 文本区域霓虹边框 */
+/* ---- 危险按钮闪光 ---- */
+[data-easter-egg="party"] .el-button--danger {
+  animation: party-danger-pulse 0.6s ease-in-out infinite alternate !important;
+}
+@keyframes party-danger-pulse {
+  from { background: #ff2222; transform: scale(1); }
+  to   { background: #ff00cc; transform: scale(1.1); }
+}
+
+/* ---- 所有 text 按钮（管理/完成/预览等）七彩闪烁 ---- */
+[data-easter-egg="party"] .manage_btn,
+[data-easter-egg="party"] .preview_btn,
+[data-easter-egg="party"] .step_reset_btn,
+[data-easter-egg="party"] .data_btn {
+  animation: party-text-btn-color 1s steps(1) infinite !important;
+}
+[data-easter-egg="party"] .done_btn {
+  animation: party-text-btn-color 0.8s steps(1) 0.2s infinite !important;
+}
+[data-easter-egg="party"] .io_btn {
+  animation: party-text-btn-color 0.9s steps(1) 0.4s infinite !important;
+}
+@keyframes party-text-btn-color {
+  0%   { color: #ff0066 !important; }
+  16%  { color: #ff8800 !important; }
+  33%  { color: #ccff00 !important; }
+  50%  { color: #00dd44 !important; }
+  66%  { color: #00aaff !important; }
+  83%  { color: #cc00ff !important; }
+  100% { color: #ff0066 !important; }
+}
+
+/* ---- 主题触发按钮旋转 ---- */
+[data-easter-egg="party"] .theme_trigger {
+  animation: party-trigger-spin 1.5s linear infinite !important;
+}
+@keyframes party-trigger-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  40%  { transform: rotate(15deg) scale(1.08); }
+  70%  { transform: rotate(-12deg) scale(1.05); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* ================================================================ */
+/* 输入框与文本区域                                                 */
+/* ================================================================ */
+
+/* ---- 主文本域 ---- */
 [data-easter-egg="party"] .input .el-textarea__inner {
-  animation: party-border-rainbow 3s linear infinite !important;
-  border-width: 2px !important;
+  animation: party-input-shake 0.3s linear infinite !important;
+}
+@keyframes party-input-shake {
+  0%   { outline: 3px dashed #ff0044; }
+  25%  { outline: 3px dashed #ffaa00; }
+  50%  { outline: 3px dashed #00ff44; }
+  75%  { outline: 3px dashed #ff00aa; }
+  100% { outline: 3px dashed #ff0044; }
 }
 
-/* 配置栏边框流动 */
+/* ---- 所有 el-input 七彩边框 ---- */
+[data-easter-egg="party"] .sub_path_input .el-input__wrapper,
+[data-easter-egg="party"] .sub_path_custom_input .el-input__wrapper,
+[data-easter-egg="party"] .query_label_input .el-input__wrapper,
+[data-easter-egg="party"] .query_value_input .el-input__wrapper,
+[data-easter-egg="party"] .preset_save_input .el-input__wrapper {
+  animation: party-input-border 1.5s linear infinite !important;
+  box-shadow: none !important;
+}
+@keyframes party-input-border {
+  0%   { outline: 2px solid #ff0044; }
+  20%  { outline: 2px solid #ffaa00; }
+  40%  { outline: 2px solid #00ff44; }
+  60%  { outline: 2px solid #0088ff; }
+  80%  { outline: 2px solid #cc00ff; }
+  100% { outline: 2px solid #ff0044; }
+}
+
+/* ---- 数字输入框跳 + 变色 ---- */
+[data-easter-egg="party"] .el-input-number .el-input__wrapper {
+  animation: party-input-jump 0.5s ease-in-out infinite alternate !important;
+}
+@keyframes party-input-jump {
+  from { transform: translateY(-1px); outline: 2px solid #ff00aa; }
+  to   { transform: translateY(1px); outline: 2px solid #00aaff; }
+}
+
+/* ================================================================ */
+/* 配置栏                                                           */
+/* ================================================================ */
+
+/* ---- 配置栏旋转 + 彩虹虚线光晕 ---- */
 [data-easter-egg="party"] .config_bar {
-  animation: party-border-rainbow 3s linear infinite !important;
+  animation: party-config-wild 0.6s linear infinite !important;
+}
+@keyframes party-config-wild {
+  0%   { outline: 3px dotted #ff0000; transform: rotate(0.3deg); }
+  20%  { outline: 3px dotted #ffaa00; transform: rotate(-0.3deg); }
+  40%  { outline: 3px dotted #00ff00; transform: rotate(0.2deg); }
+  60%  { outline: 3px dotted #00aaff; transform: rotate(-0.4deg); }
+  80%  { outline: 3px dotted #cc00ff; transform: rotate(0.1deg); }
+  100% { outline: 3px dotted #ff0000; transform: rotate(0.3deg); }
 }
 
-/* 卡片边框发光 */
-[data-easter-egg="party"] .style_card {
-  animation: party-border-glow 2s linear infinite !important;
+/* ---- 配置分隔线 + 单位文字闪 ---- */
+[data-easter-egg="party"] .config_sep {
+  animation: party-sep-blink 0.5s steps(1) infinite !important;
+}
+@keyframes party-sep-blink {
+  0%   { background-color: #ff0000; }
+  25%  { background-color: #00ff44; }
+  50%  { background-color: #0088ff; }
+  75%  { background-color: #cc00ff; }
+  100% { background-color: #ff0000; }
+}
+[data-easter-egg="party"] .config_sep_text,
+[data-easter-egg="party"] .config_unit {
+  animation: party-footer-crazy 0.8s steps(1) infinite !important;
 }
 
-@keyframes party-border-rainbow {
-  0%   { border-color: #ff0000; box-shadow: 0 0 6px #ff000033, inset 0 0 6px #ff000011; }
-  17%  { border-color: #ff8800; box-shadow: 0 0 6px #ff880033, inset 0 0 6px #ff880011; }
-  33%  { border-color: #ffff00; box-shadow: 0 0 6px #ffff0033, inset 0 0 6px #ffff0011; }
-  50%  { border-color: #00ff00; box-shadow: 0 0 6px #00ff0033, inset 0 0 6px #00ff0011; }
-  67%  { border-color: #0088ff; box-shadow: 0 0 6px #0088ff33, inset 0 0 6px #0088ff11; }
-  83%  { border-color: #8800ff; box-shadow: 0 0 6px #8800ff33, inset 0 0 6px #8800ff11; }
-  100% { border-color: #ff00ff; box-shadow: 0 0 6px #ff00ff33, inset 0 0 6px #ff00ff11; }
+/* ================================================================ */
+/* 标签、标题、说明文字                                             */
+/* ================================================================ */
+
+/* ---- 标签跳 ---- */
+[data-easter-egg="party"] .config_label,
+[data-easter-egg="party"] .preset_name,
+[data-easter-egg="party"] .step_label,
+[data-easter-egg="party"] .step_control_label,
+[data-easter-egg="party"] .step_control_unit,
+[data-easter-egg="party"] .sub_path_label,
+[data-easter-egg="party"] .sub_path_custom_title,
+[data-easter-egg="party"] .query_label,
+[data-easter-egg="party"] .preset_title {
+  animation: party-label-frenzy 0.35s ease-in-out infinite alternate !important;
+  display: inline-block !important;
+}
+@keyframes party-label-frenzy {
+  0%   { transform: translateY(0) rotate(-3deg); }
+  50%  { transform: translateY(-4px) rotate(3deg); }
+  100% { transform: translateY(1px) rotate(-2deg); }
 }
 
-/* 底部文字闪烁 */
-[data-easter-egg="party"] .footer_text {
-  animation: party-text-glow 1.5s ease-in-out infinite !important;
-  opacity: 0.6 !important;
+/* ---- 标题跳动 ---- */
+[data-easter-egg="party"] h1,
+[data-easter-egg="party"] h2,
+[data-easter-egg="party"] h3 {
+  animation: party-title-jump 0.5s ease-in-out infinite !important;
+}
+@keyframes party-title-jump {
+  0%   { transform: translateY(0) rotate(-1deg); color: #ff0066; }
+  33%  { transform: translateY(-3px) rotate(1deg); color: #00aaff; }
+  66%  { transform: translateY(-1px) rotate(-0.5deg); color: #cc00ff; }
+  100% { transform: translateY(0) rotate(-1deg); color: #ff0066; }
+}
+
+/* ---- 主页副标题 ---- */
+[data-easter-egg="party"] .main-text p {
+  animation: party-subtitle-bounce 0.6s ease-in-out infinite alternate !important;
+}
+@keyframes party-subtitle-bounce {
+  from { transform: scale(1); color: #ff6600; }
+  to   { transform: scale(1.05); color: #00ff88; }
+}
+
+/* ---- 管理模式提示文字 ---- */
+[data-easter-egg="party"] .manage_mode_hint {
+  animation: party-footer-crazy 0.8s steps(1) infinite !important;
+}
+
+/* ================================================================ */
+/* 预设卡片                                                         */
+/* ================================================================ */
+
+/* ---- 预设卡片随机乱抖 + 七彩外框 ---- */
+[data-easter-egg="party"] .preset_item {
+  animation: party-card-chaos 0.7s ease-in-out infinite alternate !important;
+}
+[data-easter-egg="party"] .preset_item:nth-child(odd)  { animation-delay: 0s !important; }
+[data-easter-egg="party"] .preset_item:nth-child(even) { animation-delay: 0.35s !important; }
+@keyframes party-card-chaos {
+  0%   { transform: rotate(-1.5deg) scale(1); }
+  50%  { transform: rotate(1.5deg) scale(1.04); }
+  100% { transform: rotate(0deg) scale(0.96); }
+}
+
+/* ---- 预设标签外框闪烁 ---- */
+[data-easter-egg="party"] .preset_tag_wrapper {
+  animation: party-preset-outline 1.5s linear infinite !important;
+  border-color: #ff0044 !important;
+}
+[data-easter-egg="party"] .preset_tag_wrapper:nth-child(odd)  { animation-delay: 0s !important; }
+[data-easter-egg="party"] .preset_tag_wrapper:nth-child(even) { animation-delay: 0.7s !important; }
+@keyframes party-preset-outline {
+  0%   { outline: 2px solid #ff0044; }
+  25%  { outline: 2px solid #ffaa00; }
+  50%  { outline: 2px solid #00ff44; }
+  75%  { outline: 2px solid #cc00ff; }
+  100% { outline: 2px solid #ff0044; }
+}
+
+/* ---- 预设 tag 内编辑/删除按钮 ---- */
+[data-easter-egg="party"] .tag_action_btn {
+  animation: party-tag-btn-spin 1s ease-in-out infinite !important;
+}
+@keyframes party-tag-btn-spin {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(10deg); }
+  75%  { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* ================================================================ */
+/* 子路径 / Query                                                   */
+/* ================================================================ */
+
+/* ---- 子路径项乱摆 + 七彩描边 ---- */
+[data-easter-egg="party"] .sub_path_item {
+  animation: party-path-wobble 1.2s ease-in-out infinite alternate !important;
+}
+@keyframes party-path-wobble {
+  0%   { transform: rotate(-0.5deg) translateX(-2px); outline: 2px dashed #ff44aa; }
+  100% { transform: rotate(0.5deg) translateX(2px); outline: 2px dashed #44ffaa; }
+}
+
+/* ---- Query 项 ---- */
+[data-easter-egg="party"] .query_item {
+  animation: party-path-wobble 1.05s ease-in-out 0.3s infinite alternate !important;
+}
+
+/* ---- Query / 子路径 管理图标 ---- */
+[data-easter-egg="party"] .action-trigger {
+  animation: party-icon-color 0.6s steps(1) infinite !important;
+}
+@keyframes party-icon-color {
+  0%   { color: #ff0066; }
+  25%  { color: #ffaa00; }
+  50%  { color: #00ff44; }
+  75%  { color: #00aaff; }
+  100% { color: #ff0066; }
+}
+
+/* ================================================================ */
+/* 逐个打开 StepNav 模块                                            */
+/* ================================================================ */
+
+/* ---- step_tag 数字标签蹦跳 ---- */
+[data-easter-egg="party"] .step_tag {
+  animation: party-step-tag-pop 0.5s ease-in-out infinite alternate !important;
+}
+@keyframes party-step-tag-pop {
+  from { transform: translateY(0) scale(1); }
+  to   { transform: translateY(-3px) scale(1.08); }
+}
+
+/* ---- step URL 展示区彩虹边框 ---- */
+[data-easter-egg="party"] .step_url_box {
+  animation: party-url-box-border 1.5s linear infinite !important;
+}
+@keyframes party-url-box-border {
+  0%   { border-color: #ff0044; }
+  20%  { border-color: #ffaa00; }
+  40%  { border-color: #00ff44; }
+  60%  { border-color: #0088ff; }
+  80%  { border-color: #cc00ff; }
+  100% { border-color: #ff0044; }
+}
+
+/* ---- step URL 文字 ---- */
+[data-easter-egg="party"] .step_url_item {
+  animation: party-footer-crazy 1s steps(1) 0.3s infinite !important;
+}
+
+/* ---- step 空状态文字 ---- */
+[data-easter-egg="party"] .step_tags_empty,
+[data-easter-egg="party"] .step_url_empty,
+[data-easter-egg="party"] .sub_path_custom_empty {
+  animation: party-footer-crazy 0.8s steps(1) infinite !important;
+}
+
+/* ================================================================ */
+/* ActionBar：打开链接 / 预览                                       */
+/* ================================================================ */
+
+/* ---- 预览弹窗 header ---- */
+[data-easter-egg="party"] .preview_header {
+  animation: party-footer-crazy 1s steps(1) 0.1s infinite !important;
+}
+
+/* ---- 预览项 ---- */
+[data-easter-egg="party"] .preview_item {
+  animation: party-preview-shift 0.8s ease-in-out infinite alternate !important;
+}
+[data-easter-egg="party"] .preview_item:nth-child(odd)  { animation-delay: 0s !important; }
+[data-easter-egg="party"] .preview_item:nth-child(even) { animation-delay: 0.4s !important; }
+@keyframes party-preview-shift {
+  0%   { transform: translateX(-2px); }
+  100% { transform: translateX(2px); }
+}
+
+/* ---- 预览序号 ---- */
+[data-easter-egg="party"] .preview_idx {
+  animation: party-footer-crazy 0.5s steps(1) infinite !important;
+}
+
+/* ---- 快捷键提示 ---- */
+[data-easter-egg="party"] .shortcut-hint {
+  animation: party-footer-crazy 0.7s steps(1) infinite !important;
+}
+
+/* ---- 打开链接按钮内的批量信息 ---- */
+[data-easter-egg="party"] .btn_box .el-button--primary {
+  animation: party-btn-mad 0.5s steps(1) infinite !important;
+}
+
+/* ================================================================ */
+/* 底部 Footer                                                      */
+/* ================================================================ */
+
+[data-easter-egg="party"] .footer_text,
+[data-easter-egg="party"] .footer_link {
+  animation: party-footer-crazy 0.8s steps(1) infinite !important;
+  opacity: 0.8 !important;
 }
 [data-easter-egg="party"] .footer_link {
-  animation: party-text-glow 1.5s ease-in-out 0.3s infinite !important;
-  opacity: 0.6 !important;
-}
-@keyframes party-text-glow {
-  0%, 100% { color: #ff00ff; }
-  25%  { color: #00ffff; }
-  50%  { color: #ff8800; }
-  75%  { color: #00ff88; }
+  animation-delay: 0.3s !important;
 }
 
-/* 标题/标签微微跳动 */
-[data-easter-egg="party"] .config_label {
-  animation: party-bounce 0.6s ease-in-out infinite;
+/* ---- 底部通用七彩关键帧 ---- */
+@keyframes party-footer-crazy {
+  0%   { color: #ff0000; }
+  14%  { color: #ff8800; }
+  28%  { color: #ccff00; }
+  42%  { color: #00ff44; }
+  57%  { color: #00ccff; }
+  71%  { color: #8844ff; }
+  85%  { color: #ff00cc; }
+  100% { color: #ff0044; }
 }
+
+/* ================================================================ */
+/* 主题面板 popover 内容                                            */
+/* ================================================================ */
+
+/* ---- 面板小标题 ---- */
 [data-easter-egg="party"] .section_label {
-  animation: party-bounce 0.6s ease-in-out 0.2s infinite;
-}
-@keyframes party-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
+  animation: party-footer-crazy 1.2s steps(1) infinite !important;
 }
 
-/* 预设卡片闪烁 */
-[data-easter-egg="party"] .preset_item.is-active {
-  animation: party-active-pulse 1.5s ease-in-out infinite !important;
+/* ---- 风格卡片 ---- */
+[data-easter-egg="party"] .style_card {
+  animation: party-card-chaos 0.9s ease-in-out infinite alternate !important;
 }
-@keyframes party-active-pulse {
-  0%, 100% { box-shadow: 0 0 4px var(--el-color-primary); }
-  50% { box-shadow: 0 0 16px var(--el-color-primary), 0 0 32px var(--el-color-primary); }
+[data-easter-egg="party"] .style_card:nth-child(odd)  { animation-delay: 0s !important; }
+[data-easter-egg="party"] .style_card:nth-child(even) { animation-delay: 0.3s !important; }
+
+/* ---- 主题模式标签 ---- */
+[data-easter-egg="party"] .mode_label {
+  animation: party-footer-crazy 0.7s steps(1) infinite !important;
+}
+
+/* ---- 风格徽章 ---- */
+[data-easter-egg="party"] .style_badge {
+  animation: party-badge-pop 0.6s ease-in-out infinite alternate !important;
+}
+@keyframes party-badge-pop {
+  from { transform: scale(1); }
+  to   { transform: scale(1.1); }
+}
+
+/* ---- 数据按钮 ---- */
+[data-easter-egg="party"] .data_btn {
+  animation: party-text-btn-color 0.9s steps(1) infinite !important;
+}
+
+/* ================================================================ */
+/* 对话框                                                           */
+/* ================================================================ */
+
+[data-easter-egg="party"] .el-dialog {
+  animation: party-dialog-shake 0.25s linear infinite !important;
+}
+@keyframes party-dialog-shake {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2px, 1px); }
+  50%  { transform: translate(2px, -1px); }
+  75%  { transform: translate(-1px, -2px); }
+  100% { transform: translate(1px, 2px); }
+}
+
+[data-easter-egg="party"] .el-dialog .el-form-item__label {
+  animation: party-footer-crazy 0.6s steps(1) infinite !important;
+}
+
+/* ---- Switch 开关晃动 ---- */
+[data-easter-egg="party"] .el-switch {
+  animation: party-switch-wobble 0.4s ease-in-out infinite alternate !important;
+}
+@keyframes party-switch-wobble {
+  from { transform: rotate(-2deg); }
+  to   { transform: rotate(2deg); }
+}
+
+/* ================================================================ */
+/* Emoji Rain 容器                                                  */
+/* ================================================================ */
+
+.emoji_rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+.emoji_rain_drop {
+  position: absolute;
+  top: -60px;
+  font-size: 28px;
+  animation: emoji-drop linear infinite;
+  user-select: none;
+}
+@keyframes emoji-drop {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translateY(105vh) rotate(720deg) scale(0.3); opacity: 0; }
 }

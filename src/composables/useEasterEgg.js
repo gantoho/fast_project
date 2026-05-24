@@ -7,6 +7,52 @@ const KONAMI_CODE = [
   'KeyB', 'KeyA'
 ]
 
+const PARTY_EMOJIS = [
+  '🎉', '✨', '🌟', '💫', '🎊', '🎈', '🎀', '🎵',
+  '🔥', '💥', '🌈', '🦄', '🍕', '💎', '⚡', '🕺',
+  '💃', '🎸', '🎹', '🥁', '👾', '🤖', '👽', '🛸',
+  '⭐', '🌙', '☀️', '🌸', '🍀', '💖', '🎯', '🏆'
+]
+
+let rainContainer = null
+
+function createEmojiRain() {
+  if (rainContainer) return
+
+  rainContainer = document.createElement('div')
+  rainContainer.className = 'emoji_rain'
+
+  for (let i = 0; i < 36; i++) {
+    const drop = document.createElement('span')
+    drop.className = 'emoji_rain_drop'
+    drop.textContent = PARTY_EMOJIS[Math.floor(Math.random() * PARTY_EMOJIS.length)]
+
+    const size = 18 + Math.random() * 30
+    const left = Math.random() * 100
+    const duration = 2.5 + Math.random() * 4.5
+    const delay = Math.random() * 5
+    const wobble = (Math.random() - 0.5) * 80
+
+    drop.style.cssText = `
+      left: ${left}%;
+      font-size: ${size}px;
+      animation-duration: ${duration}s;
+      animation-delay: ${delay}s;
+      --wobble: ${wobble}px;
+    `
+    rainContainer.appendChild(drop)
+  }
+
+  document.body.appendChild(rainContainer)
+}
+
+function removeEmojiRain() {
+  if (rainContainer) {
+    rainContainer.remove()
+    rainContainer = null
+  }
+}
+
 export function useEasterEgg() {
   const isPartyMode = ref(false)
   const keySequence = ref([])
@@ -27,7 +73,6 @@ export function useEasterEgg() {
 
   // ===== 2. Konami Code 检测 =====
   const handleKeydown = (e) => {
-    // 不干扰输入框中的正常打字
     const tag = e.target.tagName
     if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) {
       return
@@ -65,12 +110,14 @@ export function useEasterEgg() {
   const activatePartyMode = () => {
     if (isPartyMode.value) {
       document.documentElement.removeAttribute('data-easter-egg')
+      removeEmojiRain()
       isPartyMode.value = false
       console.log('%c🎬 霓虹派对已关闭', 'color: #888;')
       return
     }
 
     document.documentElement.setAttribute('data-easter-egg', 'party')
+    createEmojiRain()
     isPartyMode.value = true
 
     console.log(
@@ -88,6 +135,7 @@ export function useEasterEgg() {
 
   onUnmounted(() => {
     window.removeEventListener('keydown', handleKeydown)
+    removeEmojiRain()
     clearTimeout(footerClickTimer)
   })
 
@@ -97,6 +145,7 @@ export function useEasterEgg() {
     activatePartyMode,
     partyOff: () => {
       document.documentElement.removeAttribute('data-easter-egg')
+      removeEmojiRain()
       isPartyMode.value = false
     }
   }
