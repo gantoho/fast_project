@@ -43,6 +43,7 @@
 [data-easter-egg="party"] .step_url_box,
 [data-easter-egg="party"] .step_tag,
 [data-easter-egg="party"] .preset_tag,
+[data-easter-egg="party"] .preset_tag_wrapper,
 [data-easter-egg="party"] .btn_box,
 [data-easter-egg="party"] .query_add_row,
 [data-easter-egg="party"] .sub_path_custom_add {
@@ -416,6 +417,34 @@
   71%  { color: #8844ff; }
   85%  { color: #ff00cc; }
   100% { color: #ff0044; }
+}
+
+/* ================================================================ */
+/* 拖拽排序                                                         */
+/* ================================================================ */
+
+[data-easter-egg="party"] .sub_path_item.is-drag-over,
+[data-easter-egg="party"] .preset_tag_wrapper.is_drag_over {
+  animation: party-drag-glow 0.3s linear infinite !important;
+  border-width: 3px !important;
+  transform: scale(1.05) !important;
+}
+@keyframes party-drag-glow {
+  0%   { border-color: #ff0044; box-shadow: 0 0 0 3px rgba(255, 0, 68, 0.5), 0 0 20px rgba(255, 0, 68, 0.3); }
+  25%  { border-color: #ffaa00; box-shadow: 0 0 0 3px rgba(255, 170, 0, 0.5), 0 0 20px rgba(255, 170, 0, 0.3); }
+  50%  { border-color: #00ff44; box-shadow: 0 0 0 3px rgba(0, 255, 68, 0.5), 0 0 20px rgba(0, 255, 68, 0.3); }
+  75%  { border-color: #0088ff; box-shadow: 0 0 0 3px rgba(0, 136, 255, 0.5), 0 0 20px rgba(0, 136, 255, 0.3); }
+  100% { border-color: #ff0044; box-shadow: 0 0 0 3px rgba(255, 0, 68, 0.5), 0 0 20px rgba(255, 0, 68, 0.3); }
+}
+
+[data-easter-egg="party"] .sub_path_item.is-dragging,
+[data-easter-egg="party"] .preset_tag_wrapper.is_dragging {
+  opacity: 0.5 !important;
+  animation: party-drag-source 0.5s ease-in-out infinite alternate !important;
+}
+@keyframes party-drag-source {
+  from { transform: rotate(-3deg) scale(0.95); }
+  to   { transform: rotate(3deg) scale(0.95); }
 }
 
 /* ================================================================ */

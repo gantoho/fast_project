@@ -122,6 +122,16 @@
   color: #fff !important;
   box-shadow: 0 2px 4px rgba(139, 94, 60, 0.2) !important;
 }
+[data-style="retro"]:not(.dark) .el-tag.el-tag--success.el-tag--plain {
+  background-color: rgba(201, 139, 74, 0.1) !important;
+  border-color: #c98b4a !important;
+  color: #8b5e3c !important;
+}
+[data-style="retro"].dark .el-tag.el-tag--success.el-tag--plain {
+  background-color: rgba(212, 169, 106, 0.1) !important;
+  border-color: #d4a96a !important;
+  color: #e8c88a !important;
+}
 [data-style="retro"] .el-tag__close {
   color: #8b5e3c !important;
 }
@@ -377,9 +387,36 @@
 
 /* 拖拽悬停 */
 [data-style="retro"] .sub_path_item.is-drag-over {
+  border: 2.5px solid #c98b4a !important;
+  background: rgba(201, 139, 74, 0.2) !important;
+  box-shadow:
+    0 0 0 3px rgba(201, 139, 74, 0.35),
+    0 4px 12px rgba(139, 94, 60, 0.2) !important;
+  transform: scale(1.03) !important;
+}
+[data-style="retro"] .sub_path_item.is-dragging {
+  opacity: 0.5 !important;
+  border-style: dashed !important;
   border-color: #c98b4a !important;
-  background: rgba(201, 139, 74, 0.12) !important;
-  box-shadow: 0 0 0 2px rgba(201, 139, 74, 0.2) !important;
+  background: rgba(201, 139, 74, 0.06) !important;
+  transform: rotate(-1.5deg) scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+[data-style="retro"] .preset_tag_wrapper.is_drag_over {
+  border: 2.5px solid #c98b4a !important;
+  background: rgba(201, 139, 74, 0.2) !important;
+  box-shadow:
+    0 0 0 3px rgba(201, 139, 74, 0.35),
+    0 4px 12px rgba(139, 94, 60, 0.2) !important;
+  transform: scale(1.03) !important;
+  border-radius: 8px !important;
+}
+[data-style="retro"] .preset_tag_wrapper.is_dragging {
+  opacity: 0.5 !important;
+  border-style: dashed !important;
+  border-color: #c98b4a !important;
+  transform: rotate(-1.5deg) scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* ========================================

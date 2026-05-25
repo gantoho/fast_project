@@ -161,6 +161,24 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
   color: #fff !important;
 }
+[data-style="skeuomorphic"]:not(.dark) .el-tag.el-tag--success.el-tag--plain {
+  background: linear-gradient(180deg, #eef4fc 0%, #dce8f8 100%) !important;
+  border: none !important;
+  box-shadow:
+    0 2px 4px rgba(91, 127, 219, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  border-radius: 8px !important;
+  color: #3a6eb8 !important;
+}
+[data-style="skeuomorphic"].dark .el-tag.el-tag--success.el-tag--plain {
+  background: linear-gradient(180deg, #1e3050 0%, #162840 100%) !important;
+  border: none !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px !important;
+  color: #7aaaf8 !important;
+}
 [data-style="skeuomorphic"] .el-tag__close {
   color: #5b7fdb !important;
 }
@@ -484,11 +502,37 @@
 
 /* 拖拽悬停 */
 [data-style="skeuomorphic"] .sub_path_item.is-drag-over {
-  border: 1px solid #5b7fdb !important;
-  background: linear-gradient(180deg, rgba(91, 127, 219, 0.12), rgba(91, 127, 219, 0.06)) !important;
+  border: 2.5px solid #5b7fdb !important;
+  background: linear-gradient(180deg, rgba(91, 127, 219, 0.18), rgba(91, 127, 219, 0.08)) !important;
   box-shadow:
-    0 0 0 2px rgba(91, 127, 219, 0.2),
+    0 0 0 3px rgba(91, 127, 219, 0.35),
+    0 4px 12px rgba(91, 127, 219, 0.2),
     0 2px 4px rgba(0, 0, 0, 0.06) !important;
+  transform: scale(1.03) !important;
+}
+[data-style="skeuomorphic"] .sub_path_item.is-dragging {
+  opacity: 0.5 !important;
+  border-style: dashed !important;
+  border-color: #5b7fdb !important;
+  background: linear-gradient(180deg, rgba(91, 127, 219, 0.06), rgba(91, 127, 219, 0.02)) !important;
+  transform: rotate(-1.5deg) scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+[data-style="skeuomorphic"] .preset_tag_wrapper.is_drag_over {
+  border: 2.5px solid #5b7fdb !important;
+  background: linear-gradient(180deg, rgba(91, 127, 219, 0.18), rgba(91, 127, 219, 0.08)) !important;
+  box-shadow:
+    0 0 0 3px rgba(91, 127, 219, 0.35),
+    0 4px 12px rgba(91, 127, 219, 0.2) !important;
+  transform: scale(1.03) !important;
+  border-radius: 8px !important;
+}
+[data-style="skeuomorphic"] .preset_tag_wrapper.is_dragging {
+  opacity: 0.5 !important;
+  border-style: dashed !important;
+  border-color: #5b7fdb !important;
+  transform: rotate(-1.5deg) scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* ========================================
