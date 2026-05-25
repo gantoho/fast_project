@@ -616,3 +616,58 @@
   font-weight: 800 !important;
   letter-spacing: 0.5px !important;
 }
+
+/* ========================================
+   预览弹窗复制全部按钮
+   ======================================== */
+[data-style="skeuomorphic"]:not(.dark) .copy_all_btn {
+  background: rgba(91, 127, 219, 0.1) !important;
+  border-radius: 4px !important;
+  color: #3b5ea8 !important;
+}
+[data-style="skeuomorphic"]:not(.dark) .copy_all_btn:hover {
+  background: rgba(91, 127, 219, 0.2) !important;
+  color: #2c4f8a !important;
+}
+[data-style="skeuomorphic"].dark .copy_all_btn {
+  color: #d8e4f8 !important;
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 4px !important;
+}
+[data-style="skeuomorphic"].dark .copy_all_btn:hover {
+  color: #e8ecf1 !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ========================================
+   主题面板弹出层
+   ======================================== */
+[data-style="skeuomorphic"].dark .section_label {
+  opacity: 0.6 !important;
+}
+[data-style="skeuomorphic"].dark .mode_label.is-active {
+  color: #8ab4f8 !important;
+}
+[data-style="skeuomorphic"].dark .style_card:hover {
+  background-color: rgba(91, 127, 219, 0.15) !important;
+}
+[data-style="skeuomorphic"].dark .style_card.is-active {
+  background-color: rgba(91, 127, 219, 0.28) !important;
+  outline-color: #5b7fdb !important;
+}
+[data-style="skeuomorphic"].dark .style_badge_dark,
+[data-style="skeuomorphic"].dark .style_badge_light {
+  background-color: rgba(91, 127, 219, 0.25) !important;
+  color: #a8c8ff !important;
+}
+[data-style="skeuomorphic"].dark .data_trigger {
+  background-color: rgba(91, 127, 219, 0.12) !important;
+}
+[data-style="skeuomorphic"].dark .data_trigger:hover {
+  background-color: rgba(91, 127, 219, 0.22) !important;
+}
+[data-style="skeuomorphic"].dark .data_btn:hover {
+  background-color: rgba(91, 127, 219, 0.15) !important;
+  color: #8ab4f8 !important;
+}

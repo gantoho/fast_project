@@ -1,0 +1,498 @@
+/* ===== 森林风格 ===== */
+:root:root[data-style="forest"] {
+  --el-color-primary: #16a34a;
+  --el-color-primary-dark-2: #15803d;
+  --g-home-link-hover: #16a34a;
+}
+:root:root[data-style="forest"]:not(.dark) {
+  --g-body-bg-color: #f0fdf4;
+  --g-body-text-color: #14532d;
+  --g-tabbar-border: #bbf7d0;
+  --g-tabbar-item-after: #16a34a;
+  --g-home-link-border: #bbf7d0;
+  --g-home-link-hover: #16a34a;
+}
+:root:root.dark[data-style="forest"] {
+  --g-body-bg-color: #0c1a10;
+  --g-body-text-color: #bbf7d0;
+  --g-tabbar-border: #166534;
+  --g-tabbar-item-after: #22c55e;
+  --g-home-link-border: #166534;
+  --el-text-color-primary: #bbf7d0;
+  --el-text-color-regular: rgba(187, 247, 208, 0.72);
+}
+
+/* ========================================
+   按钮
+   ======================================== */
+
+/* primary 按钮 */
+[data-style="forest"] .el-button--primary {
+  background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3), 0 1px 0 rgba(255,255,255,0.2) !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+  color: #fff !important;
+}
+[data-style="forest"] .el-button--primary:hover:not(.is-disabled) {
+  background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%) !important;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4), 0 1px 0 rgba(255,255,255,0.3) !important;
+}
+[data-style="forest"] .el-button--primary:active:not(.is-disabled) {
+  background: linear-gradient(180deg, #15803d 0%, #16a34a 100%) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* default 按钮 */
+[data-style="forest"] .el-button--default {
+  border-color: #bbf7d0 !important;
+  color: #14532d !important;
+  background: rgba(22, 163, 74, 0.04) !important;
+}
+[data-style="forest"].dark .el-button--default {
+  border-color: #166534 !important;
+  color: #bbf7d0 !important;
+  background: rgba(22, 163, 74, 0.08) !important;
+}
+
+/* danger 按钮 */
+[data-style="forest"] .el-button--danger {
+  background: linear-gradient(180deg, #f87171 0%, #dc2626 100%) !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+/* text 按钮 */
+[data-style="forest"] .el-button.is-text {
+  color: #16a34a !important;
+}
+[data-style="forest"].dark .el-button.is-text {
+  color: #22c55e !important;
+}
+
+/* ========================================
+   Tag
+   ======================================== */
+
+[data-style="forest"] .el-tag--primary {
+  background-color: rgba(22, 163, 74, 0.1) !important;
+  border-color: #16a34a !important;
+  color: #166534 !important;
+}
+[data-style="forest"].dark .el-tag--primary {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  border-color: #22c55e !important;
+  color: #4ade80 !important;
+}
+[data-style="forest"] .el-tag--success {
+  background-color: rgba(22, 163, 74, 0.1) !important;
+  border-color: #16a34a !important;
+  color: #166534 !important;
+}
+[data-style="forest"].dark .el-tag--success {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  border-color: #22c55e !important;
+  color: #4ade80 !important;
+}
+[data-style="forest"] .el-tag__close {
+  color: #166534 !important;
+}
+[data-style="forest"].dark .el-tag__close {
+  color: #22c55e !important;
+}
+[data-style="forest"] .el-tag__close:hover {
+  background-color: rgba(22, 163, 74, 0.15) !important;
+  color: #16a34a !important;
+}
+
+/* ========================================
+   输入框
+   ======================================== */
+
+[data-style="forest"]:not(.dark) .el-textarea__inner,
+[data-style="forest"]:not(.dark) .el-input__wrapper {
+  border: 1.5px solid #bbf7d0 !important;
+  border-radius: 8px !important;
+  background: rgba(240, 253, 244, 0.6) !important;
+  box-shadow: inset 0 2px 4px rgba(22, 163, 74, 0.06) !important;
+  color: #14532d !important;
+}
+[data-style="forest"].dark .el-textarea__inner,
+[data-style="forest"].dark .el-input__wrapper {
+  border-color: #166534 !important;
+  background: #0a1a10 !important;
+  color: #bbf7d0 !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ========================================
+   InputNumber
+   ======================================== */
+
+[data-style="forest"] .el-input-number .el-input__wrapper {
+  border-color: #bbf7d0 !important;
+}
+[data-style="forest"].dark .el-input-number .el-input__wrapper {
+  border-color: #166534 !important;
+}
+[data-style="forest"] .el-input-number__decrease:hover:not(.is-disabled),
+[data-style="forest"] .el-input-number__increase:hover:not(.is-disabled) {
+  color: #14532d !important;
+  background: rgba(22, 163, 74, 0.1) !important;
+}
+[data-style="forest"].dark .el-input-number__decrease:hover:not(.is-disabled),
+[data-style="forest"].dark .el-input-number__increase:hover:not(.is-disabled) {
+  color: #bbf7d0 !important;
+  background: rgba(34, 197, 94, 0.15) !important;
+}
+
+/* ========================================
+   Switch
+   ======================================== */
+
+[data-style="forest"] .el-switch.is-checked .el-switch__core {
+  border-color: #16a34a !important;
+  background-color: #16a34a !important;
+}
+[data-style="forest"] .el-switch__core {
+  border-color: #bbf7d0 !important;
+  background-color: rgba(187, 247, 208, 0.3) !important;
+}
+[data-style="forest"].dark .el-switch__core {
+  border-color: #166534 !important;
+  background-color: rgba(22, 101, 52, 0.3) !important;
+}
+/* 选中侧（active-text / inactive-text） */
+[data-style="forest"]:not(.dark) .el-switch.is-checked .el-switch__label--right,
+[data-style="forest"]:not(.dark) .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #16a34a !important;
+  font-weight: 600 !important;
+}
+[data-style="forest"]:not(.dark) .el-switch.is-checked .el-switch__label--left,
+[data-style="forest"]:not(.dark) .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(20, 83, 45, 0.4) !important;
+}
+[data-style="forest"].dark .el-switch.is-checked .el-switch__label--right,
+[data-style="forest"].dark .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #22c55e !important;
+  font-weight: 600 !important;
+}
+[data-style="forest"].dark .el-switch.is-checked .el-switch__label--left,
+[data-style="forest"].dark .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(187, 247, 208, 0.4) !important;
+}
+
+/* ========================================
+   Select 下拉
+   ======================================== */
+
+[data-style="forest"] .el-select .el-input__wrapper {
+  border-color: #bbf7d0 !important;
+  background: rgba(22, 163, 74, 0.03) !important;
+}
+[data-style="forest"].dark .el-select .el-input__wrapper {
+  border-color: #166534 !important;
+}
+[data-style="forest"] .el-select__wrapper {
+  border-color: #bbf7d0 !important;
+}
+[data-style="forest"].dark .el-select__wrapper {
+  border-color: #166534 !important;
+}
+[data-style="forest"] .el-select__wrapper.is-focus,
+[data-style="forest"] .el-select__wrapper.is-focused {
+  border-color: #16a34a !important;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.15) !important;
+}
+[data-style="forest"] .el-select-dropdown__item.hover,
+[data-style="forest"] .el-select-dropdown__item:hover {
+  background-color: rgba(22, 163, 74, 0.1) !important;
+}
+
+/* ========================================
+   Dialog
+   ======================================== */
+
+[data-style="forest"] .el-dialog {
+  border: 1px solid rgba(22, 163, 74, 0.2) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.1) !important;
+}
+[data-style="forest"].dark .el-dialog {
+  border-color: #166534 !important;
+}
+
+/* ========================================
+   Message Box
+   ======================================== */
+
+[data-style="forest"] .el-message-box {
+  border: 1px solid rgba(22, 163, 74, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.1) !important;
+}
+[data-style="forest"].dark .el-message-box {
+  border-color: #166534 !important;
+}
+[data-style="forest"] .el-message-box__btns .el-button:not(.el-button--primary):not(.el-button--danger) {
+  border-color: #bbf7d0 !important;
+  color: #14532d !important;
+  background: rgba(22, 163, 74, 0.05) !important;
+}
+[data-style="forest"].dark .el-message-box__btns .el-button:not(.el-button--primary):not(.el-button--danger) {
+  border-color: #166534 !important;
+  color: #bbf7d0 !important;
+  background: rgba(22, 163, 74, 0.08) !important;
+}
+
+/* ========================================
+   自定义路径 / Query 条目
+   ======================================== */
+
+/* 容器模块 */
+[data-style="forest"] .sub_path_module,
+[data-style="forest"] .step_module {
+  border-color: #bbf7d0 !important;
+  border-radius: 10px !important;
+  background: rgba(240, 253, 244, 0.4) !important;
+}
+[data-style="forest"].dark .sub_path_module,
+[data-style="forest"].dark .step_module {
+  border-color: #166534 !important;
+  background: rgba(12, 26, 16, 0.5) !important;
+}
+
+/* URL 展示框 */
+[data-style="forest"] .step_url_box {
+  border-color: #bbf7d0 !important;
+  border-radius: 8px !important;
+  background: rgba(22, 163, 74, 0.04) !important;
+}
+[data-style="forest"].dark .step_url_box {
+  border-color: #166534 !important;
+  background: rgba(22, 163, 74, 0.06) !important;
+}
+
+/* 路径条目（默认） */
+[data-style="forest"] .sub_path_item,
+[data-style="forest"] .query_item {
+  border-color: rgba(22, 163, 74, 0.2) !important;
+  border-radius: 6px !important;
+  background: rgba(220, 252, 231, 0.5) !important;
+  color: #14532d !important;
+}
+[data-style="forest"].dark .sub_path_item,
+[data-style="forest"].dark .query_item {
+  border-color: rgba(22, 163, 74, 0.15) !important;
+  background: rgba(12, 26, 16, 0.5) !important;
+  color: #bbf7d0 !important;
+}
+[data-style="forest"] .sub_path_item:not(.is-active):hover,
+[data-style="forest"] .query_item:not(.is-active):hover {
+  border-color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.1) !important;
+}
+[data-style="forest"].dark .sub_path_item:not(.is-active):hover,
+[data-style="forest"].dark .query_item:not(.is-active):hover {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.1) !important;
+}
+
+/* 路径条目（激活） */
+[data-style="forest"] .sub_path_item.is-active,
+[data-style="forest"] .query_item.is-active {
+  border-color: #15803d !important;
+  background: linear-gradient(180deg, #22c55e, #16a34a) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3) !important;
+}
+[data-style="forest"] .sub_path_item.is-active .sub_path_item_label,
+[data-style="forest"] .query_item.is-active .query_item_text {
+  color: #fff !important;
+}
+
+/* 管理模式 */
+[data-style="forest"] .sub_path_item.is-manage-mode,
+[data-style="forest"] .query_item.is-manage-mode {
+  border-color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.06) !important;
+}
+[data-style="forest"].dark .sub_path_item.is-manage-mode,
+[data-style="forest"].dark .query_item.is-manage-mode {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.08) !important;
+}
+
+/* 同时激活 + 管理模式（确保文字可见） */
+[data-style="forest"] .sub_path_item.is-active.is-manage-mode,
+[data-style="forest"] .query_item.is-active.is-manage-mode {
+  border-color: #15803d !important;
+  background: linear-gradient(180deg, #22c55e, #16a34a) !important;
+}
+[data-style="forest"] .sub_path_item.is-active.is-manage-mode .sub_path_item_label,
+[data-style="forest"] .query_item.is-active.is-manage-mode .query_item_text {
+  color: #fff !important;
+}
+
+/* 管理/完成按钮 */
+[data-style="forest"] .el-button.is-text.manage_btn {
+  color: #166534 !important;
+  font-weight: 700 !important;
+}
+[data-style="forest"].dark .el-button.is-text.manage_btn {
+  color: #4ade80 !important;
+  font-weight: 700 !important;
+}
+
+/* 管理模式下的删除图标 */
+[data-style="forest"] .sub_path_item.is-active.is-manage-mode .manage-action,
+[data-style="forest"] .query_item.is-active.is-manage-mode .manage-action {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* 拖拽悬停 */
+[data-style="forest"] .sub_path_item.is-drag-over {
+  border: 2.5px solid #16a34a !important;
+  background: rgba(22, 163, 74, 0.15) !important;
+  box-shadow:
+    0 0 0 3px rgba(22, 163, 74, 0.35),
+    0 4px 12px rgba(22, 163, 74, 0.2) !important;
+  transform: scale(1.03) !important;
+}
+[data-style="forest"] .sub_path_item.is-dragging {
+  opacity: 0.5 !important;
+  border-style: dashed !important;
+  border-color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.05) !important;
+  transform: rotate(-1.5deg) scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+[data-style="forest"] .preset_tag_wrapper.is_drag_over {
+  border: 2.5px solid #16a34a !important;
+  background: rgba(22, 163, 74, 0.15) !important;
+  box-shadow:
+    0 0 0 3px rgba(22, 163, 74, 0.35),
+    0 4px 12px rgba(22, 163, 74, 0.2) !important;
+  transform: scale(1.03) !important;
+  border-radius: 8px !important;
+}
+[data-style="forest"] .preset_tag_wrapper.is_dragging {
+  opacity: 0.5 !important;
+  border-style: dashed !important;
+  border-color: #16a34a !important;
+  transform: rotate(-1.5deg) scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ========================================
+   ConfigBar（底部配置栏）
+   ======================================== */
+
+[data-style="forest"] .config_bar {
+  border-color: #bbf7d0 !important;
+  border-radius: 10px !important;
+  background: rgba(240, 253, 244, 0.4) !important;
+}
+[data-style="forest"].dark .config_bar {
+  border-color: #166534 !important;
+  background: rgba(12, 26, 16, 0.4) !important;
+}
+[data-style="forest"] .config_sep {
+  background-color: #bbf7d0 !important;
+}
+[data-style="forest"].dark .config_sep {
+  background-color: #166534 !important;
+}
+[data-style="forest"] .config_label {
+  color: #166534 !important;
+  font-weight: 600 !important;
+}
+[data-style="forest"].dark .config_label {
+  color: #4ade80 !important;
+}
+[data-style="forest"] .config_sep_text {
+  color: #166534 !important;
+  opacity: 0.5 !important;
+}
+[data-style="forest"].dark .config_sep_text {
+  color: #4ade80 !important;
+}
+
+/* ========================================
+   网站标题
+   ======================================== */
+[data-style="forest"]:not(.dark) .main-text h1 {
+  background: linear-gradient(135deg, #14532d 0%, #16a34a 50%, #22c55e 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: none !important;
+}
+[data-style="forest"].dark .main-text h1 {
+  background: linear-gradient(135deg, #22c55e 0%, #4ade80 50%, #86efac 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: none !important;
+}
+
+/* ========================================
+   预览弹窗复制全部按钮
+   ======================================== */
+[data-style="forest"]:not(.dark) .copy_all_btn {
+  background: rgba(22, 163, 74, 0.1) !important;
+  border-radius: 4px !important;
+  color: #15803d !important;
+}
+[data-style="forest"]:not(.dark) .copy_all_btn:hover {
+  background: rgba(22, 163, 74, 0.2) !important;
+  color: #14532d !important;
+}
+[data-style="forest"].dark .copy_all_btn {
+  color: #dcfce7 !important;
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 4px !important;
+}
+[data-style="forest"].dark .copy_all_btn:hover {
+  color: #f0fdf4 !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ========================================
+   主题面板弹出层
+   ======================================== */
+[data-style="forest"].dark .section_label {
+  opacity: 0.6 !important;
+}
+[data-style="forest"].dark .mode_label.is-active {
+  color: #4ade80 !important;
+}
+[data-style="forest"].dark .style_card:hover {
+  background-color: rgba(22, 163, 74, 0.15) !important;
+}
+[data-style="forest"].dark .style_card.is-active {
+  background-color: rgba(22, 163, 74, 0.28) !important;
+  outline-color: #16a34a !important;
+}
+[data-style="forest"].dark .style_badge_dark,
+[data-style="forest"].dark .style_badge_light {
+  background-color: rgba(22, 163, 74, 0.25) !important;
+  color: #86efac !important;
+}
+[data-style="forest"].dark .data_trigger {
+  background-color: rgba(22, 163, 74, 0.12) !important;
+}
+[data-style="forest"].dark .data_trigger:hover {
+  background-color: rgba(22, 163, 74, 0.22) !important;
+}
+[data-style="forest"].dark .data_btn:hover {
+  background-color: rgba(22, 163, 74, 0.15) !important;
+  color: #4ade80 !important;
+}

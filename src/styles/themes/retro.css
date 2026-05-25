@@ -487,3 +487,58 @@
   letter-spacing: 1px !important;
   text-shadow: 1px 1px 0 rgba(201, 139, 74, 0.3), 2px 2px 0 rgba(0, 0, 0, 0.2) !important;
 }
+
+/* ========================================
+   预览弹窗复制全部按钮
+   ======================================== */
+[data-style="retro"]:not(.dark) .copy_all_btn {
+  background: rgba(201, 139, 74, 0.12) !important;
+  border-radius: 4px !important;
+  color: #8b5e3c !important;
+}
+[data-style="retro"]:not(.dark) .copy_all_btn:hover {
+  background: rgba(201, 139, 74, 0.22) !important;
+  color: #6b4c3b !important;
+}
+[data-style="retro"].dark .copy_all_btn {
+  color: #f5e6d3 !important;
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 4px !important;
+}
+[data-style="retro"].dark .copy_all_btn:hover {
+  color: #fff8f0 !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ========================================
+   主题面板弹出层
+   ======================================== */
+[data-style="retro"].dark .section_label {
+  opacity: 0.6 !important;
+}
+[data-style="retro"].dark .mode_label.is-active {
+  color: #e8c88a !important;
+}
+[data-style="retro"].dark .style_card:hover {
+  background-color: rgba(201, 139, 74, 0.15) !important;
+}
+[data-style="retro"].dark .style_card.is-active {
+  background-color: rgba(201, 139, 74, 0.28) !important;
+  outline-color: #c98b4a !important;
+}
+[data-style="retro"].dark .style_badge_dark,
+[data-style="retro"].dark .style_badge_light {
+  background-color: rgba(201, 139, 74, 0.25) !important;
+  color: #f0d9b5 !important;
+}
+[data-style="retro"].dark .data_trigger {
+  background-color: rgba(201, 139, 74, 0.12) !important;
+}
+[data-style="retro"].dark .data_trigger:hover {
+  background-color: rgba(201, 139, 74, 0.22) !important;
+}
+[data-style="retro"].dark .data_btn:hover {
+  background-color: rgba(201, 139, 74, 0.15) !important;
+  color: #e8c88a !important;
+}

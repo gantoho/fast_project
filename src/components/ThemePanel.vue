@@ -229,3 +229,183 @@ const onDarkSwitch = (val) => {
   }
 }
 </style>
+
+<!-- el-popover 的内容会被 teleport 到 body 下，scoped 样式不生效，
+     故使用非 scoped 样式处理默认主题（无 data-style）的深色模式适配 -->
+<style lang="scss">
+/* --- 布局/结构样式（在主题CSS中也有定义，带 !important） --- */
+.panel_content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.panel_section {
+  padding: 6px 0;
+}
+.section_label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 8px;
+}
+.mode_row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.mode_label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  transition: opacity 0.2s;
+}
+.style_grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.style_card {
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s, outline 0.15s;
+  outline: 1.5px solid transparent;
+}
+.style_card_header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.style_card_name {
+  font-size: 14px;
+  font-weight: 600;
+}
+.style_card_desc {
+  font-size: 12px;
+  opacity: 0.55;
+}
+.style_badge_dark,
+.style_badge_light {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.data_trigger {
+  border-radius: 6px;
+  padding: 6px;
+  transition: background-color 0.2s;
+}
+.data_btn {
+  width: 100%;
+  justify-content: flex-start;
+  font-size: 13px;
+  padding: 8px 12px;
+  gap: 8px;
+  border-radius: 6px;
+  margin-left: 0;
+}
+
+/* --- 默认主题 - 浅色配色 --- */
+html:not([data-style]) {
+  .section_label {
+    color: #000;
+    opacity: 0.45;
+  }
+  .mode_label {
+    color: #000;
+    opacity: 0.5;
+    &.is-active {
+      opacity: 1;
+      color: var(--el-color-primary);
+    }
+  }
+  .style_card {
+    &:hover {
+      background-color: color-mix(in srgb, var(--el-color-primary) 8%, transparent);
+    }
+    &.is-active {
+      background-color: color-mix(in srgb, var(--el-color-primary) 15%, transparent);
+      outline-color: var(--el-color-primary);
+    }
+  }
+  .style_card_name {
+    color: #000;
+  }
+  .style_card_desc {
+    color: #000;
+  }
+  .style_badge_dark,
+  .style_badge_light {
+    background-color: color-mix(in srgb, var(--el-color-primary) 15%, transparent);
+    color: var(--el-color-primary);
+  }
+  .data_trigger {
+    background-color: color-mix(in srgb, var(--el-color-primary) 6%, transparent);
+    &:hover {
+      background-color: color-mix(in srgb, var(--el-color-primary) 12%, transparent);
+    }
+  }
+  .data_btn {
+    color: #000;
+    &:hover {
+      background-color: color-mix(in srgb, var(--el-color-primary-light-3) 20%, transparent) !important;
+      color: var(--el-color-primary);
+    }
+  }
+}
+
+/* --- 默认主题 - 深色配色 --- */
+html.dark:not([data-style]) {
+  .section_label {
+    color: rgba(255, 255, 255, 0.87);
+    opacity: 0.6;
+  }
+  .mode_label {
+    color: rgba(255, 255, 255, 0.87);
+    opacity: 0.5;
+    &.is-active {
+      opacity: 1;
+      color: #22c55e;
+    }
+  }
+  .style_card {
+    &:hover {
+      background-color: rgba(34, 197, 94, 0.15);
+    }
+    &.is-active {
+      background-color: rgba(34, 197, 94, 0.28);
+      outline-color: #22c55e;
+    }
+  }
+  .style_card_name {
+    color: rgba(255, 255, 255, 0.87);
+  }
+  .style_card_desc {
+    color: rgba(255, 255, 255, 0.87);
+  }
+  .style_badge_dark,
+  .style_badge_light {
+    background-color: rgba(34, 197, 94, 0.25);
+    color: #86efac;
+  }
+  .data_trigger {
+    background-color: rgba(34, 197, 94, 0.12);
+    &:hover {
+      background-color: rgba(34, 197, 94, 0.22);
+    }
+  }
+  .data_btn {
+    color: rgba(255, 255, 255, 0.87);
+    &:hover {
+      background-color: rgba(34, 197, 94, 0.15) !important;
+      color: #22c55e;
+    }
+  }
+}
+</style>

@@ -14,7 +14,7 @@
                 <div class="preview_box">
                     <div class="preview_header">
                         <span>共 {{ processedUrlList.length }} 个链接</span>
-                        <el-button size="small" text type="primary" @click="copyUrls">
+                        <el-button size="small" text type="primary" class="copy_all_btn" @click="copyUrls">
                             <el-icon :size="13"><DocumentCopy /></el-icon> 复制全部
                         </el-button>
                     </div>
@@ -102,6 +102,17 @@ const copyUrls = async () => {
     font-size: 12px;
     color: var(--g-body-text-color);
     opacity: 0.7;
+}
+.copy_all_btn {
+    opacity: 1;
+    font-weight: 600;
+}
+.copy_all_btn:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-radius: 4px !important;
+}
+.copy_all_btn .el-icon {
+    margin-right: 2px;
 }
 .preview_list {
     overflow-y: auto;

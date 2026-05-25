@@ -385,3 +385,58 @@
   0%   { background-position: 0% center; }
   100% { background-position: 200% center; }
 }
+
+/* ========================================
+   预览弹窗复制全部按钮
+   ======================================== */
+[data-style="cyberpunk"]:not(.dark) .copy_all_btn {
+  color: #00ff88 !important;
+  opacity: 1 !important;
+}
+[data-style="cyberpunk"]:not(.dark) .copy_all_btn:hover {
+  color: #66ffbb !important;
+  background: rgba(0, 255, 136, 0.1) !important;
+  border-radius: 4px !important;
+}
+[data-style="cyberpunk"].dark .copy_all_btn {
+  color: #66ffbb !important;
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 4px !important;
+}
+[data-style="cyberpunk"].dark .copy_all_btn:hover {
+  color: #99ffcc !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ========================================
+   主题面板弹出层
+   ======================================== */
+[data-style="cyberpunk"].dark .section_label {
+  opacity: 0.65 !important;
+}
+[data-style="cyberpunk"].dark .mode_label.is-active {
+  color: #00ff88 !important;
+}
+[data-style="cyberpunk"].dark .style_card:hover {
+  background-color: rgba(0, 255, 136, 0.12) !important;
+}
+[data-style="cyberpunk"].dark .style_card.is-active {
+  background-color: rgba(0, 255, 136, 0.2) !important;
+  outline-color: #00ff88 !important;
+}
+[data-style="cyberpunk"].dark .style_badge_dark,
+[data-style="cyberpunk"].dark .style_badge_light {
+  background-color: rgba(0, 255, 136, 0.2) !important;
+  color: #33ffaa !important;
+}
+[data-style="cyberpunk"].dark .data_trigger {
+  background-color: rgba(0, 255, 136, 0.1) !important;
+}
+[data-style="cyberpunk"].dark .data_trigger:hover {
+  background-color: rgba(0, 255, 136, 0.18) !important;
+}
+[data-style="cyberpunk"].dark .data_btn:hover {
+  background-color: rgba(0, 255, 136, 0.12) !important;
+  color: #00ff88 !important;
+}

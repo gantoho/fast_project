@@ -1,0 +1,498 @@
+/* ===== 海洋风格 ===== */
+:root:root[data-style="ocean"] {
+  --el-color-primary: #0ea5e9;
+  --el-color-primary-dark-2: #0284c7;
+  --g-home-link-hover: #0ea5e9;
+}
+:root:root[data-style="ocean"]:not(.dark) {
+  --g-body-bg-color: #f0f9ff;
+  --g-body-text-color: #0c4a6e;
+  --g-tabbar-border: #bae6fd;
+  --g-tabbar-item-after: #0ea5e9;
+  --g-home-link-border: #bae6fd;
+  --g-home-link-hover: #0ea5e9;
+}
+:root:root.dark[data-style="ocean"] {
+  --g-body-bg-color: #0b1e2f;
+  --g-body-text-color: #bae6fd;
+  --g-tabbar-border: #164e63;
+  --g-tabbar-item-after: #38bdf8;
+  --g-home-link-border: #164e63;
+  --el-text-color-primary: #bae6fd;
+  --el-text-color-regular: rgba(186, 230, 253, 0.72);
+}
+
+/* ========================================
+   按钮
+   ======================================== */
+
+/* primary 按钮 */
+[data-style="ocean"] .el-button--primary {
+  background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 100%) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3), 0 1px 0 rgba(255,255,255,0.2) !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+  color: #fff !important;
+}
+[data-style="ocean"] .el-button--primary:hover:not(.is-disabled) {
+  background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 100%) !important;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4), 0 1px 0 rgba(255,255,255,0.3) !important;
+}
+[data-style="ocean"] .el-button--primary:active:not(.is-disabled) {
+  background: linear-gradient(180deg, #0284c7 0%, #0ea5e9 100%) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* default 按钮 */
+[data-style="ocean"] .el-button--default {
+  border-color: #bae6fd !important;
+  color: #0c4a6e !important;
+  background: rgba(14, 165, 233, 0.04) !important;
+}
+[data-style="ocean"].dark .el-button--default {
+  border-color: #164e63 !important;
+  color: #bae6fd !important;
+  background: rgba(14, 165, 233, 0.08) !important;
+}
+
+/* danger 按钮 */
+[data-style="ocean"] .el-button--danger {
+  background: linear-gradient(180deg, #f87171 0%, #dc2626 100%) !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+/* text 按钮 */
+[data-style="ocean"] .el-button.is-text {
+  color: #0ea5e9 !important;
+}
+[data-style="ocean"].dark .el-button.is-text {
+  color: #38bdf8 !important;
+}
+
+/* ========================================
+   Tag
+   ======================================== */
+
+[data-style="ocean"] .el-tag--primary {
+  background-color: rgba(14, 165, 233, 0.1) !important;
+  border-color: #0ea5e9 !important;
+  color: #0369a1 !important;
+}
+[data-style="ocean"].dark .el-tag--primary {
+  background-color: rgba(56, 189, 248, 0.1) !important;
+  border-color: #38bdf8 !important;
+  color: #7dd3fc !important;
+}
+[data-style="ocean"] .el-tag--success {
+  background-color: rgba(14, 165, 233, 0.1) !important;
+  border-color: #0ea5e9 !important;
+  color: #0369a1 !important;
+}
+[data-style="ocean"].dark .el-tag--success {
+  background-color: rgba(56, 189, 248, 0.1) !important;
+  border-color: #38bdf8 !important;
+  color: #7dd3fc !important;
+}
+[data-style="ocean"] .el-tag__close {
+  color: #0369a1 !important;
+}
+[data-style="ocean"].dark .el-tag__close {
+  color: #38bdf8 !important;
+}
+[data-style="ocean"] .el-tag__close:hover {
+  background-color: rgba(14, 165, 233, 0.15) !important;
+  color: #0ea5e9 !important;
+}
+
+/* ========================================
+   输入框
+   ======================================== */
+
+[data-style="ocean"]:not(.dark) .el-textarea__inner,
+[data-style="ocean"]:not(.dark) .el-input__wrapper {
+  border: 1.5px solid #bae6fd !important;
+  border-radius: 8px !important;
+  background: rgba(240, 249, 255, 0.6) !important;
+  box-shadow: inset 0 2px 4px rgba(14, 165, 233, 0.06) !important;
+  color: #0c4a6e !important;
+}
+[data-style="ocean"].dark .el-textarea__inner,
+[data-style="ocean"].dark .el-input__wrapper {
+  border-color: #164e63 !important;
+  background: #0a1e30 !important;
+  color: #bae6fd !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ========================================
+   InputNumber
+   ======================================== */
+
+[data-style="ocean"] .el-input-number .el-input__wrapper {
+  border-color: #bae6fd !important;
+}
+[data-style="ocean"].dark .el-input-number .el-input__wrapper {
+  border-color: #164e63 !important;
+}
+[data-style="ocean"] .el-input-number__decrease:hover:not(.is-disabled),
+[data-style="ocean"] .el-input-number__increase:hover:not(.is-disabled) {
+  color: #0c4a6e !important;
+  background: rgba(14, 165, 233, 0.1) !important;
+}
+[data-style="ocean"].dark .el-input-number__decrease:hover:not(.is-disabled),
+[data-style="ocean"].dark .el-input-number__increase:hover:not(.is-disabled) {
+  color: #bae6fd !important;
+  background: rgba(14, 165, 233, 0.15) !important;
+}
+
+/* ========================================
+   Switch
+   ======================================== */
+
+[data-style="ocean"] .el-switch.is-checked .el-switch__core {
+  border-color: #0ea5e9 !important;
+  background-color: #0ea5e9 !important;
+}
+[data-style="ocean"] .el-switch__core {
+  border-color: #bae6fd !important;
+  background-color: rgba(186, 230, 253, 0.3) !important;
+}
+[data-style="ocean"].dark .el-switch__core {
+  border-color: #164e63 !important;
+  background-color: rgba(22, 78, 99, 0.3) !important;
+}
+/* 选中侧（active-text / inactive-text） */
+[data-style="ocean"]:not(.dark) .el-switch.is-checked .el-switch__label--right,
+[data-style="ocean"]:not(.dark) .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #0ea5e9 !important;
+  font-weight: 600 !important;
+}
+[data-style="ocean"]:not(.dark) .el-switch.is-checked .el-switch__label--left,
+[data-style="ocean"]:not(.dark) .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(12, 74, 110, 0.4) !important;
+}
+[data-style="ocean"].dark .el-switch.is-checked .el-switch__label--right,
+[data-style="ocean"].dark .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #38bdf8 !important;
+  font-weight: 600 !important;
+}
+[data-style="ocean"].dark .el-switch.is-checked .el-switch__label--left,
+[data-style="ocean"].dark .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(186, 230, 253, 0.4) !important;
+}
+
+/* ========================================
+   Select 下拉
+   ======================================== */
+
+[data-style="ocean"] .el-select .el-input__wrapper {
+  border-color: #bae6fd !important;
+  background: rgba(14, 165, 233, 0.03) !important;
+}
+[data-style="ocean"].dark .el-select .el-input__wrapper {
+  border-color: #164e63 !important;
+}
+[data-style="ocean"] .el-select__wrapper {
+  border-color: #bae6fd !important;
+}
+[data-style="ocean"].dark .el-select__wrapper {
+  border-color: #164e63 !important;
+}
+[data-style="ocean"] .el-select__wrapper.is-focus,
+[data-style="ocean"] .el-select__wrapper.is-focused {
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.15) !important;
+}
+[data-style="ocean"] .el-select-dropdown__item.hover,
+[data-style="ocean"] .el-select-dropdown__item:hover {
+  background-color: rgba(14, 165, 233, 0.1) !important;
+}
+
+/* ========================================
+   Dialog
+   ======================================== */
+
+[data-style="ocean"] .el-dialog {
+  border: 1px solid rgba(14, 165, 233, 0.2) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.1) !important;
+}
+[data-style="ocean"].dark .el-dialog {
+  border-color: #164e63 !important;
+}
+
+/* ========================================
+   Message Box
+   ======================================== */
+
+[data-style="ocean"] .el-message-box {
+  border: 1px solid rgba(14, 165, 233, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.1) !important;
+}
+[data-style="ocean"].dark .el-message-box {
+  border-color: #164e63 !important;
+}
+[data-style="ocean"] .el-message-box__btns .el-button:not(.el-button--primary):not(.el-button--danger) {
+  border-color: #bae6fd !important;
+  color: #0c4a6e !important;
+  background: rgba(14, 165, 233, 0.05) !important;
+}
+[data-style="ocean"].dark .el-message-box__btns .el-button:not(.el-button--primary):not(.el-button--danger) {
+  border-color: #164e63 !important;
+  color: #bae6fd !important;
+  background: rgba(14, 165, 233, 0.08) !important;
+}
+
+/* ========================================
+   自定义路径 / Query 条目
+   ======================================== */
+
+/* 容器模块 */
+[data-style="ocean"] .sub_path_module,
+[data-style="ocean"] .step_module {
+  border-color: #bae6fd !important;
+  border-radius: 10px !important;
+  background: rgba(240, 249, 255, 0.4) !important;
+}
+[data-style="ocean"].dark .sub_path_module,
+[data-style="ocean"].dark .step_module {
+  border-color: #164e63 !important;
+  background: rgba(11, 30, 47, 0.4) !important;
+}
+
+/* URL 展示框 */
+[data-style="ocean"] .step_url_box {
+  border-color: #bae6fd !important;
+  border-radius: 8px !important;
+  background: rgba(14, 165, 233, 0.04) !important;
+}
+[data-style="ocean"].dark .step_url_box {
+  border-color: #164e63 !important;
+  background: rgba(14, 165, 233, 0.06) !important;
+}
+
+/* 路径条目（默认） */
+[data-style="ocean"] .sub_path_item,
+[data-style="ocean"] .query_item {
+  border-color: rgba(14, 165, 233, 0.2) !important;
+  border-radius: 6px !important;
+  background: rgba(224, 242, 254, 0.5) !important;
+  color: #0c4a6e !important;
+}
+[data-style="ocean"].dark .sub_path_item,
+[data-style="ocean"].dark .query_item {
+  border-color: rgba(14, 165, 233, 0.15) !important;
+  background: rgba(11, 30, 47, 0.5) !important;
+  color: #bae6fd !important;
+}
+[data-style="ocean"] .sub_path_item:not(.is-active):hover,
+[data-style="ocean"] .query_item:not(.is-active):hover {
+  border-color: #0ea5e9 !important;
+  background: rgba(14, 165, 233, 0.1) !important;
+}
+[data-style="ocean"].dark .sub_path_item:not(.is-active):hover,
+[data-style="ocean"].dark .query_item:not(.is-active):hover {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.1) !important;
+}
+
+/* 路径条目（激活） */
+[data-style="ocean"] .sub_path_item.is-active,
+[data-style="ocean"] .query_item.is-active {
+  border-color: #0284c7 !important;
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3) !important;
+}
+[data-style="ocean"] .sub_path_item.is-active .sub_path_item_label,
+[data-style="ocean"] .query_item.is-active .query_item_text {
+  color: #fff !important;
+}
+
+/* 管理模式 */
+[data-style="ocean"] .sub_path_item.is-manage-mode,
+[data-style="ocean"] .query_item.is-manage-mode {
+  border-color: #0ea5e9 !important;
+  background: rgba(14, 165, 233, 0.06) !important;
+}
+[data-style="ocean"].dark .sub_path_item.is-manage-mode,
+[data-style="ocean"].dark .query_item.is-manage-mode {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.08) !important;
+}
+
+/* 同时激活 + 管理模式（确保文字可见） */
+[data-style="ocean"] .sub_path_item.is-active.is-manage-mode,
+[data-style="ocean"] .query_item.is-active.is-manage-mode {
+  border-color: #0284c7 !important;
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9) !important;
+}
+[data-style="ocean"] .sub_path_item.is-active.is-manage-mode .sub_path_item_label,
+[data-style="ocean"] .query_item.is-active.is-manage-mode .query_item_text {
+  color: #fff !important;
+}
+
+/* 管理/完成按钮 */
+[data-style="ocean"] .el-button.is-text.manage_btn {
+  color: #0369a1 !important;
+  font-weight: 700 !important;
+}
+[data-style="ocean"].dark .el-button.is-text.manage_btn {
+  color: #7dd3fc !important;
+  font-weight: 700 !important;
+}
+
+/* 管理模式下的删除图标 */
+[data-style="ocean"] .sub_path_item.is-active.is-manage-mode .manage-action,
+[data-style="ocean"] .query_item.is-active.is-manage-mode .manage-action {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* 拖拽悬停 */
+[data-style="ocean"] .sub_path_item.is-drag-over {
+  border: 2.5px solid #0ea5e9 !important;
+  background: rgba(14, 165, 233, 0.15) !important;
+  box-shadow:
+    0 0 0 3px rgba(14, 165, 233, 0.35),
+    0 4px 12px rgba(14, 165, 233, 0.2) !important;
+  transform: scale(1.03) !important;
+}
+[data-style="ocean"] .sub_path_item.is-dragging {
+  opacity: 0.5 !important;
+  border-style: dashed !important;
+  border-color: #0ea5e9 !important;
+  background: rgba(14, 165, 233, 0.05) !important;
+  transform: rotate(-1.5deg) scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+[data-style="ocean"] .preset_tag_wrapper.is_drag_over {
+  border: 2.5px solid #0ea5e9 !important;
+  background: rgba(14, 165, 233, 0.15) !important;
+  box-shadow:
+    0 0 0 3px rgba(14, 165, 233, 0.35),
+    0 4px 12px rgba(14, 165, 233, 0.2) !important;
+  transform: scale(1.03) !important;
+  border-radius: 8px !important;
+}
+[data-style="ocean"] .preset_tag_wrapper.is_dragging {
+  opacity: 0.5 !important;
+  border-style: dashed !important;
+  border-color: #0ea5e9 !important;
+  transform: rotate(-1.5deg) scale(0.97) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ========================================
+   ConfigBar（底部配置栏）
+   ======================================== */
+
+[data-style="ocean"] .config_bar {
+  border-color: #bae6fd !important;
+  border-radius: 10px !important;
+  background: rgba(240, 249, 255, 0.4) !important;
+}
+[data-style="ocean"].dark .config_bar {
+  border-color: #164e63 !important;
+  background: rgba(11, 30, 47, 0.4) !important;
+}
+[data-style="ocean"] .config_sep {
+  background-color: #bae6fd !important;
+}
+[data-style="ocean"].dark .config_sep {
+  background-color: #164e63 !important;
+}
+[data-style="ocean"] .config_label {
+  color: #0369a1 !important;
+  font-weight: 600 !important;
+}
+[data-style="ocean"].dark .config_label {
+  color: #7dd3fc !important;
+}
+[data-style="ocean"] .config_sep_text {
+  color: #0369a1 !important;
+  opacity: 0.5 !important;
+}
+[data-style="ocean"].dark .config_sep_text {
+  color: #7dd3fc !important;
+}
+
+/* ========================================
+   网站标题
+   ======================================== */
+[data-style="ocean"]:not(.dark) .main-text h1 {
+  background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 50%, #38bdf8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: none !important;
+}
+[data-style="ocean"].dark .main-text h1 {
+  background: linear-gradient(135deg, #38bdf8 0%, #7dd3fc 50%, #bae6fd 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: none !important;
+}
+
+/* ========================================
+   预览弹窗复制全部按钮
+   ======================================== */
+[data-style="ocean"]:not(.dark) .copy_all_btn {
+  background: rgba(14, 165, 233, 0.1) !important;
+  border-radius: 4px !important;
+  color: #0369a1 !important;
+}
+[data-style="ocean"]:not(.dark) .copy_all_btn:hover {
+  background: rgba(14, 165, 233, 0.2) !important;
+  color: #0c4a6e !important;
+}
+[data-style="ocean"].dark .copy_all_btn {
+  color: #e0f2fe !important;
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 4px !important;
+}
+[data-style="ocean"].dark .copy_all_btn:hover {
+  color: #f0f9ff !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ========================================
+   主题面板弹出层
+   ======================================== */
+[data-style="ocean"].dark .section_label {
+  opacity: 0.6 !important;
+}
+[data-style="ocean"].dark .mode_label.is-active {
+  color: #7dd3fc !important;
+}
+[data-style="ocean"].dark .style_card:hover {
+  background-color: rgba(14, 165, 233, 0.15) !important;
+}
+[data-style="ocean"].dark .style_card.is-active {
+  background-color: rgba(14, 165, 233, 0.28) !important;
+  outline-color: #0ea5e9 !important;
+}
+[data-style="ocean"].dark .style_badge_dark,
+[data-style="ocean"].dark .style_badge_light {
+  background-color: rgba(14, 165, 233, 0.25) !important;
+  color: #bae6fd !important;
+}
+[data-style="ocean"].dark .data_trigger {
+  background-color: rgba(14, 165, 233, 0.12) !important;
+}
+[data-style="ocean"].dark .data_trigger:hover {
+  background-color: rgba(14, 165, 233, 0.22) !important;
+}
+[data-style="ocean"].dark .data_btn:hover {
+  background-color: rgba(14, 165, 233, 0.15) !important;
+  color: #7dd3fc !important;
+}
