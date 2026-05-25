@@ -356,3 +356,22 @@
   color: #00ff88 !important;
   opacity: 0.6 !important;
 }
+
+/* ========================================
+   网站标题
+   ======================================== */
+[data-style="cyberpunk"] .main-text h1 {
+  background: linear-gradient(90deg, #00ff88 0%, #00ccff 50%, #00ff88 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  animation: cyberpunk-title-shine 3s linear infinite !important;
+  font-weight: 900 !important;
+  letter-spacing: 1.5px !important;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.3) !important;
+}
+@keyframes cyberpunk-title-shine {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}

@@ -38,6 +38,10 @@ html .el-popper.is-light {
   background: var(--g-body-bg-color);
   border-color: var(--g-home-link-border);
 }
+html .el-popper.is-light .el-popper__arrow::before {
+  background: var(--g-body-bg-color) !important;
+  border-color: var(--g-home-link-border) !important;
+}
 html .el-select-dropdown {
   background-color: var(--g-body-bg-color);
 }

@@ -72,22 +72,38 @@ export function usePreset(state) {
     state.stepIndex.value = snap.stepIndex
   }
 
-  const savePreset = () => {
+  const savePreset = async () => {
     const name = presetNameInput.value.trim()
     if (!name) return
     const existing = presets.value.find(p => p.name === name)
     if (existing) {
-      presets.value = presets.value.map(p =>
-        p.id === existing.id ? { ...p, snapshot: getSnapshot() } : p
-      )
-      ElMessage({ message: `预设「${name}」已更新`, type: 'success' })
-      activePresetId.value = existing.id
-    } else {
-      const id = String(presetId.value++)
-      presets.value = [...presets.value, { id, name, snapshot: getSnapshot() }]
-      ElMessage({ message: `预设「${name}」已保存`, type: 'success' })
-      activePresetId.value = id
+      try {
+        const { value: newName } = await ElMessageBox.prompt(
+          `预设名称「${name}」已存在，请修改后保存`,
+          '重名提示',
+          {
+            confirmButtonText: '保存',
+            cancelButtonText: '取消',
+            inputValue: name,
+            inputPlaceholder: '请输入新名称',
+            inputValidator: (val) => {
+              if (!val.trim()) return '名称不能为空'
+              return true
+            },
+            inputErrorMessage: '名称不能为空'
+          }
+        )
+        if (newName && newName.trim()) {
+          presetNameInput.value = newName.trim()
+          await savePreset()
+        }
+      } catch { }
+      return
     }
+    const id = String(presetId.value++)
+    presets.value = [...presets.value, { id, name, snapshot: getSnapshot() }]
+    ElMessage({ message: `预设「${name}」已保存`, type: 'success' })
+    activePresetId.value = id
     presetNameInput.value = ''
   }
 

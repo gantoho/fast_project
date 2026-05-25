@@ -235,6 +235,21 @@
   100% { transform: translateY(0) rotate(-1deg); color: #ff0066; }
 }
 
+/* ---- 主页标题 ---- */
+[data-easter-egg="party"] .main-text h1 {
+  animation: party-title-crazy 0.8s steps(1) infinite !important;
+}
+@keyframes party-title-crazy {
+  0%   { color: #ff0044; text-shadow: 2px 0 0 #00ff88, -2px 0 0 #0088ff; }
+  14%  { color: #ff8800; text-shadow: -2px 0 0 #ff0044, 2px 0 0 #00ff88; }
+  28%  { color: #ccff00; text-shadow: 2px 0 0 #ff8800, -2px 0 0 #ff0044; }
+  42%  { color: #00ff44; text-shadow: -2px 0 0 #ccff00, 2px 0 0 #ff8800; }
+  57%  { color: #00ccff; text-shadow: 2px 0 0 #00ff44, -2px 0 0 #ccff00; }
+  71%  { color: #8844ff; text-shadow: -2px 0 0 #00ccff, 2px 0 0 #00ff44; }
+  85%  { color: #ff00cc; text-shadow: 2px 0 0 #8844ff, -2px 0 0 #00ccff; }
+  100% { color: #ff0044; text-shadow: -2px 0 0 #ff00cc, 2px 0 0 #8844ff; }
+}
+
 /* ---- 主页副标题 ---- */
 [data-easter-egg="party"] .main-text p {
   animation: party-subtitle-bounce 0.6s ease-in-out infinite alternate !important;

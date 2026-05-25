@@ -452,3 +452,19 @@
 [data-style="retro"].dark .config_sep_text {
   color: #d4a96a !important;
 }
+
+/* ========================================
+   网站标题
+   ======================================== */
+[data-style="retro"]:not(.dark) .main-text h1 {
+  color: #8b5e3c !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  text-shadow: 1px 1px 0 rgba(201, 139, 74, 0.2), 2px 2px 0 rgba(139, 94, 60, 0.1) !important;
+}
+[data-style="retro"].dark .main-text h1 {
+  color: #f0d9b5 !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  text-shadow: 1px 1px 0 rgba(201, 139, 74, 0.3), 2px 2px 0 rgba(0, 0, 0, 0.2) !important;
+}

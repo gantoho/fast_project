@@ -575,3 +575,25 @@
 [data-style="skeuomorphic"].dark .config_sep_text {
   color: #8aa8d0 !important;
 }
+
+/* ========================================
+   网站标题
+   ======================================== */
+[data-style="skeuomorphic"]:not(.dark) .main-text h1 {
+  background: linear-gradient(180deg, #4a70c0 0%, #2c4f8a 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  text-shadow: none !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+}
+[data-style="skeuomorphic"].dark .main-text h1 {
+  background: linear-gradient(180deg, #8ab4f8 0%, #5b7fdb 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  text-shadow: none !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+}
