@@ -287,6 +287,25 @@
   background: linear-gradient(180deg, #354860, #1a2330) !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 }
+/* 选中侧（active-text / inactive-text） */
+[data-style="skeuomorphic"]:not(.dark) .el-switch.is-checked .el-switch__label--right,
+[data-style="skeuomorphic"]:not(.dark) .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #5b7fdb !important;
+  font-weight: 600 !important;
+}
+[data-style="skeuomorphic"]:not(.dark) .el-switch.is-checked .el-switch__label--left,
+[data-style="skeuomorphic"]:not(.dark) .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(44, 62, 80, 0.4) !important;
+}
+[data-style="skeuomorphic"].dark .el-switch.is-checked .el-switch__label--right,
+[data-style="skeuomorphic"].dark .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #7aaaf8 !important;
+  font-weight: 600 !important;
+}
+[data-style="skeuomorphic"].dark .el-switch.is-checked .el-switch__label--left,
+[data-style="skeuomorphic"].dark .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(200, 216, 240, 0.4) !important;
+}
 
 /* ========================================
    Select 下拉
@@ -428,16 +447,16 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
   color: #a8c0e0 !important;
 }
-[data-style="skeuomorphic"] .sub_path_item:hover,
-[data-style="skeuomorphic"] .query_item:hover {
+[data-style="skeuomorphic"] .sub_path_item:not(.is-active):hover,
+[data-style="skeuomorphic"] .query_item:not(.is-active):hover {
   background: linear-gradient(180deg, #fff 0%, #f0f4f8 100%) !important;
   box-shadow:
     0 3px 6px rgba(0, 0, 0, 0.08),
     0 1px 0 #fff,
     inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
 }
-[data-style="skeuomorphic"].dark .sub_path_item:hover,
-[data-style="skeuomorphic"].dark .query_item:hover {
+[data-style="skeuomorphic"].dark .sub_path_item:not(.is-active):hover,
+[data-style="skeuomorphic"].dark .query_item:not(.is-active):hover {
   background: linear-gradient(180deg, #354860 0%, #223040 100%) !important;
   box-shadow:
     0 3px 6px rgba(0, 0, 0, 0.25),

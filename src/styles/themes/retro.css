@@ -223,6 +223,25 @@
   border-color: #5c4033 !important;
   background-color: rgba(92, 64, 51, 0.25) !important;
 }
+/* 选中侧（active-text / inactive-text） */
+[data-style="retro"]:not(.dark) .el-switch.is-checked .el-switch__label--right,
+[data-style="retro"]:not(.dark) .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #c98b4a !important;
+  font-weight: 600 !important;
+}
+[data-style="retro"]:not(.dark) .el-switch.is-checked .el-switch__label--left,
+[data-style="retro"]:not(.dark) .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(74, 55, 40, 0.4) !important;
+}
+[data-style="retro"].dark .el-switch.is-checked .el-switch__label--right,
+[data-style="retro"].dark .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #d4a96a !important;
+  font-weight: 600 !important;
+}
+[data-style="retro"].dark .el-switch.is-checked .el-switch__label--left,
+[data-style="retro"].dark .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(240, 217, 181, 0.4) !important;
+}
 
 /* ========================================
    Select 下拉
@@ -328,13 +347,13 @@
   background: rgba(61, 43, 31, 0.35) !important;
   color: #f0d9b5 !important;
 }
-[data-style="retro"] .sub_path_item:hover,
-[data-style="retro"] .query_item:hover {
+[data-style="retro"] .sub_path_item:not(.is-active):hover,
+[data-style="retro"] .query_item:not(.is-active):hover {
   border-color: #c98b4a !important;
   background: rgba(201, 139, 74, 0.1) !important;
 }
-[data-style="retro"].dark .sub_path_item:hover,
-[data-style="retro"].dark .query_item:hover {
+[data-style="retro"].dark .sub_path_item:not(.is-active):hover,
+[data-style="retro"].dark .query_item:not(.is-active):hover {
   border-color: #d4a96a !important;
   background: rgba(212, 169, 106, 0.1) !important;
 }

@@ -573,7 +573,7 @@ const onDragEnd = () => {
     transition: all 0.2s;
     user-select: none;
     cursor: default;
-    &:hover {
+    &:not(.is-active):hover {
         border-color: var(--el-color-primary);
         .action-trigger {
             opacity: 0.5;
@@ -668,7 +668,7 @@ const onDragEnd = () => {
     transition: all 0.2s;
     user-select: none;
     cursor: default;
-    &:hover {
+    &:not(.is-active):hover {
         border-color: var(--el-color-primary);
         .action-trigger {
             opacity: 0.5;

@@ -184,6 +184,16 @@
   border-color: rgba(0, 255, 136, 0.25) !important;
   background-color: rgba(0, 255, 136, 0.08) !important;
 }
+/* 选中侧（active-text / inactive-text） */
+[data-style="cyberpunk"] .el-switch.is-checked .el-switch__label--right,
+[data-style="cyberpunk"] .el-switch:not(.is-checked) .el-switch__label--left {
+  color: #00ff88 !important;
+  font-weight: 600 !important;
+}
+[data-style="cyberpunk"] .el-switch.is-checked .el-switch__label--left,
+[data-style="cyberpunk"] .el-switch:not(.is-checked) .el-switch__label--right {
+  color: rgba(224, 224, 224, 0.4) !important;
+}
 
 /* ========================================
    Select 下拉
