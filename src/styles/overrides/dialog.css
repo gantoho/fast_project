@@ -35,3 +35,13 @@ html .el-overlay {
 html.dark .el-overlay {
   background-color: rgba(0, 0, 0, 0.6);
 }
+
+/* 取消按钮适配风格（CSS 变量方式，不会影响 el-button--primary 等带 type 的按钮） */
+html .el-dialog__footer .el-button {
+  --el-button-bg-color: transparent;
+  --el-button-border-color: var(--g-home-link-border);
+  --el-button-text-color: var(--g-body-text-color);
+  --el-button-hover-bg-color: transparent;
+  --el-button-hover-border-color: var(--el-color-primary);
+  --el-button-hover-text-color: var(--el-color-primary);
+}

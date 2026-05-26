@@ -20,7 +20,7 @@ export function buildUrl(raw, subPathSwitch, subPath, selectedQueryIds = [], que
 
   const ids = Array.isArray(selectedQueryIds) ? selectedQueryIds : []
   const opts = Array.isArray(queryOptions) ? queryOptions : []
-  if (ids.length > 0 && opts.length > 0) {
+  if (subPathSwitch && ids.length > 0 && opts.length > 0) {
     const parts = []
     for (const id of ids) {
       const opt = opts.find(o => o.id === id)

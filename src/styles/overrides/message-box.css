@@ -14,7 +14,7 @@ html .el-message-box__message {
 html .el-message-box__btns {
   padding-top: 14px;
 }
-html .el-message-box__btns .el-button--cancel {
+html .el-message-box__btns .el-button {
   --el-button-bg-color: transparent;
   --el-button-border-color: var(--g-home-link-border);
   --el-button-text-color: var(--g-body-text-color);
@@ -22,7 +22,7 @@ html .el-message-box__btns .el-button--cancel {
   --el-button-hover-border-color: var(--el-color-primary);
   --el-button-hover-text-color: var(--el-color-primary);
 }
-html .el-message-box__btns .el-button--cancel:hover {
+html .el-message-box__btns .el-button:hover {
   border-color: var(--el-color-primary);
   color: var(--el-color-primary);
 }
