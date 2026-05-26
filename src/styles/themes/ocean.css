@@ -294,10 +294,18 @@
   border-color: #0ea5e9 !important;
   background: rgba(14, 165, 233, 0.1) !important;
 }
+[data-style="ocean"] .sub_path_item:not(.is-active):hover .sub_path_item_label,
+[data-style="ocean"] .query_item:not(.is-active):hover .query_item_text {
+  color: #0284c7 !important;
+}
 [data-style="ocean"].dark .sub_path_item:not(.is-active):hover,
 [data-style="ocean"].dark .query_item:not(.is-active):hover {
   border-color: #38bdf8 !important;
   background: rgba(56, 189, 248, 0.1) !important;
+}
+[data-style="ocean"].dark .sub_path_item:not(.is-active):hover .sub_path_item_label,
+[data-style="ocean"].dark .query_item:not(.is-active):hover .query_item_text {
+  color: #38bdf8 !important;
 }
 
 /* 路径条目（激活） */
@@ -339,10 +347,14 @@
 /* 管理/完成按钮 */
 [data-style="ocean"] .el-button.is-text.manage_btn {
   color: #0369a1 !important;
+  background: transparent !important;
+  border-color: transparent !important;
   font-weight: 700 !important;
 }
 [data-style="ocean"].dark .el-button.is-text.manage_btn {
   color: #7dd3fc !important;
+  background: transparent !important;
+  border-color: transparent !important;
   font-weight: 700 !important;
 }
 

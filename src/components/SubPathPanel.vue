@@ -60,7 +60,7 @@
                         @dragend="onDragEnd"
                     >
                         <el-icon v-if="manageMode" class="drag-handle"><Rank /></el-icon>
-                        <span class="sub_path_item_label" :title="item.label + ' (' + item.value + ')'" @click="!manageMode && emit('update:subPath', item.value)">{{ item.label }}</span>
+                        <span class="sub_path_item_label" :title="item.label + ' (' + item.value + ')'" @click="!manageMode && onSubPathClick(item)">{{ item.label }}</span>
                         <template v-if="manageMode">
                             <el-icon class="action-trigger manage-action" @click="openEditDialog(item)"><Edit /></el-icon>
                             <el-icon class="action-trigger manage-action delete-action" @click="handleDelete(item.id)"><Delete /></el-icon>
@@ -404,6 +404,14 @@ const handleDelete = async (id) => {
 
 const dragIndex = ref(null)
 const dragOverIndex = ref(null)
+
+const onSubPathClick = (item) => {
+  if (item.value === props.subPath) {
+    emit('update:subPath', '')
+  } else {
+    emit('update:subPath', item.value)
+  }
+}
 
 const onDragStart = (index, event) => {
     dragIndex.value = index

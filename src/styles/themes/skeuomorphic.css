@@ -455,6 +455,10 @@
     0 1px 0 #fff,
     inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
 }
+[data-style="skeuomorphic"] .sub_path_item:not(.is-active):hover .sub_path_item_label,
+[data-style="skeuomorphic"] .query_item:not(.is-active):hover .query_item_text {
+  color: #4a6ec0 !important;
+}
 [data-style="skeuomorphic"].dark .sub_path_item:not(.is-active):hover,
 [data-style="skeuomorphic"].dark .query_item:not(.is-active):hover {
   background: linear-gradient(180deg, #354860 0%, #223040 100%) !important;
@@ -462,6 +466,10 @@
     0 3px 6px rgba(0, 0, 0, 0.25),
     0 1px 0 rgba(255, 255, 255, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+[data-style="skeuomorphic"].dark .sub_path_item:not(.is-active):hover .sub_path_item_label,
+[data-style="skeuomorphic"].dark .query_item:not(.is-active):hover .query_item_text {
+  color: #6b8fd4 !important;
 }
 
 /* 路径条目（激活） */
@@ -506,10 +514,14 @@
 /* 管理/完成按钮（在 3D 面板内确保文字与背景高对比度） */
 [data-style="skeuomorphic"] .el-button.is-text.manage_btn {
   color: #1a3355 !important;
+  background: transparent !important;
+  border-color: transparent !important;
   font-weight: 700 !important;
 }
 [data-style="skeuomorphic"].dark .el-button.is-text.manage_btn {
   color: #8ab4f0 !important;
+  background: transparent !important;
+  border-color: transparent !important;
   font-weight: 700 !important;
 }
 

@@ -274,6 +274,10 @@
   background: rgba(0, 255, 136, 0.08) !important;
   box-shadow: 0 0 10px rgba(0, 255, 136, 0.15) !important;
 }
+[data-style="cyberpunk"] .sub_path_item:hover .sub_path_item_label,
+[data-style="cyberpunk"] .query_item:hover .query_item_text {
+  color: #00ff88 !important;
+}
 
 /* 路径条目（激活） */
 [data-style="cyberpunk"] .sub_path_item.is-active,
@@ -309,6 +313,8 @@
 /* 管理/完成按钮 */
 [data-style="cyberpunk"] .el-button.is-text.manage_btn {
   color: #00ff88 !important;
+  background: transparent !important;
+  border-color: transparent !important;
   font-weight: 700 !important;
 }
 

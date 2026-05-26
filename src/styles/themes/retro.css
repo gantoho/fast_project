@@ -352,10 +352,18 @@
   border-color: #c98b4a !important;
   background: rgba(201, 139, 74, 0.1) !important;
 }
+[data-style="retro"] .sub_path_item:not(.is-active):hover .sub_path_item_label,
+[data-style="retro"] .query_item:not(.is-active):hover .query_item_text {
+  color: #a06830 !important;
+}
 [data-style="retro"].dark .sub_path_item:not(.is-active):hover,
 [data-style="retro"].dark .query_item:not(.is-active):hover {
   border-color: #d4a96a !important;
   background: rgba(212, 169, 106, 0.1) !important;
+}
+[data-style="retro"].dark .sub_path_item:not(.is-active):hover .sub_path_item_label,
+[data-style="retro"].dark .query_item:not(.is-active):hover .query_item_text {
+  color: #d4a96a !important;
 }
 
 /* 路径条目（激活） */
@@ -397,10 +405,14 @@
 /* 管理/完成按钮（比通用 .el-button.is-text 深一些，在面板内更清晰） */
 [data-style="retro"] .el-button.is-text.manage_btn {
   color: #5c3824 !important;
+  background: transparent !important;
+  border-color: transparent !important;
   font-weight: 700 !important;
 }
 [data-style="retro"].dark .el-button.is-text.manage_btn {
   color: #e8c88a !important;
+  background: transparent !important;
+  border-color: transparent !important;
   font-weight: 700 !important;
 }
 
