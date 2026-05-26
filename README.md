@@ -20,4 +20,12 @@ yarn
 yarn dev
 ```
 
+```
+localStorage.setItem('fast_forceMonochrome', 'true')
+location.reload()
+
+localStorage.setItem('fast_forceMonochrome', 'false')
+location.reload()
+```
+
 > 如果该项目还不错，可以star该项目

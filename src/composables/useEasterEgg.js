@@ -1,4 +1,5 @@
 import { onMounted, onUnmounted, ref } from 'vue'
+import { FORCE_MONOCHROME } from './useStyle'
 
 // Konami Code: ↑ ↑ ↓ ↓ ← → ← → B A
 const KONAMI_CODE = [
@@ -108,6 +109,11 @@ export function useEasterEgg() {
 
   // ===== 派对模式 =====
   const activatePartyMode = () => {
+    if (FORCE_MONOCHROME) {
+      console.log('%c🔒 黑白强制模式下彩蛋不可用', 'color: #888;')
+      return
+    }
+
     if (isPartyMode.value) {
       document.documentElement.removeAttribute('data-easter-egg')
       removeEmojiRain()

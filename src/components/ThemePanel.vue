@@ -55,11 +55,14 @@
               v-for="opt in STYLE_OPTIONS"
               :key="opt.key"
               class="style_card"
-              :class="{ 'is-active': currentStyle === opt.key }"
-              @click="setStyle(opt.key)"
+              :class="{ 'is-active': effectiveStyle === opt.key }"
+              @click="onStyleSelect(opt.key)"
             >
               <div class="style_card_header">
                 <span class="style_card_name">{{ opt.label }}</span>
+                <span v-if="opt.key === 'monochrome'" class="style_badge style_badge_mono">
+                  <el-icon :size="10"><Lock /></el-icon> 已锁定
+                </span>
                 <span v-if="opt.preferDark === true" class="style_badge style_badge_dark">深色最佳</span>
                 <span v-else-if="opt.preferDark === false" class="style_badge style_badge_light">浅色最佳</span>
               </div>
@@ -73,10 +76,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Sunny, Moon, Download, Upload, Setting } from '@element-plus/icons-vue'
+import { ref, computed } from 'vue'
+import { Sunny, Moon, Download, Upload, Setting, Lock } from '@element-plus/icons-vue'
 import useDarkStore from '../stores/darkStore'
-import { useStyle } from '../composables/useStyle'
+import { useStyle, FORCE_MONOCHROME } from '../composables/useStyle'
 import { useGlobalExportBridge } from '../composables/useGlobalExport'
 
 const darkStore = useDarkStore()
@@ -84,6 +87,16 @@ const { currentStyle, setStyle, STYLE_OPTIONS } = useStyle()
 const { exportBridge, importBridge } = useGlobalExportBridge()
 
 const importInput = ref(null)
+
+// 实际生效的风格：强制模式下永远是 monochrome
+const effectiveStyle = computed(() => {
+  return FORCE_MONOCHROME ? 'monochrome' : currentStyle.value
+})
+
+const onStyleSelect = (key) => {
+  if (FORCE_MONOCHROME) return
+  setStyle(key)
+}
 
 const exportAll = () => {
   exportBridge.value?.()
@@ -201,6 +214,17 @@ const onDarkSwitch = (val) => {
 .style_badge_light {
   background-color: color-mix(in srgb, var(--el-color-primary) 15%, transparent);
   color: var(--el-color-primary);
+}
+.style_badge_mono {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #333;
+}
+.dark .style_badge_mono {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ddd;
 }
 .theme_panel {
   display: flex;
