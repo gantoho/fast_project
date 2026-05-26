@@ -388,6 +388,26 @@
   color: #8aa8d0 !important;
 }
 
+/* 编辑弹窗取消按钮 */
+[data-style="skeuomorphic"] .el-dialog__footer .el-button:not(.el-button--primary):not(.el-button--danger) {
+  background: linear-gradient(180deg, #f0f4f8, #dde2e8) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 1px 0 #fff,
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  color: #4a5568 !important;
+}
+[data-style="skeuomorphic"].dark .el-dialog__footer .el-button:not(.el-button--primary):not(.el-button--danger) {
+  background: linear-gradient(180deg, #2a3a50, #1a2535) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  color: #8aa8d0 !important;
+}
+
 /* ========================================
    自定义路径 / Query 条目
    ======================================== */

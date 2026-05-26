@@ -241,6 +241,13 @@
   background: rgba(0, 255, 136, 0.05) !important;
 }
 
+/* 编辑弹窗取消按钮 */
+[data-style="cyberpunk"] .el-dialog__footer .el-button:not(.el-button--primary):not(.el-button--danger) {
+  border-color: rgba(0, 255, 136, 0.3) !important;
+  color: #00ff88 !important;
+  background: rgba(0, 255, 136, 0.05) !important;
+}
+
 /* ========================================
    自定义路径 / Query 条目
    ======================================== */

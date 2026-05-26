@@ -270,6 +270,18 @@
   background: rgba(249, 115, 22, 0.08) !important;
 }
 
+/* 编辑弹窗取消按钮 */
+[data-style="sunset"] .el-dialog__footer .el-button:not(.el-button--primary):not(.el-button--danger) {
+  border-color: #fed7aa !important;
+  color: #431407 !important;
+  background: rgba(249, 115, 22, 0.05) !important;
+}
+[data-style="sunset"].dark .el-dialog__footer .el-button:not(.el-button--primary):not(.el-button--danger) {
+  border-color: #7c2d12 !important;
+  color: #fed7aa !important;
+  background: rgba(249, 115, 22, 0.08) !important;
+}
+
 /* ========================================
    自定义路径 / Query 条目
    ======================================== */
