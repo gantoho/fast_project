@@ -25,8 +25,8 @@
     <el-popover placement="bottom-end" :width="240" trigger="click" :show-arrow="false">
       <template #reference>
         <div class="theme_trigger">
-          <el-icon v-if="darkStore.darkMode === 'light'" :size="30"><Sunny /></el-icon>
-          <el-icon v-else :size="30"><Moon /></el-icon>
+          <el-icon v-if="darkStore.darkMode === 'light'" :size="22"><Sunny /></el-icon>
+          <el-icon v-else :size="22"><Moon /></el-icon>
         </div>
       </template>
       <div class="panel_content">
@@ -108,6 +108,13 @@ const onDarkSwitch = (val) => {
   cursor: pointer;
   display: flex;
   align-items: center;
+  background-color: color-mix(in srgb, var(--el-color-primary) 6%, transparent);
+  border-radius: 6px;
+  padding: 6px;
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: color-mix(in srgb, var(--el-color-primary) 12%, transparent);
+  }
 }
 .panel_content {
   display: flex;
@@ -199,15 +206,6 @@ const onDarkSwitch = (val) => {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-.data_trigger {
-  background-color: color-mix(in srgb, var(--el-color-primary) 6%, transparent);
-  border-radius: 6px;
-  padding: 6px;
-  transition: background-color 0.2s;
-  &:hover {
-    background-color: color-mix(in srgb, var(--el-color-primary) 12%, transparent);
-  }
 }
 .data_actions {
   display: flex;
