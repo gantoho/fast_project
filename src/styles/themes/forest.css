@@ -18,6 +18,8 @@
   --g-tabbar-border: #166534;
   --g-tabbar-item-after: #22c55e;
   --g-home-link-border: #166534;
+  --el-color-primary: #16a34a;
+  --el-color-primary-dark-2: #15803d;
   --el-text-color-primary: #bbf7d0;
   --el-text-color-regular: rgba(187, 247, 208, 0.72);
 }
@@ -72,10 +74,43 @@
   color: #22c55e !important;
 }
 
+/* circle 按钮 */
+[data-style="forest"] .el-button.is-circle {
+  border-radius: 8px !important;
+  border-color: #bbf7d0 !important;
+  background: rgba(22, 163, 74, 0.04) !important;
+  color: #14532d !important;
+}
+[data-style="forest"].dark .el-button.is-circle {
+  border-color: #166534 !important;
+  background: rgba(34, 197, 94, 0.08) !important;
+  color: #bbf7d0 !important;
+}
+[data-style="forest"] .el-button.is-circle:hover:not(.is-disabled) {
+  border-color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.1) !important;
+  color: #14532d !important;
+}
+[data-style="forest"].dark .el-button.is-circle:hover:not(.is-disabled) {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.15) !important;
+  color: #dcfce7 !important;
+}
+
 /* ========================================
    Tag
    ======================================== */
 
+[data-style="forest"]:not(.dark) .el-tag.el-tag--info.el-tag--plain {
+  background-color: rgba(22, 163, 74, 0.06) !important;
+  border-color: rgba(22, 163, 74, 0.25) !important;
+  color: #166534 !important;
+}
+[data-style="forest"].dark .el-tag.el-tag--info.el-tag--plain {
+  background-color: rgba(34, 197, 94, 0.08) !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  color: #bbf7d0 !important;
+}
 [data-style="forest"] .el-tag--primary {
   background-color: rgba(22, 163, 74, 0.1) !important;
   border-color: #16a34a !important;
@@ -85,6 +120,19 @@
   background-color: rgba(34, 197, 94, 0.1) !important;
   border-color: #22c55e !important;
   color: #4ade80 !important;
+}
+/* dark effect（激活态 step 标签） */
+[data-style="forest"] .el-tag.el-tag--dark {
+  background: linear-gradient(180deg, #22c55e, #16a34a) !important;
+  border: none !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3) !important;
+}
+[data-style="forest"].dark .el-tag.el-tag--dark {
+  background: linear-gradient(180deg, #4ade80, #22c55e) !important;
+  border: none !important;
+  color: #fff !important;
+  box-shadow: 0 2px 10px rgba(34, 197, 94, 0.4) !important;
 }
 [data-style="forest"] .el-tag--success {
   background-color: rgba(22, 163, 74, 0.1) !important;
@@ -105,6 +153,25 @@
 [data-style="forest"] .el-tag__close:hover {
   background-color: rgba(22, 163, 74, 0.15) !important;
   color: #16a34a !important;
+}
+
+/* ========================================
+   Alert / 警告
+   ======================================== */
+
+[data-style="forest"] .el-alert--warning {
+  background-color: rgba(251, 191, 36, 0.08) !important;
+  border-color: rgba(251, 191, 36, 0.2) !important;
+}
+[data-style="forest"] .el-alert--warning .el-alert__icon {
+  color: #d97706 !important;
+}
+[data-style="forest"].dark .el-alert--warning {
+  background-color: rgba(251, 191, 36, 0.06) !important;
+  border-color: rgba(251, 191, 36, 0.12) !important;
+}
+[data-style="forest"].dark .el-alert--warning .el-alert__icon {
+  color: #fbbf24 !important;
 }
 
 /* ========================================
@@ -135,6 +202,19 @@
   border-color: #bbf7d0 !important;
 }
 [data-style="forest"].dark .el-input-number .el-input__wrapper {
+  border-color: #166534 !important;
+}
+[data-style="forest"] .el-input-number__decrease,
+[data-style="forest"] .el-input-number__increase {
+  color: #14532d !important;
+  background: rgba(22, 163, 74, 0.05) !important;
+  border-radius: 0 !important;
+  border-color: #bbf7d0 !important;
+}
+[data-style="forest"].dark .el-input-number__decrease,
+[data-style="forest"].dark .el-input-number__increase {
+  color: #bbf7d0 !important;
+  background: rgba(34, 197, 94, 0.08) !important;
   border-color: #166534 !important;
 }
 [data-style="forest"] .el-input-number__decrease:hover:not(.is-disabled),
@@ -266,44 +346,55 @@
 /* 容器模块 */
 [data-style="forest"] .sub_path_module,
 [data-style="forest"] .step_module {
-  border-color: #bbf7d0 !important;
+  border: none !important;
   border-radius: 10px !important;
-  background: rgba(240, 253, 244, 0.4) !important;
+  background: rgba(22, 163, 74, 0.04) !important;
 }
 [data-style="forest"].dark .sub_path_module,
 [data-style="forest"].dark .step_module {
-  border-color: #166534 !important;
-  background: rgba(12, 26, 16, 0.5) !important;
+  border: none !important;
+  background: rgba(22, 163, 74, 0.06) !important;
 }
 
 /* URL 展示框 */
 [data-style="forest"] .step_url_box {
-  border-color: #bbf7d0 !important;
+  border: none !important;
   border-radius: 8px !important;
-  background: rgba(22, 163, 74, 0.04) !important;
+  background: rgba(240, 253, 244, 0.6) !important;
 }
 [data-style="forest"].dark .step_url_box {
-  border-color: #166534 !important;
-  background: rgba(22, 163, 74, 0.06) !important;
+  border: none !important;
+  background: rgba(12, 26, 16, 0.6) !important;
+}
+
+/* 主链接输入框（Home页面文本域） */
+[data-style="forest"] .input .el-textarea__inner {
+  border: none !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+[data-style="forest"].dark .input .el-textarea__inner {
+  border: none !important;
+  box-shadow: none !important;
+  background: rgba(15, 32, 20, 0.85) !important;
 }
 
 /* 路径条目（默认） */
 [data-style="forest"] .sub_path_item,
 [data-style="forest"] .query_item {
-  border-color: rgba(22, 163, 74, 0.2) !important;
+  border: none !important;
   border-radius: 6px !important;
-  background: rgba(220, 252, 231, 0.5) !important;
+  background: rgba(187, 247, 208, 0.3) !important;
   color: #14532d !important;
 }
 [data-style="forest"].dark .sub_path_item,
 [data-style="forest"].dark .query_item {
-  border-color: rgba(22, 163, 74, 0.15) !important;
-  background: rgba(12, 26, 16, 0.5) !important;
+  border: none !important;
+  background: rgba(34, 197, 94, 0.08) !important;
   color: #bbf7d0 !important;
 }
 [data-style="forest"] .sub_path_item:not(.is-active):hover,
 [data-style="forest"] .query_item:not(.is-active):hover {
-  border-color: #16a34a !important;
   background: rgba(22, 163, 74, 0.1) !important;
 }
 [data-style="forest"] .sub_path_item:not(.is-active):hover .sub_path_item_label,
@@ -312,7 +403,6 @@
 }
 [data-style="forest"].dark .sub_path_item:not(.is-active):hover,
 [data-style="forest"].dark .query_item:not(.is-active):hover {
-  border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.1) !important;
 }
 [data-style="forest"].dark .sub_path_item:not(.is-active):hover .sub_path_item_label,
@@ -323,7 +413,7 @@
 /* 路径条目（激活） */
 [data-style="forest"] .sub_path_item.is-active,
 [data-style="forest"] .query_item.is-active {
-  border-color: #15803d !important;
+  border: none !important;
   background: linear-gradient(180deg, #22c55e, #16a34a) !important;
   color: #fff !important;
   box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3) !important;
@@ -336,19 +426,19 @@
 /* 管理模式 */
 [data-style="forest"] .sub_path_item.is-manage-mode,
 [data-style="forest"] .query_item.is-manage-mode {
-  border-color: #16a34a !important;
+  border: none !important;
   background: rgba(22, 163, 74, 0.06) !important;
 }
 [data-style="forest"].dark .sub_path_item.is-manage-mode,
 [data-style="forest"].dark .query_item.is-manage-mode {
-  border-color: #22c55e !important;
+  border: none !important;
   background: rgba(34, 197, 94, 0.08) !important;
 }
 
 /* 同时激活 + 管理模式（确保文字可见） */
 [data-style="forest"] .sub_path_item.is-active.is-manage-mode,
 [data-style="forest"] .query_item.is-active.is-manage-mode {
-  border-color: #15803d !important;
+  border: none !important;
   background: linear-gradient(180deg, #22c55e, #16a34a) !important;
 }
 [data-style="forest"] .sub_path_item.is-active.is-manage-mode .sub_path_item_label,
@@ -415,13 +505,13 @@
    ======================================== */
 
 [data-style="forest"] .config_bar {
-  border-color: #bbf7d0 !important;
+  border: none !important;
   border-radius: 10px !important;
-  background: rgba(240, 253, 244, 0.4) !important;
+  background: rgba(22, 163, 74, 0.04) !important;
 }
 [data-style="forest"].dark .config_bar {
-  border-color: #166534 !important;
-  background: rgba(12, 26, 16, 0.4) !important;
+  border: none !important;
+  background: rgba(22, 163, 74, 0.06) !important;
 }
 [data-style="forest"] .config_sep {
   background-color: #bbf7d0 !important;

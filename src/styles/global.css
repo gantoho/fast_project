@@ -5,6 +5,7 @@
 @import url('./overrides/dialog.css');
 @import url('./overrides/tag.css');
 @import url('./overrides/button.css');
+@import url('./overrides/alert.css');
 @import url('./themes/cyberpunk.css');
 @import url('./themes/retro.css');
 @import url('./themes/skeuomorphic.css');

@@ -1,0 +1,29 @@
+html .el-alert {
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+html .el-alert__title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--g-body-text-color);
+}
+html .el-alert__content {
+  color: var(--g-body-text-color);
+}
+html .el-alert__icon {
+  font-size: 16px;
+}
+html .el-alert--warning {
+  background-color: rgba(234, 179, 8, 0.1);
+  border-color: rgba(234, 179, 8, 0.25);
+}
+html .el-alert--warning .el-alert__icon {
+  color: #eab308;
+}
+html.dark .el-alert--warning {
+  background-color: rgba(234, 179, 8, 0.08);
+  border-color: rgba(234, 179, 8, 0.15);
+}
+html.dark .el-alert--warning .el-alert__icon {
+  color: #facc15;
+}

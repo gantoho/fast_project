@@ -18,6 +18,8 @@
   --g-tabbar-border: #00ff88;
   --g-tabbar-item-after: #00ff88;
   --g-home-link-border: #0f3460;
+  --el-color-primary: #00ff88;
+  --el-color-primary-dark-2: #00cc6a;
   --el-text-color-primary: #ccffdd;
   --el-text-color-regular: rgba(204, 255, 221, 0.72);
 }
@@ -127,6 +129,25 @@
 [data-style="cyberpunk"] .el-tag__close:hover {
   background-color: rgba(255, 68, 136, 0.2) !important;
   color: #ff4488 !important;
+}
+
+/* ========================================
+   Alert / 警告
+   ======================================== */
+
+[data-style="cyberpunk"] .el-alert--warning {
+  background-color: rgba(0, 255, 136, 0.08) !important;
+  border-color: rgba(0, 255, 136, 0.2) !important;
+}
+[data-style="cyberpunk"] .el-alert--warning .el-alert__icon {
+  color: #00ff88 !important;
+}
+[data-style="cyberpunk"].dark .el-alert--warning {
+  background-color: rgba(0, 255, 136, 0.06) !important;
+  border-color: rgba(0, 255, 136, 0.15) !important;
+}
+[data-style="cyberpunk"].dark .el-alert--warning .el-alert__icon {
+  color: #33ffaa !important;
 }
 
 /* ========================================

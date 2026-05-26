@@ -18,6 +18,8 @@
   --g-tabbar-border: #164e63;
   --g-tabbar-item-after: #38bdf8;
   --g-home-link-border: #164e63;
+  --el-color-primary: #0ea5e9;
+  --el-color-primary-dark-2: #0284c7;
   --el-text-color-primary: #bae6fd;
   --el-text-color-regular: rgba(186, 230, 253, 0.72);
 }
@@ -72,10 +74,43 @@
   color: #38bdf8 !important;
 }
 
+/* circle 按钮 */
+[data-style="ocean"] .el-button.is-circle {
+  border-radius: 8px !important;
+  border-color: #bae6fd !important;
+  background: rgba(14, 165, 233, 0.04) !important;
+  color: #0c4a6e !important;
+}
+[data-style="ocean"].dark .el-button.is-circle {
+  border-color: #164e63 !important;
+  background: rgba(14, 165, 233, 0.08) !important;
+  color: #bae6fd !important;
+}
+[data-style="ocean"] .el-button.is-circle:hover:not(.is-disabled) {
+  border-color: #0ea5e9 !important;
+  background: rgba(14, 165, 233, 0.1) !important;
+  color: #0c4a6e !important;
+}
+[data-style="ocean"].dark .el-button.is-circle:hover:not(.is-disabled) {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+  color: #e0f2fe !important;
+}
+
 /* ========================================
    Tag
    ======================================== */
 
+[data-style="ocean"]:not(.dark) .el-tag.el-tag--info.el-tag--plain {
+  background-color: rgba(14, 165, 233, 0.06) !important;
+  border-color: rgba(14, 165, 233, 0.25) !important;
+  color: #0369a1 !important;
+}
+[data-style="ocean"].dark .el-tag.el-tag--info.el-tag--plain {
+  background-color: rgba(56, 189, 248, 0.08) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+  color: #bae6fd !important;
+}
 [data-style="ocean"] .el-tag--primary {
   background-color: rgba(14, 165, 233, 0.1) !important;
   border-color: #0ea5e9 !important;
@@ -108,6 +143,25 @@
 }
 
 /* ========================================
+   Alert / 警告
+   ======================================== */
+
+[data-style="ocean"] .el-alert--warning {
+  background-color: rgba(251, 191, 36, 0.08) !important;
+  border-color: rgba(251, 191, 36, 0.2) !important;
+}
+[data-style="ocean"] .el-alert--warning .el-alert__icon {
+  color: #f59e0b !important;
+}
+[data-style="ocean"].dark .el-alert--warning {
+  background-color: rgba(251, 191, 36, 0.06) !important;
+  border-color: rgba(251, 191, 36, 0.12) !important;
+}
+[data-style="ocean"].dark .el-alert--warning .el-alert__icon {
+  color: #fbbf24 !important;
+}
+
+/* ========================================
    输入框
    ======================================== */
 
@@ -135,6 +189,19 @@
   border-color: #bae6fd !important;
 }
 [data-style="ocean"].dark .el-input-number .el-input__wrapper {
+  border-color: #164e63 !important;
+}
+[data-style="ocean"] .el-input-number__decrease,
+[data-style="ocean"] .el-input-number__increase {
+  color: #0c4a6e !important;
+  background: rgba(14, 165, 233, 0.05) !important;
+  border-radius: 0 !important;
+  border-color: #bae6fd !important;
+}
+[data-style="ocean"].dark .el-input-number__decrease,
+[data-style="ocean"].dark .el-input-number__increase {
+  color: #bae6fd !important;
+  background: rgba(14, 165, 233, 0.08) !important;
   border-color: #164e63 !important;
 }
 [data-style="ocean"] .el-input-number__decrease:hover:not(.is-disabled),
@@ -266,44 +333,55 @@
 /* 容器模块 */
 [data-style="ocean"] .sub_path_module,
 [data-style="ocean"] .step_module {
-  border-color: #bae6fd !important;
+  border: none !important;
   border-radius: 10px !important;
-  background: rgba(240, 249, 255, 0.4) !important;
+  background: rgba(14, 165, 233, 0.04) !important;
 }
 [data-style="ocean"].dark .sub_path_module,
 [data-style="ocean"].dark .step_module {
-  border-color: #164e63 !important;
-  background: rgba(11, 30, 47, 0.4) !important;
+  border: none !important;
+  background: rgba(14, 165, 233, 0.06) !important;
 }
 
 /* URL 展示框 */
 [data-style="ocean"] .step_url_box {
-  border-color: #bae6fd !important;
+  border: none !important;
   border-radius: 8px !important;
-  background: rgba(14, 165, 233, 0.04) !important;
+  background: rgba(240, 249, 255, 0.6) !important;
 }
 [data-style="ocean"].dark .step_url_box {
-  border-color: #164e63 !important;
-  background: rgba(14, 165, 233, 0.06) !important;
+  border: none !important;
+  background: rgba(11, 30, 47, 0.6) !important;
+}
+
+/* 主链接输入框（Home页面文本域） */
+[data-style="ocean"] .input .el-textarea__inner {
+  border: none !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+[data-style="ocean"].dark .input .el-textarea__inner {
+  border: none !important;
+  box-shadow: none !important;
+  background: rgba(15, 40, 65, 0.85) !important;
 }
 
 /* 路径条目（默认） */
 [data-style="ocean"] .sub_path_item,
 [data-style="ocean"] .query_item {
-  border-color: rgba(14, 165, 233, 0.2) !important;
+  border: none !important;
   border-radius: 6px !important;
-  background: rgba(224, 242, 254, 0.5) !important;
+  background: rgba(186, 230, 253, 0.3) !important;
   color: #0c4a6e !important;
 }
 [data-style="ocean"].dark .sub_path_item,
 [data-style="ocean"].dark .query_item {
-  border-color: rgba(14, 165, 233, 0.15) !important;
-  background: rgba(11, 30, 47, 0.5) !important;
+  border: none !important;
+  background: rgba(56, 189, 248, 0.08) !important;
   color: #bae6fd !important;
 }
 [data-style="ocean"] .sub_path_item:not(.is-active):hover,
 [data-style="ocean"] .query_item:not(.is-active):hover {
-  border-color: #0ea5e9 !important;
   background: rgba(14, 165, 233, 0.1) !important;
 }
 [data-style="ocean"] .sub_path_item:not(.is-active):hover .sub_path_item_label,
@@ -312,7 +390,6 @@
 }
 [data-style="ocean"].dark .sub_path_item:not(.is-active):hover,
 [data-style="ocean"].dark .query_item:not(.is-active):hover {
-  border-color: #38bdf8 !important;
   background: rgba(56, 189, 248, 0.1) !important;
 }
 [data-style="ocean"].dark .sub_path_item:not(.is-active):hover .sub_path_item_label,
@@ -323,7 +400,7 @@
 /* 路径条目（激活） */
 [data-style="ocean"] .sub_path_item.is-active,
 [data-style="ocean"] .query_item.is-active {
-  border-color: #0284c7 !important;
+  border: none !important;
   background: linear-gradient(180deg, #38bdf8, #0ea5e9) !important;
   color: #fff !important;
   box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3) !important;
@@ -336,19 +413,19 @@
 /* 管理模式 */
 [data-style="ocean"] .sub_path_item.is-manage-mode,
 [data-style="ocean"] .query_item.is-manage-mode {
-  border-color: #0ea5e9 !important;
+  border: none !important;
   background: rgba(14, 165, 233, 0.06) !important;
 }
 [data-style="ocean"].dark .sub_path_item.is-manage-mode,
 [data-style="ocean"].dark .query_item.is-manage-mode {
-  border-color: #38bdf8 !important;
+  border: none !important;
   background: rgba(56, 189, 248, 0.08) !important;
 }
 
 /* 同时激活 + 管理模式（确保文字可见） */
 [data-style="ocean"] .sub_path_item.is-active.is-manage-mode,
 [data-style="ocean"] .query_item.is-active.is-manage-mode {
-  border-color: #0284c7 !important;
+  border: none !important;
   background: linear-gradient(180deg, #38bdf8, #0ea5e9) !important;
 }
 [data-style="ocean"] .sub_path_item.is-active.is-manage-mode .sub_path_item_label,
@@ -415,13 +492,13 @@
    ======================================== */
 
 [data-style="ocean"] .config_bar {
-  border-color: #bae6fd !important;
+  border: none !important;
   border-radius: 10px !important;
-  background: rgba(240, 249, 255, 0.4) !important;
+  background: rgba(14, 165, 233, 0.04) !important;
 }
 [data-style="ocean"].dark .config_bar {
-  border-color: #164e63 !important;
-  background: rgba(11, 30, 47, 0.4) !important;
+  border: none !important;
+  background: rgba(14, 165, 233, 0.06) !important;
 }
 [data-style="ocean"] .config_sep {
   background-color: #bae6fd !important;

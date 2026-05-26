@@ -18,6 +18,8 @@
   --g-tabbar-border: #5c4033;
   --g-tabbar-item-after: #c98b4a;
   --g-home-link-border: #5c4033;
+  --el-color-primary: #c98b4a;
+  --el-color-primary-dark-2: #a06830;
   --el-text-color-primary: #f0d9b5;
   --el-text-color-regular: rgba(240, 217, 181, 0.72);
 }
@@ -58,15 +60,18 @@
   border: 1px solid #804040 !important;
   border-radius: 6px !important;
   box-shadow: 0 2px 4px rgba(120, 40, 40, 0.2), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+  color: #fff !important;
   font-weight: 600 !important;
 }
 [data-style="retro"] .el-button--danger:hover:not(.is-disabled) {
   background: linear-gradient(180deg, #d48888 0%, #b06060 100%) !important;
   box-shadow: 0 3px 6px rgba(120, 40, 40, 0.3), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+  color: #fff !important;
 }
 [data-style="retro"] .el-button--danger:active:not(.is-disabled) {
   background: linear-gradient(180deg, #904040 0%, #803838 100%) !important;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.15) !important;
+  color: #fff !important;
 }
 
 /* text 按钮 */
@@ -144,6 +149,25 @@
 }
 
 /* ========================================
+   Alert / 警告
+   ======================================== */
+
+[data-style="retro"] .el-alert--warning {
+  background-color: rgba(201, 139, 74, 0.1) !important;
+  border-color: #c9a87c !important;
+}
+[data-style="retro"] .el-alert--warning .el-alert__icon {
+  color: #c98b4a !important;
+}
+[data-style="retro"].dark .el-alert--warning {
+  background-color: rgba(201, 139, 74, 0.08) !important;
+  border-color: #5c4033 !important;
+}
+[data-style="retro"].dark .el-alert--warning .el-alert__icon {
+  color: #d4a96a !important;
+}
+
+/* ========================================
    输入框
    ======================================== */
 
@@ -174,6 +198,29 @@
 [data-style="retro"].dark .el-textarea__inner::placeholder,
 [data-style="retro"].dark .el-input__inner::placeholder {
   color: rgba(240, 217, 181, 0.3) !important;
+}
+
+/* 主链接输入框（Home页面文本域） */
+[data-style="retro"] .input .el-textarea__inner {
+  border: 1px solid #d4b896 !important;
+  border-radius: 8px !important;
+  background: rgba(245, 230, 211, 0.5) !important;
+  box-shadow: inset 0 2px 4px rgba(139, 94, 60, 0.08) !important;
+  color: #4a3728 !important;
+}
+[data-style="retro"].dark .input .el-textarea__inner {
+  border-color: #5c4033 !important;
+  background: #3d2b1f !important;
+  color: #f0d9b5 !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+[data-style="retro"] .input .el-textarea__inner:focus {
+  border-color: #c98b4a !important;
+  box-shadow: 0 0 0 2px rgba(201, 139, 74, 0.15), inset 0 2px 4px rgba(139, 94, 60, 0.08) !important;
+}
+[data-style="retro"].dark .input .el-textarea__inner:focus {
+  border-color: #c98b4a !important;
+  box-shadow: 0 0 0 2px rgba(201, 139, 74, 0.15), inset 0 2px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* ========================================

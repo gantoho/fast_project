@@ -124,6 +124,24 @@
 }
 
 /* ================================================================ */
+/* Alert / 警告七彩闪                                                */
+/* ================================================================ */
+
+[data-easter-egg="party"] .el-alert--warning {
+  animation: party-alert-rainbow 2s linear infinite !important;
+  border: 2px solid transparent !important;
+}
+@keyframes party-alert-rainbow {
+  0%   { background: rgba(255, 0, 68, 0.15); border-color: #ff0044; }
+  16%  { background: rgba(255, 136, 0, 0.15); border-color: #ff8800; }
+  33%  { background: rgba(204, 255, 0, 0.15); border-color: #ccff00; }
+  50%  { background: rgba(0, 221, 68, 0.15); border-color: #00dd44; }
+  66%  { background: rgba(0, 170, 255, 0.15); border-color: #00aaff; }
+  83%  { background: rgba(204, 0, 255, 0.15); border-color: #cc00ff; }
+  100% { background: rgba(255, 0, 68, 0.15); border-color: #ff0044; }
+}
+
+/* ================================================================ */
 /* 输入框与文本区域                                                 */
 /* ================================================================ */
 

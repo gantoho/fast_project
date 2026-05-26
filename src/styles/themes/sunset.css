@@ -18,6 +18,8 @@
   --g-tabbar-border: #7c2d12;
   --g-tabbar-item-after: #fb923c;
   --g-home-link-border: #7c2d12;
+  --el-color-primary: #f97316;
+  --el-color-primary-dark-2: #ea580c;
   --el-text-color-primary: #fed7aa;
   --el-text-color-regular: rgba(254, 215, 170, 0.72);
 }
@@ -70,6 +72,29 @@
 }
 [data-style="sunset"].dark .el-button.is-text {
   color: #fb923c !important;
+}
+
+/* circle 按钮 */
+[data-style="sunset"] .el-button.is-circle {
+  border-radius: 8px !important;
+  border-color: #fed7aa !important;
+  background: rgba(249, 115, 22, 0.04) !important;
+  color: #431407 !important;
+}
+[data-style="sunset"].dark .el-button.is-circle {
+  border-color: #7c2d12 !important;
+  background: rgba(249, 115, 22, 0.08) !important;
+  color: #fed7aa !important;
+}
+[data-style="sunset"] .el-button.is-circle:hover:not(.is-disabled) {
+  border-color: #f97316 !important;
+  background: rgba(249, 115, 22, 0.1) !important;
+  color: #431407 !important;
+}
+[data-style="sunset"].dark .el-button.is-circle:hover:not(.is-disabled) {
+  border-color: #fb923c !important;
+  background: rgba(251, 146, 60, 0.15) !important;
+  color: #fed7aa !important;
 }
 
 /* ========================================
@@ -131,6 +156,25 @@
 }
 
 /* ========================================
+   Alert / 警告
+   ======================================== */
+
+[data-style="sunset"] .el-alert--warning {
+  background-color: rgba(249, 115, 22, 0.08) !important;
+  border-color: #fed7aa !important;
+}
+[data-style="sunset"] .el-alert--warning .el-alert__icon {
+  color: #f97316 !important;
+}
+[data-style="sunset"].dark .el-alert--warning {
+  background-color: rgba(249, 115, 22, 0.06) !important;
+  border-color: #7c2d12 !important;
+}
+[data-style="sunset"].dark .el-alert--warning .el-alert__icon {
+  color: #fb923c !important;
+}
+
+/* ========================================
    输入框
    ======================================== */
 
@@ -158,6 +202,19 @@
   border-color: #fed7aa !important;
 }
 [data-style="sunset"].dark .el-input-number .el-input__wrapper {
+  border-color: #7c2d12 !important;
+}
+[data-style="sunset"] .el-input-number__decrease,
+[data-style="sunset"] .el-input-number__increase {
+  color: #431407 !important;
+  background: rgba(249, 115, 22, 0.05) !important;
+  border-radius: 0 !important;
+  border-color: #fed7aa !important;
+}
+[data-style="sunset"].dark .el-input-number__decrease,
+[data-style="sunset"].dark .el-input-number__increase {
+  color: #fed7aa !important;
+  background: rgba(249, 115, 22, 0.08) !important;
   border-color: #7c2d12 !important;
 }
 [data-style="sunset"] .el-input-number__decrease:hover:not(.is-disabled),
@@ -289,44 +346,55 @@
 /* 容器模块 */
 [data-style="sunset"] .sub_path_module,
 [data-style="sunset"] .step_module {
-  border-color: #fed7aa !important;
+  border: none !important;
   border-radius: 10px !important;
-  background: rgba(255, 247, 237, 0.4) !important;
+  background: rgba(249, 115, 22, 0.04) !important;
 }
 [data-style="sunset"].dark .sub_path_module,
 [data-style="sunset"].dark .step_module {
-  border-color: #7c2d12 !important;
-  background: rgba(28, 15, 8, 0.5) !important;
+  border: none !important;
+  background: rgba(249, 115, 22, 0.06) !important;
 }
 
 /* URL 展示框 */
 [data-style="sunset"] .step_url_box {
-  border-color: #fed7aa !important;
+  border: none !important;
   border-radius: 8px !important;
-  background: rgba(249, 115, 22, 0.04) !important;
+  background: rgba(255, 247, 237, 0.6) !important;
 }
 [data-style="sunset"].dark .step_url_box {
-  border-color: #7c2d12 !important;
-  background: rgba(249, 115, 22, 0.06) !important;
+  border: none !important;
+  background: rgba(28, 15, 8, 0.6) !important;
+}
+
+/* 主链接输入框（Home页面文本域） */
+[data-style="sunset"] .input .el-textarea__inner {
+  border: none !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+[data-style="sunset"].dark .input .el-textarea__inner {
+  border: none !important;
+  box-shadow: none !important;
+  background: rgba(35, 20, 10, 0.85) !important;
 }
 
 /* 路径条目（默认） */
 [data-style="sunset"] .sub_path_item,
 [data-style="sunset"] .query_item {
-  border-color: rgba(249, 115, 22, 0.2) !important;
+  border: none !important;
   border-radius: 6px !important;
-  background: rgba(255, 237, 213, 0.5) !important;
+  background: rgba(254, 215, 170, 0.3) !important;
   color: #431407 !important;
 }
 [data-style="sunset"].dark .sub_path_item,
 [data-style="sunset"].dark .query_item {
-  border-color: rgba(249, 115, 22, 0.15) !important;
-  background: rgba(28, 15, 8, 0.5) !important;
+  border: none !important;
+  background: rgba(251, 146, 60, 0.08) !important;
   color: #fed7aa !important;
 }
 [data-style="sunset"] .sub_path_item:not(.is-active):hover,
 [data-style="sunset"] .query_item:not(.is-active):hover {
-  border-color: #f97316 !important;
   background: rgba(249, 115, 22, 0.1) !important;
 }
 [data-style="sunset"] .sub_path_item:not(.is-active):hover .sub_path_item_label,
@@ -335,7 +403,6 @@
 }
 [data-style="sunset"].dark .sub_path_item:not(.is-active):hover,
 [data-style="sunset"].dark .query_item:not(.is-active):hover {
-  border-color: #fb923c !important;
   background: rgba(251, 146, 60, 0.1) !important;
 }
 [data-style="sunset"].dark .sub_path_item:not(.is-active):hover .sub_path_item_label,
@@ -346,7 +413,7 @@
 /* 路径条目（激活） */
 [data-style="sunset"] .sub_path_item.is-active,
 [data-style="sunset"] .query_item.is-active {
-  border-color: #ea580c !important;
+  border: none !important;
   background: linear-gradient(180deg, #fb923c, #f97316) !important;
   color: #fff !important;
   box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35) !important;
@@ -359,19 +426,19 @@
 /* 管理模式 */
 [data-style="sunset"] .sub_path_item.is-manage-mode,
 [data-style="sunset"] .query_item.is-manage-mode {
-  border-color: #f97316 !important;
+  border: none !important;
   background: rgba(249, 115, 22, 0.06) !important;
 }
 [data-style="sunset"].dark .sub_path_item.is-manage-mode,
 [data-style="sunset"].dark .query_item.is-manage-mode {
-  border-color: #fb923c !important;
+  border: none !important;
   background: rgba(251, 146, 60, 0.08) !important;
 }
 
 /* 同时激活 + 管理模式（确保文字可见） */
 [data-style="sunset"] .sub_path_item.is-active.is-manage-mode,
 [data-style="sunset"] .query_item.is-active.is-manage-mode {
-  border-color: #ea580c !important;
+  border: none !important;
   background: linear-gradient(180deg, #fb923c, #f97316) !important;
 }
 [data-style="sunset"] .sub_path_item.is-active.is-manage-mode .sub_path_item_label,
@@ -438,13 +505,13 @@
    ======================================== */
 
 [data-style="sunset"] .config_bar {
-  border-color: #fed7aa !important;
+  border: none !important;
   border-radius: 10px !important;
-  background: rgba(255, 247, 237, 0.4) !important;
+  background: rgba(249, 115, 22, 0.04) !important;
 }
 [data-style="sunset"].dark .config_bar {
-  border-color: #7c2d12 !important;
-  background: rgba(28, 15, 8, 0.4) !important;
+  border: none !important;
+  background: rgba(249, 115, 22, 0.06) !important;
 }
 [data-style="sunset"] .config_sep {
   background-color: #fed7aa !important;
