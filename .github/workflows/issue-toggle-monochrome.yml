@@ -1,0 +1,64 @@
+name: 通过 Issue 切换黑白强制模式
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  toggle:
+    if: ${{ github.event.issue.user.login == github.repository_owner }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 判断操作
+        id: parse
+        run: |
+          title="${{ github.event.issue.title }}"
+          if echo "$title" | grep -iqE '开启黑白|强制黑白.*开|monochrome.*on|true'; then
+            echo "value=true" >> "$GITHUB_OUTPUT"
+            echo "msg=已强制开启黑白风格" >> "$GITHUB_OUTPUT"
+          elif echo "$title" | grep -iqE '关闭黑白|强制黑白.*关|monochrome.*off|false'; then
+            echo "value=false" >> "$GITHUB_OUTPUT"
+            echo "msg=已恢复风格选择" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=skip" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 标题不匹配时提示并关闭
+        if: steps.parse.outputs.value == 'skip'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body '请使用包含以下关键词的标题：
+          - **开启黑白** / `true` — 强制开启黑白风格
+          - **关闭黑白** / `false` — 恢复风格选择'
+          gh issue close ${{ github.event.issue.number }}
+
+      - name: 检出代码
+        if: steps.parse.outputs.value != 'skip'
+        uses: actions/checkout@v4
+
+      - name: 修改配置文件
+        if: steps.parse.outputs.value != 'skip'
+        run: |
+          sed -i 's/"forceMonochrome": .*/"forceMonochrome": ${{ steps.parse.outputs.value }},/' public/theme.config.json
+
+      - name: 提交并推送
+        if: steps.parse.outputs.value != 'skip'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/theme.config.json
+          git commit -m "chore: Issue #${{ github.event.issue.number }} 触发 — 强制黑白模式 → ${{ steps.parse.outputs.value }}"
+          git push
+
+      - name: 回复 Issue 并关闭
+        if: steps.parse.outputs.value != 'skip'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body '${{ steps.parse.outputs.msg }}（已自动提交并推送，部署后生效）'
+          gh issue close ${{ github.event.issue.number }}

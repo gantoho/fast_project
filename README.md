@@ -66,6 +66,18 @@ npm run theme-server
 
 工作流会自动修改 `public/theme.config.json` 并推送到仓库，部署到 GitHub Pages 后自动生效。
 
+### GitHub Issues 触发（仅仓库作者）
+
+提 Issue 即可触发切换，无需进入 Actions 页面：
+
+1. 打开仓库 → **Issues** 选项卡 → **New issue**
+2. 标题填写关键词（仅作者提交的 Issue 生效）：
+   - `开启黑白` / `true` — 强制开启黑白风格
+   - `关闭黑白` / `false` — 恢复风格选择
+3. 无需填写正文，直接提交
+
+工作流会自动完成修改、推送，并在 Issue 中回复结果后关闭。
+
 ```
 localStorage.setItem('fast_forceMonochrome', 'true')
 location.reload()
