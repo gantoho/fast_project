@@ -151,6 +151,17 @@
   border-color: #000000 !important;
   background: #fafafa !important;
 }
+/* danger circle — danger 风格优先 */
+[data-style="monochrome"] .el-button--danger.is-circle {
+  border-color: #1a1a1a !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+}
+[data-style="monochrome"] .el-button--danger.is-circle:hover:not(.is-disabled) {
+  border-color: #000000 !important;
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+}
 [data-style="monochrome"].dark .el-button.is-circle {
   border-color: #555555 !important;
   background: #000000 !important;
@@ -159,6 +170,16 @@
 [data-style="monochrome"].dark .el-button.is-circle:hover:not(.is-disabled) {
   border-color: #ffffff !important;
   background: #1a1a1a !important;
+}
+[data-style="monochrome"].dark .el-button--danger.is-circle {
+  border-color: #ffffff !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+[data-style="monochrome"].dark .el-button--danger.is-circle:hover:not(.is-disabled) {
+  border-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
 }
 
 /* ========================================
@@ -924,18 +945,20 @@
   border-radius: 4px !important;
   color: #1a1a1a !important;
   background: #ffffff !important;
+  text-decoration: none !important;
 }
-[data-style="monochrome"] .copy_all_btn:hover {
+[data-style="monochrome"] .copy_all_btn:hover:not(.is-disabled) {
   border-color: #000000 !important;
   color: #000000 !important;
   background: #fafafa !important;
+  text-decoration: none !important;
 }
 [data-style="monochrome"].dark .copy_all_btn {
   border-color: #555555 !important;
   color: #e5e5e5 !important;
   background: #000000 !important;
 }
-[data-style="monochrome"].dark .copy_all_btn:hover {
+[data-style="monochrome"].dark .copy_all_btn:hover:not(.is-disabled) {
   border-color: #ffffff !important;
   color: #ffffff !important;
   background: #1a1a1a !important;
