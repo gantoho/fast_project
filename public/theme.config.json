@@ -1,4 +1,4 @@
 {
-  "forceMonochrome": false,
+  "forceMonochrome": true,
   "note": "由 server/index.js 后端程序或 CLI (npm run theme-toggle) 修改。刷新页面即可生效。"
 }
