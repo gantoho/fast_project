@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
 
       - name: 修改配置文件
         run: |
@@ -25,10 +27,9 @@ jobs:
 
       - name: 提交并推送
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "gantoho"
+          git config user.email "gantoho@users.noreply.github.com"
           git add public/theme.config.json
           VAlUE="${{ github.event.inputs.forceMonochrome }}"
           git commit -m "chore: 强制黑白模式 → ${VAlUE}"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push
