@@ -38,7 +38,7 @@
   color: #000000 !important;
   font-weight: 800 !important;
   letter-spacing: 0.5px !important;
-  border-bottom: 2px solid #000000;
+  border-bottom: 1.5px solid #000000;
   display: inline-block;
   padding-bottom: 4px;
 }
@@ -53,7 +53,7 @@
 
 /* primary 按钮 */
 [data-style="monochrome"] .el-button--primary {
-  border: 2px solid #1a1a1a !important;
+  border: 1.5px solid #1a1a1a !important;
   background: #1a1a1a !important;
   border-radius: 4px !important;
   box-shadow: none !important;
@@ -104,7 +104,7 @@
 
 /* danger 按钮 */
 [data-style="monochrome"] .el-button--danger {
-  border: 2px solid #1a1a1a !important;
+  border: 1.5px solid #1a1a1a !important;
   background: #ffffff !important;
   color: #1a1a1a !important;
   font-weight: 600 !important;
@@ -219,7 +219,7 @@
 
 [data-style="monochrome"] .el-textarea__inner,
 [data-style="monochrome"] .el-input__wrapper {
-  border: 2px solid #b0b0b0 !important;
+  border: 1.5px solid #b0b0b0 !important;
   border-radius: 4px !important;
   background: #ffffff !important;
   box-shadow: none !important;
@@ -284,7 +284,7 @@
 
 /* 轨道 - 未选中 */
 [data-style="monochrome"] .el-switch__core {
-  border: 2px solid #b0b0b0 !important;
+  border: 1.5px solid #b0b0b0 !important;
   background-color: #ffffff !important;
   border-radius: 20px !important;
   height: 20px !important;
@@ -447,7 +447,7 @@
    ======================================== */
 
 [data-style="monochrome"] .el-dialog {
-  border: 2px solid #000000 !important;
+  border: 1.5px solid #000000 !important;
   border-radius: 4px !important;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) !important;
 }
@@ -474,7 +474,7 @@
    ======================================== */
 
 [data-style="monochrome"] .el-message-box {
-  border: 2px solid #000000 !important;
+  border: 1.5px solid #000000 !important;
   border-radius: 4px !important;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) !important;
 }
@@ -582,7 +582,7 @@
 /* 重置按钮 */
 [data-style="monochrome"] .step_reset_btn {
   color: #1a1a1a !important;
-  border: 1px solid #b0b0b0 !important;
+  border: 1.5px solid #b0b0b0 !important;
   background: #ffffff !important;
 }
 [data-style="monochrome"] .step_reset_btn:hover {
@@ -620,7 +620,7 @@
    ======================================== */
 
 [data-style="monochrome"] .input .el-textarea__inner {
-  border: 2px solid #b0b0b0 !important;
+  border: 1.5px solid #b0b0b0 !important;
   background: #ffffff !important;
   box-shadow: none !important;
 }
