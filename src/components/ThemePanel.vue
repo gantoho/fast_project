@@ -60,7 +60,7 @@
             >
               <div class="style_card_header">
                 <span class="style_card_name">{{ opt.label }}</span>
-                <span v-if="opt.key === 'monochrome' && FORCE_MONOCHROME" class="style_badge style_badge_mono">
+                <span v-if="opt.key === 'monochrome' && forceMonochrome" class="style_badge style_badge_mono">
                   <el-icon :size="10"><Lock /></el-icon> 已锁定
                 </span>
                 <span v-if="opt.preferDark === true" class="style_badge style_badge_dark">深色最佳</span>
@@ -79,22 +79,22 @@
 import { ref, computed } from 'vue'
 import { Sunny, Moon, Download, Upload, Setting, Lock } from '@element-plus/icons-vue'
 import useDarkStore from '../stores/darkStore'
-import { useStyle, FORCE_MONOCHROME } from '../composables/useStyle'
+import { useStyle } from '../composables/useStyle'
 import { useGlobalExportBridge } from '../composables/useGlobalExport'
 
 const darkStore = useDarkStore()
-const { currentStyle, setStyle, STYLE_OPTIONS } = useStyle()
+const { currentStyle, setStyle, STYLE_OPTIONS, forceMonochrome } = useStyle()
 const { exportBridge, importBridge } = useGlobalExportBridge()
 
 const importInput = ref(null)
 
 // 实际生效的风格：强制模式下永远是 monochrome
 const effectiveStyle = computed(() => {
-  return FORCE_MONOCHROME ? 'monochrome' : currentStyle.value
+  return forceMonochrome.value ? 'monochrome' : currentStyle.value
 })
 
 const onStyleSelect = (key) => {
-  if (FORCE_MONOCHROME) return
+  if (forceMonochrome.value) return
   setStyle(key)
 }
 

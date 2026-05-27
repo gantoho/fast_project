@@ -5,22 +5,28 @@ import App from './App.vue'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import { fetchConfig, forceMonochrome } from './composables/useStyle'
 
-import { FORCE_MONOCHROME } from './composables/useStyle'
+async function bootstrap() {
+  // 先拉取后端配置（失败则回退 localStorage）
+  await fetchConfig()
 
-// 初始化风格 data-style 属性
-if (FORCE_MONOCHROME) {
-  document.documentElement.setAttribute('data-style', 'monochrome')
-} else {
-  const savedStyle = localStorage.getItem('fast_themeStyle')
-  if (!savedStyle || savedStyle === '"default"') {
-    document.documentElement.setAttribute('data-style', 'skeuomorphic')
+  // 根据最终值初始化 data-style 属性
+  if (forceMonochrome.value) {
+    document.documentElement.setAttribute('data-style', 'monochrome')
   } else {
-    const key = savedStyle.replace(/^"|"$/g, '')
-    if (key !== 'default') {
-      document.documentElement.setAttribute('data-style', key)
+    const savedStyle = localStorage.getItem('fast_themeStyle')
+    if (!savedStyle || savedStyle === '"default"') {
+      document.documentElement.setAttribute('data-style', 'skeuomorphic')
+    } else {
+      const key = savedStyle.replace(/^"|"$/g, '')
+      if (key !== 'default') {
+        document.documentElement.setAttribute('data-style', key)
+      }
     }
   }
+
+  createApp(App).use(ElementPlus).use(createPinia()).mount('#app')
 }
 
-const app = createApp(App).use(ElementPlus).use(createPinia()).mount('#app')
+bootstrap()

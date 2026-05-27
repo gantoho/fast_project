@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --host --open",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "theme-server": "node server/index.js",
+    "theme-toggle": "node server/toggle-cli.js"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

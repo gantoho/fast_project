@@ -12,5 +12,13 @@ export default defineConfig({
   },
   define: {
     __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false
+  },
+  server: {
+    proxy: {
+      '/api/theme': {
+        target: 'http://localhost:3500',
+        changeOrigin: true
+      }
+    }
   }
 })

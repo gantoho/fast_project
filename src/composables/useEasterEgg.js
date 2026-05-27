@@ -1,5 +1,5 @@
 import { onMounted, onUnmounted, ref } from 'vue'
-import { FORCE_MONOCHROME } from './useStyle'
+import { forceMonochrome } from './useStyle'
 
 // Konami Code: ↑ ↑ ↓ ↓ ← → ← → B A
 const KONAMI_CODE = [
