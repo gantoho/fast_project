@@ -54,6 +54,18 @@ npm run theme-server
 
 `Ctrl + Shift + B` — 前端运行时切换（需要后端服务运行）
 
+### GitHub Actions（无需本地操作）
+
+项目已配置 GitHub Actions 工作流，在 GitHub 仓库页面可直接切换，无需本地克隆或启动后端：
+
+1. 打开仓库 → **Actions** 选项卡
+2. 在左侧找到 **切换黑白强制模式**
+3. 点击 **Run workflow** 按钮
+4. 选择 `true`（开启）或 `false`（关闭）
+5. 点击 **Run workflow** 提交
+
+工作流会自动修改 `public/theme.config.json` 并推送到仓库，部署到 GitHub Pages 后自动生效。
+
 ```
 localStorage.setItem('fast_forceMonochrome', 'true')
 location.reload()

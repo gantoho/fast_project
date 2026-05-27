@@ -1,0 +1,33 @@
+name: 切换黑白强制模式
+
+on:
+  workflow_dispatch:
+    inputs:
+      forceMonochrome:
+        description: 强制启用黑白风格？
+        required: true
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+        default: 'true'
+
+jobs:
+  toggle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 修改配置文件
+        run: |
+          sed -i 's/"forceMonochrome": .*/"forceMonochrome": ${{ github.event.inputs.forceMonochrome }},/' public/theme.config.json
+
+      - name: 提交并推送
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/theme.config.json
+          VAlUE="${{ github.event.inputs.forceMonochrome }}"
+          git commit -m "chore: 强制黑白模式 → ${VAlUE}"
+          git push
