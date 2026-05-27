@@ -30,4 +30,5 @@ jobs:
           git add public/theme.config.json
           VAlUE="${{ github.event.inputs.forceMonochrome }}"
           git commit -m "chore: 强制黑白模式 → ${VAlUE}"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push
