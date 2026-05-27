@@ -730,6 +730,42 @@
   color: #000000 !important;
 }
 
+/* 删除按钮（红色 → 黑白适配） */
+[data-style="monochrome"] .sub_path_item .manage-action.delete-action,
+[data-style="monochrome"] .query_item .manage-action.delete-action {
+  color: #1a1a1a !important;
+}
+[data-style="monochrome"] .sub_path_item .manage-action.delete-action:hover,
+[data-style="monochrome"] .query_item .manage-action.delete-action:hover {
+  color: #000000 !important;
+}
+[data-style="monochrome"].dark .sub_path_item .manage-action.delete-action,
+[data-style="monochrome"].dark .query_item .manage-action.delete-action {
+  color: #e5e5e5 !important;
+}
+[data-style="monochrome"].dark .sub_path_item .manage-action.delete-action:hover,
+[data-style="monochrome"].dark .query_item .manage-action.delete-action:hover {
+  color: #ffffff !important;
+}
+
+/* 激活状态下删除按钮 */
+[data-style="monochrome"] .sub_path_item.is-active .manage-action.delete-action,
+[data-style="monochrome"] .query_item.is-active .manage-action.delete-action {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+[data-style="monochrome"] .sub_path_item.is-active .manage-action.delete-action:hover,
+[data-style="monochrome"] .query_item.is-active .manage-action.delete-action:hover {
+  color: #ffffff !important;
+}
+[data-style="monochrome"].dark .sub_path_item.is-active .manage-action.delete-action,
+[data-style="monochrome"].dark .query_item.is-active .manage-action.delete-action {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+[data-style="monochrome"].dark .sub_path_item.is-active .manage-action.delete-action:hover,
+[data-style="monochrome"].dark .query_item.is-active .manage-action.delete-action:hover {
+  color: #000000 !important;
+}
+
 /* 管理/完成按钮 */
 [data-style="monochrome"] .el-button.is-text.manage_btn {
   color: #1a1a1a !important;
