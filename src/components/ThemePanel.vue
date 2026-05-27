@@ -60,7 +60,7 @@
             >
               <div class="style_card_header">
                 <span class="style_card_name">{{ opt.label }}</span>
-                <span v-if="opt.key === 'monochrome'" class="style_badge style_badge_mono">
+                <span v-if="opt.key === 'monochrome' && FORCE_MONOCHROME" class="style_badge style_badge_mono">
                   <el-icon :size="10"><Lock /></el-icon> 已锁定
                 </span>
                 <span v-if="opt.preferDark === true" class="style_badge style_badge_dark">深色最佳</span>
