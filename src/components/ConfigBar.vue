@@ -70,7 +70,7 @@
                         </el-button>
                     </div>
                     <div class="bookmarklet_code" @click="copyBookmarklet" :title="copied ? '已复制！' : '点击复制'">
-                        <code>{{ bookmarkletUrl }}</code>
+                        <code>javascript:{{ jsCode }}</code>
                     </div>
                 </div>
                 <div class="bookmarklet_tip">
@@ -106,7 +106,7 @@ defineEmits([
     'update:openDelayRandom'
 ])
 
-const { bookmarkletUrl } = useBookmarklet()
+const { jsCode } = useBookmarklet()
 const bookmarkletVisible = ref(false)
 const copied = ref(false)
 
@@ -121,7 +121,7 @@ const copyUrls = async () => {
 
 const copyBookmarklet = async () => {
     try {
-        await navigator.clipboard.writeText(bookmarkletUrl)
+        await navigator.clipboard.writeText('javascript:' + jsCode)
         copied.value = true
         ElMessage({ message: '已复制书签代码，请添加到浏览器书签', type: 'success' })
         setTimeout(() => { copied.value = false }, 2000)
