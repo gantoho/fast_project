@@ -18,6 +18,7 @@
                 class="sub_path_input"
                 :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
                 placeholder="输入子路径（或点击下方选项选择）"
+                clearable
             />
             <div class="sub_path_custom">
                 <div class="sub_path_custom_header">
