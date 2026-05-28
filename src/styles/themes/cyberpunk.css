@@ -426,10 +426,12 @@
 [data-style="cyberpunk"]:not(.dark) .copy_all_btn {
   color: #00ff88 !important;
   opacity: 1 !important;
+  background: rgba(0, 255, 136, 0.08) !important;
+  border-radius: 4px !important;
 }
 [data-style="cyberpunk"]:not(.dark) .copy_all_btn:hover {
   color: #66ffbb !important;
-  background: rgba(0, 255, 136, 0.1) !important;
+  background: rgba(0, 255, 136, 0.18) !important;
   border-radius: 4px !important;
 }
 [data-style="cyberpunk"].dark .copy_all_btn {

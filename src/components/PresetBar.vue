@@ -297,6 +297,26 @@ const onTagClick = (item) => {
         border-color: rgba(230, 162, 60, 0.25) !important;
     }
 }
+@media (max-width: 640px) {
+    .preset_header {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .preset_save_area {
+        margin-left: 0;
+        flex: auto;
+        width: 100%;
+        order: 1;
+        .preset_save_input {
+            max-width: none;
+            flex: 1;
+        }
+    }
+    .manage_actions {
+        flex-wrap: wrap;
+        gap: 2px;
+    }
+}
 
 .preset_tags {
     display: flex;

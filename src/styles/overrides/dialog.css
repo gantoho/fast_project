@@ -49,3 +49,9 @@ html .el-dialog__footer .el-button:not(.el-button--primary):not(.el-button--dang
   border-color: var(--el-color-primary);
   color: var(--el-color-primary);
 }
+
+@media (max-width: 640px) {
+  html .el-dialog {
+    max-width: calc(100vw - 32px) !important;
+  }
+}

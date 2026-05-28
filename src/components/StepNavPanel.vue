@@ -185,6 +185,15 @@ defineEmits([
         margin: 0;
     }
 }
+@media (max-width: 640px) {
+    .step_url_box {
+        padding: 8px 10px;
+        gap: 6px;
+    }
+    .step_controls {
+        gap: 10px;
+    }
+}
 .step_controls {
     display: flex;
     flex-wrap: wrap;

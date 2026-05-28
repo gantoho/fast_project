@@ -811,4 +811,32 @@ const onDragEnd = () => {
         font-weight: 500;
     }
 }
+@media (max-width: 640px) {
+    .sub_path_custom_add {
+        flex-direction: column;
+        .sub_path_custom_input {
+            flex: none;
+            width: 100%;
+        }
+    }
+    .query_add_row {
+        flex-direction: column;
+        .query_label_input {
+            width: 100%;
+            flex-shrink: 1;
+        }
+        .query_value_input {
+            flex: none;
+            width: 100%;
+        }
+    }
+    .sub_path_custom_header,
+    .query_section_header {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .sub_path_custom_header .manage_actions {
+        flex-wrap: wrap;
+    }
+}
 </style>

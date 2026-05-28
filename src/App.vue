@@ -37,5 +37,12 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 .main{
   width: 100%;
   max-width: 900px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+@media (max-width: 640px) {
+  .main {
+    padding: 0 12px;
+  }
 }
 </style>

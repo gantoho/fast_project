@@ -78,6 +78,8 @@
         :open-delay="openDelay"
         :open-delay-max="openDelayMax"
         :open-delay-random="openDelayRandom"
+        :has-links="hasLinks"
+        :processed-url-list="processedUrlList"
         @update:num-data="numData = $event"
         @update:open-delay-switch="openDelaySwitch = $event"
         @update:open-delay="openDelay = $event"
@@ -90,7 +92,6 @@
         :step-batch-size="stepBatchSize"
         :num-data="numData"
         :link-list-len="linkList.length"
-        :processed-url-list="processedUrlList"
         @open-link="openLink"
         @clear="clear"
     />

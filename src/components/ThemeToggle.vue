@@ -27,4 +27,17 @@ import ThemePanel from './ThemePanel.vue'
         }
     }
 }
+@media (max-width: 640px) {
+    .main-top {
+        align-items: flex-start;
+    }
+    .main-text {
+        h1 {
+            font-size: 18px;
+        }
+        p {
+            font-size: 12px;
+        }
+    }
+}
 </style>
