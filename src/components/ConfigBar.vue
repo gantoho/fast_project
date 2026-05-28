@@ -49,19 +49,73 @@
         </div>
         <el-dialog v-model="bookmarkletVisible" title="书签小工具 (Bookmarklet)" width="640px" append-to-body>
             <div class="bookmarklet_body">
-                <p class="bookmarklet_desc">
-                    将此代码保存为浏览器书签，在目标网站上点击该书签，即可自动将 URL 中的参数填入对应的输入框。
-                </p>
-                <div class="bookmarklet_how">
-                    <span class="bookmarklet_how_title">使用方法：</span>
-                    <ol class="bookmarklet_steps">
-                        <li>点击下方「复制代码」按钮</li>
-                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
-                        <li>打开带参数的目标网站（如 <code>example.com?q=hello&name=world</code>）</li>
-                        <li>点击该书签，参数自动填入匹配的输入框</li>
-                    </ol>
+                <div class="bookmarklet_mode_switch">
+                    <el-button
+                        size="small"
+                        :type="mode === 'url' ? 'primary' : 'default'"
+                        @click="mode = 'url'"
+                    >URL 参数模式</el-button>
+                    <el-button
+                        size="small"
+                        :type="mode === 'custom' ? 'primary' : 'default'"
+                        @click="mode = 'custom'"
+                    >自定义配置模式</el-button>
                 </div>
+
+                <template v-if="mode === 'url'">
+                    <p class="bookmarklet_desc">
+                        从浏览器地址栏的 URL 参数中读取并填入目标网站对应的输入框。适用于分享链接时携带参数的场景。
+                    </p>
+                    <div class="bookmarklet_how">
+                        <span class="bookmarklet_how_title">使用方法：</span>
+                        <ol class="bookmarklet_steps">
+                            <li>点击下方「复制代码」按钮</li>
+                            <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
+                            <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                            <li>打开带参数的目标网站（如 <code>example.com?q=hello&name=world</code>）</li>
+                            <li>点击该书签，参数自动填入匹配的输入框</li>
+                        </ol>
+                    </div>
+                </template>
+
+                <template v-if="mode === 'custom'">
+                    <p class="bookmarklet_desc">
+                        在代码中直接配置固定的参数键值对，书签始终填入相同的参数。适用于固定参数重复使用的场景。
+                    </p>
+                    <div class="bookmarklet_config_area">
+                        <div class="bookmarklet_config_header">
+                            <span>配置参数（JSON 格式）</span>
+                            <div class="bookmarklet_config_actions">
+                                <span v-if="!jsonValid && customParamsRaw.trim()" class="json_invalid">JSON 格式错误</span>
+                                <span v-else-if="customParamsRaw.trim() && jsonValid" class="json_valid">JSON 有效</span>
+                                <el-button size="small" text class="tool_btn" @click="triggerJsonImport">
+                                    <el-icon :size="13"><Upload /></el-icon> 导入 JSON
+                                </el-button>
+                                <input ref="jsonFileInput" type="file" accept=".json" style="display:none" @change="handleJsonImport" />
+                            </div>
+                        </div>
+                        <el-input
+                            v-model="customParamsRaw"
+                            type="textarea"
+                            :autosize="{ minRows: 4, maxRows: 10 }"
+                            placeholder='{"username": "admin", "lang": "zh"}'
+                            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)', fontFamily: 'monospace', fontSize: '13px'}"
+                            class="bookmarklet_json_input"
+                        />
+                        <p class="bookmarklet_config_hint">每对键值对应一个输入框，按 <code>name</code> → <code>id</code> 匹配。可以直接粘贴已有的 JSON 内容。</p>
+                    </div>
+                    <div class="bookmarklet_how">
+                        <span class="bookmarklet_how_title">使用方法：</span>
+                        <ol class="bookmarklet_steps">
+                            <li>在上方输入框中直接编写 JSON，或点击「导入 JSON」从文件导入</li>
+                            <li>点击下方「复制代码」按钮</li>
+                            <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
+                            <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                            <li>打开目标网站，点击该书签，参数自动填入匹配的输入框</li>
+                        </ol>
+                    </div>
+                </template>
+
                 <div class="bookmarklet_code_box">
                     <div class="bookmarklet_code_header">
                         <span>书签代码（点击复制）</span>
@@ -70,7 +124,7 @@
                         </el-button>
                     </div>
                     <div class="bookmarklet_code" @click="copyBookmarklet" :title="copied ? '已复制！' : '点击复制'">
-                        <code>javascript:{{ jsCode }}</code>
+                        <code>javascript:{{ jsCode || '// 请填写有效的 JSON 配置' }}</code>
                     </div>
                 </div>
                 <div class="bookmarklet_tip">
@@ -83,7 +137,7 @@
 </template>
 
 <script setup>
-import { View, DocumentCopy, Link, InfoFilled } from '@element-plus/icons-vue'
+import { View, DocumentCopy, Link, InfoFilled, Upload } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { useBookmarklet } from '../composables/useBookmarklet'
@@ -106,9 +160,28 @@ defineEmits([
     'update:openDelayRandom'
 ])
 
-const { jsCode } = useBookmarklet()
+const { jsCode, mode, customParamsRaw, jsonValid } = useBookmarklet()
 const bookmarkletVisible = ref(false)
 const copied = ref(false)
+const jsonFileInput = ref(null)
+
+const triggerJsonImport = () => {
+    jsonFileInput.value?.click()
+}
+
+const handleJsonImport = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+        const text = ev.target?.result
+        if (typeof text === 'string') {
+            customParamsRaw.value = text
+        }
+    }
+    reader.readAsText(file)
+    e.target.value = ''
+}
 
 const copyUrls = async () => {
     try {
@@ -121,7 +194,7 @@ const copyUrls = async () => {
 
 const copyBookmarklet = async () => {
     try {
-        await navigator.clipboard.writeText('javascript:' + jsCode)
+        await navigator.clipboard.writeText('javascript:' + jsCode.value)
         copied.value = true
         ElMessage({ message: '已复制书签代码，请添加到浏览器书签', type: 'success' })
         setTimeout(() => { copied.value = false }, 2000)
@@ -248,10 +321,57 @@ const copyBookmarklet = async () => {
     font-size: 14px;
     line-height: 1.6;
 }
+.bookmarklet_mode_switch {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
 .bookmarklet_desc {
     margin: 0 0 14px;
     font-size: 13px;
     opacity: 0.8;
+}
+.bookmarklet_config_area {
+    margin-bottom: 14px;
+}
+.bookmarklet_config_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+.bookmarklet_config_actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.bookmarklet_config_actions .tool_btn {
+    font-size: 12px;
+}
+.json_valid {
+    color: var(--el-color-primary);
+    opacity: 0.8;
+    font-weight: 500;
+}
+.json_invalid {
+    color: var(--el-color-danger);
+    opacity: 0.8;
+    font-weight: 500;
+}
+.bookmarklet_config_hint {
+    margin: 6px 0 0;
+    font-size: 12px;
+    opacity: 0.55;
+    line-height: 1.5;
+}
+.bookmarklet_config_hint code {
+    padding: 0 4px;
+    background-color: rgba(0,0,0,0.06);
+    border-radius: 3px;
+    font-size: 11px;
 }
 .bookmarklet_how {
     margin-bottom: 16px;
