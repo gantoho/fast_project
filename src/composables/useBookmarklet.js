@@ -1,21 +1,21 @@
 import { ref, computed, watch } from 'vue'
 
 function generateUrlCode() {
-  return `(function(){try{var p=new URLSearchParams(location.search),n=p.size;if(!n)return;p.forEach(function(v,k){var e=document.querySelector('[name="'+k.replace(/["\\\\]/g,'')+'"]')||document.getElementById(k);if(!e)return;var t=e.tagName.toLowerCase();if(t==='input'||t==='textarea'||t==='select')e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));e.dispatchEvent(new Event('blur',{bubbles:true}))})}catch(e){}})()`
+  return `(function(){try{var p=new URLSearchParams(location.search),n=p.size;if(!n)return;p.forEach(function(v,k){var s=k.replace(/["\\\\]/g,'');document.querySelectorAll('[name="'+s+'"], [id="'+s+'"]').forEach(function(e){var t=e.tagName.toLowerCase();if(t==='input'||t==='textarea'||t==='select')e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));e.dispatchEvent(new Event('blur',{bubbles:true}))})})}catch(e){}})()`
 }
 
 function generateCustomCode(params) {
   var json = JSON.stringify(params)
-  return `(function(){try{var p=${json};Object.keys(p).forEach(function(k){var v=p[k];var e=document.querySelector('[name="'+k.replace(/["\\\\]/g,'')+'"]')||document.getElementById(k);if(!e)return;var t=e.tagName.toLowerCase();if(t==='input'||t==='textarea'||t==='select')e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));e.dispatchEvent(new Event('blur',{bubbles:true}))})}catch(e){}})()`
+  return `(function(){try{var p=${json};Object.keys(p).forEach(function(k){var v=p[k];var s=k.replace(/["\\\\]/g,'');document.querySelectorAll('[name="'+s+'"], [id="'+s+'"]').forEach(function(e){var t=e.tagName.toLowerCase();if(t==='input'||t==='textarea'||t==='select')e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));e.dispatchEvent(new Event('blur',{bubbles:true}))})})}catch(e){}})()`
 }
 
 function generateFileCode() {
-  return `(function(){var d=document,i=d.createElement('input');i.type='file';i.accept='.json,text/plain';i.style.display='none';i.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var p=JSON.parse(ev.target.result);Object.keys(p).forEach(function(k){var v=p[k];var el=d.querySelector('[name="'+k.replace(/["\\\\]/g,'')+'"]')||d.getElementById(k);if(!el)return;var t=el.tagName.toLowerCase();if(t==='input'||t==='textarea'||t==='select')el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));el.dispatchEvent(new Event('blur',{bubbles:true}))})}catch(e){}};r.readAsText(f)};d.body.appendChild(i);i.click();setTimeout(function(){d.body.removeChild(i)},1e3)})()`
+  return `(function(){var d=document,i=d.createElement('input');i.type='file';i.accept='.json,text/plain';i.style.display='none';i.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var p=JSON.parse(ev.target.result);Object.keys(p).forEach(function(k){var v=p[k];var s=k.replace(/["\\\\]/g,'');d.querySelectorAll('[name="'+s+'"], [id="'+s+'"]').forEach(function(el){var t=el.tagName.toLowerCase();if(t==='input'||t==='textarea'||t==='select')el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));el.dispatchEvent(new Event('blur',{bubbles:true}))})})}catch(e){}};r.readAsText(f)};d.body.appendChild(i);i.click();setTimeout(function(){d.body.removeChild(i)},1e3)})()`
 }
 
 function generateFetchCode(url) {
   var escapedUrl = url.replace(/\\/g, '\\\\').replace(/'/g, "\\'")
-  return `(function(){try{fetch('${escapedUrl}').then(function(r){return r.json()}).then(function(p){Object.keys(p).forEach(function(k){var v=p[k];var e=document.querySelector('[name="'+k.replace(/["\\\\]/g,'')+'"]')||document.getElementById(k);if(!e)return;var t=e.tagName.toLowerCase();if(t==='input'||t==='textarea'||t==='select')e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));e.dispatchEvent(new Event('blur',{bubbles:true}))})}).catch(function(){})}catch(e){}})()`
+  return `(function(){try{fetch('${escapedUrl}').then(function(r){return r.json()}).then(function(p){Object.keys(p).forEach(function(k){var v=p[k];var s=k.replace(/["\\\\]/g,'');document.querySelectorAll('[name="'+s+'"], [id="'+s+'"]').forEach(function(e){var t=e.tagName.toLowerCase();if(t==='input'||t==='textarea'||t==='select')e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));e.dispatchEvent(new Event('blur',{bubbles:true}))})})}).catch(function(){})}catch(e){}})()`
 }
 
 export function useBookmarklet() {
