@@ -76,16 +76,6 @@
                     <p class="bookmarklet_desc">
                         从浏览器地址栏的 URL 参数中读取并填入目标网站对应的输入框。适用于分享链接时携带参数的场景。
                     </p>
-                    <div class="bookmarklet_how">
-                        <span class="bookmarklet_how_title">使用方法：</span>
-                        <ol class="bookmarklet_steps">
-                            <li>点击下方「复制代码」按钮</li>
-                            <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                            <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
-                            <li>打开带参数的目标网站（如 <code>example.com?q=hello&name=world</code>）</li>
-                            <li>点击该书签，参数自动填入匹配的输入框</li>
-                        </ol>
-                    </div>
                 </template>
 
                 <template v-if="mode === 'custom'">
@@ -114,33 +104,12 @@
                         />
                         <p class="bookmarklet_config_hint">每对键值对应一个输入框，按 <code>name</code> → <code>id</code> 匹配。可以直接粘贴已有的 JSON 内容。</p>
                     </div>
-                    <div class="bookmarklet_how">
-                        <span class="bookmarklet_how_title">使用方法：</span>
-                        <ol class="bookmarklet_steps">
-                            <li>在上方输入框中直接编写 JSON，或点击「导入 JSON」从文件导入</li>
-                            <li>点击下方「复制代码」按钮</li>
-                            <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                            <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
-                            <li>打开目标网站，点击该书签，参数自动填入匹配的输入框</li>
-                        </ol>
-                    </div>
                 </template>
 
                 <template v-if="mode === 'file'">
                     <p class="bookmarklet_desc">
                         点击书签后弹出文件选择器，选中本地的 JSON 配置文件，自动读取并填入目标网站对应的输入框。适用于配置频繁变化或不同网站需要不同配置的场景。
                     </p>
-                    <div class="bookmarklet_how">
-                        <span class="bookmarklet_how_title">使用方法：</span>
-                        <ol class="bookmarklet_steps">
-                            <li>准备好 JSON 配置文件，格式如 <code>{"username": "admin", "lang": "zh"}</code></li>
-                            <li>点击下方「复制代码」按钮</li>
-                            <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                            <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
-                            <li>打开目标网站，点击该书签，在弹出的文件选择器中选中你的 JSON 文件</li>
-                            <li>参数自动填入匹配的输入框</li>
-                        </ol>
-                    </div>
                 </template>
 
                 <template v-if="mode === 'remote'">
@@ -161,17 +130,6 @@
                         />
                         <p class="bookmarklet_config_hint">支持任意可公开访问的 JSON 文件地址，如 GitHub Raw、对象存储、个人服务器等。注意跨域限制，JSON 地址需允许跨域访问。</p>
                     </div>
-                    <div class="bookmarklet_how">
-                        <span class="bookmarklet_how_title">使用方法：</span>
-                        <ol class="bookmarklet_steps">
-                            <li>在上方输入框中填入你的 JSON 配置远程地址</li>
-                            <li>点击下方「复制代码」按钮</li>
-                            <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                            <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
-                            <li>打开目标网站，点击该书签，自动从远程地址拉取最新配置填入输入框</li>
-                            <li>配置文件更新后，再次点击书签即获取最新内容，无需重新生成书签</li>
-                        </ol>
-                    </div>
                 </template>
 
                 <div class="bookmarklet_code_box">
@@ -185,6 +143,50 @@
                         <code>javascript:{{ jsCode || '// 请填写有效的 JSON 配置' }}</code>
                     </div>
                 </div>
+
+                <div v-if="mode === 'url'" class="bookmarklet_how">
+                    <span class="bookmarklet_how_title">使用方法：</span>
+                    <ol class="bookmarklet_steps">
+                        <li>点击下方「复制代码」按钮</li>
+                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
+                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                        <li>打开带参数的目标网站（如 <code>example.com?q=hello&name=world</code>）</li>
+                        <li>点击该书签，参数自动填入匹配的输入框</li>
+                    </ol>
+                </div>
+                <div v-if="mode === 'custom'" class="bookmarklet_how">
+                    <span class="bookmarklet_how_title">使用方法：</span>
+                    <ol class="bookmarklet_steps">
+                        <li>在上方输入框中直接编写 JSON，或点击「导入 JSON」从文件导入</li>
+                        <li>点击下方「复制代码」按钮</li>
+                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
+                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                        <li>打开目标网站，点击该书签，参数自动填入匹配的输入框</li>
+                    </ol>
+                </div>
+                <div v-if="mode === 'file'" class="bookmarklet_how">
+                    <span class="bookmarklet_how_title">使用方法：</span>
+                    <ol class="bookmarklet_steps">
+                        <li>准备好 JSON 配置文件，格式如 <code>{"username": "admin", "lang": "zh"}</code></li>
+                        <li>点击下方「复制代码」按钮</li>
+                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
+                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                        <li>打开目标网站，点击该书签，在弹出的文件选择器中选中你的 JSON 文件</li>
+                        <li>参数自动填入匹配的输入框</li>
+                    </ol>
+                </div>
+                <div v-if="mode === 'remote'" class="bookmarklet_how">
+                    <span class="bookmarklet_how_title">使用方法：</span>
+                    <ol class="bookmarklet_steps">
+                        <li>在上方输入框中填入你的 JSON 配置远程地址</li>
+                        <li>点击下方「复制代码」按钮</li>
+                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
+                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                        <li>打开目标网站，点击该书签，自动从远程地址拉取最新配置填入输入框</li>
+                        <li>配置文件更新后，再次点击书签即获取最新内容，无需重新生成书签</li>
+                    </ol>
+                </div>
+
                 <div class="bookmarklet_tip">
                     <el-icon :size="14"><InfoFilled /></el-icon>
                     <span>匹配规则：按 <code>name</code> 属性 → <code>id</code> 属性 查找输入框，支持 input、textarea、select 元素。如果目标网站使用 Vue/React 等框架，也能正常触发更新。</span>
@@ -382,7 +384,22 @@ const copyBookmarklet = async () => {
 .bookmarklet_mode_switch {
     display: flex;
     justify-content: center;
+    gap: 8px;
     margin-bottom: 16px;
+    :deep(.el-button) {
+        margin-left: 0 !important;
+    }
+    :deep(.el-button:not(.el-button--primary)) {
+        background: transparent !important;
+        border-color: var(--el-color-primary) !important;
+        color: var(--g-body-text-color) !important;
+        opacity: 0.6;
+        transition: opacity 0.2s, background 0.2s !important;
+    }
+    :deep(.el-button:not(.el-button--primary):hover) {
+        opacity: 1;
+        background: color-mix(in srgb, var(--el-color-primary) 8%, transparent) !important;
+    }
 }
 .bookmarklet_desc {
     margin: 0 0 14px;
@@ -508,5 +525,57 @@ const copyBookmarklet = async () => {
 }
 :global(.preview-popover) {
     max-width: calc(100vw - 24px) !important;
+}
+
+@media (max-width: 640px) {
+    .bookmarklet_body {
+        font-size: 13px;
+    }
+    .bookmarklet_mode_switch {
+        flex-wrap: wrap;
+        gap: 6px;
+        :deep(.el-button) {
+            flex: 1 1 calc(50% - 3px);
+            padding: 5px 8px;
+            font-size: 12px;
+        }
+    }
+    .bookmarklet_desc {
+        font-size: 12px;
+    }
+    .bookmarklet_config_header {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .bookmarklet_config_actions {
+        flex-wrap: wrap;
+    }
+    .bookmarklet_config_actions .el-button {
+        font-size: 11px;
+        padding: 3px 6px;
+    }
+    .bookmarklet_config_hint {
+        font-size: 11px;
+    }
+    .bookmarklet_how {
+        padding: 10px 12px;
+    }
+    .bookmarklet_how_title {
+        font-size: 12px;
+    }
+    .bookmarklet_steps {
+        font-size: 12px;
+        padding-left: 18px;
+    }
+    .bookmarklet_code {
+        padding: 10px 12px;
+    }
+    .bookmarklet_code code {
+        font-size: 11px;
+    }
+    .bookmarklet_tip {
+        font-size: 11px;
+        padding: 8px 10px;
+    }
 }
 </style>
