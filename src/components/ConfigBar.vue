@@ -102,7 +102,7 @@
                             :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)', fontFamily: 'monospace', fontSize: '13px'}"
                             class="bookmarklet_json_input"
                         />
-                        <p class="bookmarklet_config_hint">每对键值对应一个输入框，按 <code>name</code> → <code>id</code> 匹配。可以直接粘贴已有的 JSON 内容。</p>
+                        <p class="bookmarklet_config_hint">每对键值对应一个输入框，按 <code>name</code> → <code>id</code> → <code>placeholder</code> → <code>aria-label</code> → <code>type</code> → label 文本 智能匹配。key 以 <code>placeholder:</code> 开头则按 placeholder 值匹配；以 <code>sel:</code> 开头则直接作为 CSS 选择器。</p>
                     </div>
                 </template>
 
@@ -114,21 +114,37 @@
 
                 <template v-if="mode === 'remote'">
                     <p class="bookmarklet_desc">
-                        配置一个远程 JSON 接口地址，每次点击书签自动用 <code>fetch</code> 拉取最新配置并填入输入框。适用于配置频繁更新、团队共享配置的场景。
+                        配置 API 服务的地址，每次点击书签先调用 <code>/api/generate</code> 生成最新数据，再填入输入框。
                     </p>
                     <div class="bookmarklet_config_area">
                         <div class="bookmarklet_config_header">
-                            <span>远程 JSON 地址</span>
-                            <span v-if="!remoteUrlValid && remoteUrl.trim()" class="json_invalid">URL 格式无效</span>
-                            <span v-else-if="remoteUrl.trim() && remoteUrlValid" class="json_valid">URL 有效</span>
+                            <span>API 服务地址</span>
+                            <span v-if="remoteHost.trim() && remotePort.trim()" class="remote_status" :class="remoteStatus">
+                                <template v-if="remoteStatus === 'idle'">待检测</template>
+                                <template v-else-if="remoteStatus === 'checking'">检测中...</template>
+                                <template v-else-if="remoteStatus === 'valid'">连接正常</template>
+                                <template v-else-if="remoteStatus === 'invalid'">连接失败</template>
+                                <el-button size="small" text class="remote_check_btn" @click="checkRemoteHealth" :disabled="remoteStatus === 'checking' || !remoteHost.trim() || !remotePort.trim()">
+                                    <el-icon :size="12"><Refresh /></el-icon> 检测
+                                </el-button>
+                            </span>
                         </div>
-                        <el-input
-                            v-model="remoteUrl"
-                            placeholder="https://example.com/config.json"
-                            :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
-                            class="bookmarklet_json_input"
-                        />
-                        <p class="bookmarklet_config_hint">支持任意可公开访问的 JSON 文件地址，如 GitHub Raw、对象存储、个人服务器等。注意跨域限制，JSON 地址需允许跨域访问。</p>
+                        <div class="remote_host_port">
+                            <span class="remote_prefix">http://</span>
+                            <el-input
+                                v-model="remoteHost"
+                                placeholder="localhost"
+                                :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
+                            />
+                            <span class="remote_colon">:</span>
+                            <el-input
+                                v-model="remotePort"
+                                placeholder="8080"
+                                class="remote_port_input"
+                                :input-style="{backgroundColor: 'rgba(0,0,0,0)', color: 'var(--g-body-text-color)'}"
+                            />
+                        </div>
+                        <p class="bookmarklet_config_hint">填入服务地址后自动检测连接状态。书签代码会调用 <code>http://{host}:{port}/api/generate</code> 获取最新数据。接口路径 <code>/api/latest</code> 和 <code>/api/generate</code> 已内置于生成代码中。</p>
                     </div>
                 </template>
 
@@ -178,18 +194,19 @@
                 <div v-if="mode === 'remote'" class="bookmarklet_how">
                     <span class="bookmarklet_how_title">使用方法：</span>
                     <ol class="bookmarklet_steps">
-                        <li>在上方输入框中填入你的 JSON 配置远程地址</li>
+                        <li>在上方输入框中填入 API 服务的 <strong>Host</strong> 和 <strong>Port</strong></li>
+                        <li>系统自动调用 <code>/api/latest</code> 检测连接状态</li>
                         <li>点击下方「复制代码」按钮</li>
                         <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
                         <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
-                        <li>打开目标网站，点击该书签，自动从远程地址拉取最新配置填入输入框</li>
-                        <li>配置文件更新后，再次点击书签即获取最新内容，无需重新生成书签</li>
+                        <li>打开目标网站，点击该书签，自动调用 <code>http://{host}:{port}/api/generate</code> 获取数据并填入输入框</li>
+                        <li>每次点击都会重新请求 <code>/api/generate</code>，获取最新数据</li>
                     </ol>
                 </div>
 
                 <div class="bookmarklet_tip">
                     <el-icon :size="14"><InfoFilled /></el-icon>
-                    <span>匹配规则：按 <code>name</code> 属性 → <code>id</code> 属性 查找输入框，支持 input、textarea、select 元素。如果目标网站使用 Vue/React 等框架，也能正常触发更新。</span>
+                    <span>匹配规则：按 <code>name</code> → <code>id</code> → <code>placeholder</code> → <code>aria-label</code> → <code>type</code> → label 文本 智能查找输入框。高级用法：key 以 <code>placeholder:</code> 开头则按 placeholder 值匹配，如 <code>placeholder:用户名</code>；以 <code>sel:</code> 开头时直接作为 CSS 选择器，如 <code>sel:[placeholder="用户名"]</code>。</span>
                 </div>
             </div>
         </el-dialog>
@@ -197,7 +214,7 @@
 </template>
 
 <script setup>
-import { View, DocumentCopy, Link, InfoFilled, Upload } from '@element-plus/icons-vue'
+import { View, DocumentCopy, Link, InfoFilled, Upload, Refresh } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { useBookmarklet } from '../composables/useBookmarklet'
@@ -220,7 +237,7 @@ defineEmits([
     'update:openDelayRandom'
 ])
 
-const { jsCode, mode, customParamsRaw, jsonValid, remoteUrl, remoteUrlValid } = useBookmarklet()
+const { jsCode, mode, customParamsRaw, jsonValid, remoteHost, remotePort, remoteStatus, checkRemoteHealth } = useBookmarklet()
 const bookmarkletVisible = ref(false)
 const copied = ref(false)
 const jsonFileInput = ref(null)
@@ -447,6 +464,56 @@ const copyBookmarklet = async () => {
     background-color: rgba(0,0,0,0.06);
     border-radius: 3px;
     font-size: 11px;
+}
+.remote_host_port {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.remote_prefix {
+    font-size: 13px;
+    opacity: 0.6;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    white-space: nowrap;
+}
+.remote_colon {
+    font-size: 13px;
+    opacity: 0.6;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+}
+.remote_host_port .el-input {
+    flex: 1;
+}
+.remote_port_input {
+    max-width: 100px;
+}
+.remote_status {
+    font-size: 12px;
+    font-weight: 500;
+}
+.remote_status.idle {
+    color: var(--g-body-text-color);
+    opacity: 0.5;
+}
+.remote_status.checking {
+    color: var(--el-color-warning);
+}
+.remote_status.valid {
+    color: var(--el-color-success);
+}
+.remote_status.invalid {
+    color: var(--el-color-danger);
+}
+.remote_check_btn {
+    font-size: 12px;
+    margin-left: 4px;
+    opacity: 0.7;
+}
+.remote_check_btn:hover {
+    opacity: 1;
+}
+.remote_check_btn .el-icon {
+    margin-right: 1px;
 }
 .bookmarklet_how {
     margin-bottom: 16px;
