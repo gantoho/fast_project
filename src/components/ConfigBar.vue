@@ -151,57 +151,63 @@
                 <div class="bookmarklet_code_box">
                     <div class="bookmarklet_code_header">
                         <span>书签代码（点击复制）</span>
-                        <el-button size="small" text class="copy_all_btn" @click="copyBookmarklet">
-                            <el-icon :size="13"><DocumentCopy /></el-icon> 复制代码
-                        </el-button>
+                        <div class="bookmarklet_code_actions">
+                            <el-button size="small" text class="copy_all_btn" @click="copyBookmarklet">
+                                <el-icon :size="13"><DocumentCopy /></el-icon> 复制书签代码
+                            </el-button>
+                            <el-button size="small" text class="copy_all_btn" @click="copyConsoleCode">
+                                <el-icon :size="13"><DocumentCopy /></el-icon> 复制 Console 代码
+                            </el-button>
+                        </div>
                     </div>
-                    <div class="bookmarklet_code" @click="copyBookmarklet" :title="copied ? '已复制！' : '点击复制'">
+                    <div class="bookmarklet_code" @click="copyBookmarklet" :title="copied ? '已复制书签代码！' : '点击复制书签代码'">
                         <code>javascript:{{ jsCode || '// 请填写有效的 JSON 配置' }}</code>
                     </div>
+                    <p class="bookmarklet_console_hint">
+                        <el-icon :size="12"><InfoFilled /></el-icon>
+                        访客模式或无书签栏？复制「Console 代码」，在目标页面按 <kbd>F12</kbd> → 控制台(Console) → 粘贴代码 → <kbd>Enter</kbd>
+                    </p>
                 </div>
 
                 <div v-if="mode === 'url'" class="bookmarklet_how">
                     <span class="bookmarklet_how_title">使用方法：</span>
                     <ol class="bookmarklet_steps">
-                        <li>点击下方「复制代码」按钮</li>
-                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
-                        <li>打开带参数的目标网站（如 <code>example.com?q=hello&name=world</code>）</li>
-                        <li>点击该书签，参数自动填入匹配的输入框</li>
+                        <li>点击上方「复制书签代码」按钮</li>
+                        <li>在浏览器书签栏右键 → <strong>添加网页</strong>，名称填「自动填参」，网址粘贴刚复制的内容</li>
+                        <li>打开带参数的目标网站（如 <code>example.com?q=hello&name=world</code>），点击该书签</li>
+                        <li>参数自动填入匹配的输入框</li>
                     </ol>
+                    <p class="bookmarklet_alt_tip">📌 无法添加书签（如访客模式）？复制「Console 代码」，在目标页面按 <kbd>F12</kbd> → 控制台 → 粘贴 → <kbd>Enter</kbd></p>
                 </div>
                 <div v-if="mode === 'custom'" class="bookmarklet_how">
                     <span class="bookmarklet_how_title">使用方法：</span>
                     <ol class="bookmarklet_steps">
                         <li>在上方输入框中直接编写 JSON，或点击「导入 JSON」从文件导入</li>
-                        <li>点击下方「复制代码」按钮</li>
-                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                        <li>点击上方「复制书签代码」按钮，添加到浏览器书签</li>
                         <li>打开目标网站，点击该书签，参数自动填入匹配的输入框</li>
                     </ol>
+                    <p class="bookmarklet_alt_tip">📌 无法添加书签（如访客模式）？复制「Console 代码」，在目标页面按 <kbd>F12</kbd> → 控制台 → 粘贴 → <kbd>Enter</kbd></p>
                 </div>
                 <div v-if="mode === 'file'" class="bookmarklet_how">
                     <span class="bookmarklet_how_title">使用方法：</span>
                     <ol class="bookmarklet_steps">
                         <li>准备好 JSON 配置文件，格式如 <code>{"username": "admin", "lang": "zh"}</code></li>
-                        <li>点击下方「复制代码」按钮</li>
-                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                        <li>点击上方「复制书签代码」按钮，添加到浏览器书签</li>
                         <li>打开目标网站，点击该书签，在弹出的文件选择器中选中你的 JSON 文件</li>
                         <li>参数自动填入匹配的输入框</li>
                     </ol>
+                    <p class="bookmarklet_alt_tip">📌 无法添加书签（如访客模式）？复制「Console 代码」，在目标页面按 <kbd>F12</kbd> → 控制台 → 粘贴 → <kbd>Enter</kbd></p>
                 </div>
                 <div v-if="mode === 'remote'" class="bookmarklet_how">
                     <span class="bookmarklet_how_title">使用方法：</span>
                     <ol class="bookmarklet_steps">
                         <li>在上方输入框中填入 API 服务的 <strong>Host</strong> 和 <strong>Port</strong></li>
                         <li>系统自动调用 <code>/api/latest</code> 检测连接状态</li>
-                        <li>点击下方「复制代码」按钮</li>
-                        <li>在浏览器书签栏右键 → <strong>添加网页</strong></li>
-                        <li>名称填「自动填参」，网址粘贴刚复制的内容</li>
+                        <li>点击上方「复制书签代码」按钮，添加到浏览器书签</li>
                         <li>打开目标网站，点击该书签，自动调用 <code>http://{host}:{port}/api/generate</code> 获取数据并填入输入框</li>
                         <li>每次点击都会重新请求 <code>/api/generate</code>，获取最新数据</li>
                     </ol>
+                    <p class="bookmarklet_alt_tip">📌 无法添加书签（如访客模式）？复制「Console 代码」，在目标页面按 <kbd>F12</kbd> → 控制台 → 粘贴 → <kbd>Enter</kbd></p>
                 </div>
 
                 <div class="bookmarklet_tip">
@@ -240,6 +246,7 @@ defineEmits([
 const { jsCode, mode, customParamsRaw, jsonValid, remoteHost, remotePort, remoteStatus, checkRemoteHealth } = useBookmarklet()
 const bookmarkletVisible = ref(false)
 const copied = ref(false)
+const copiedConsole = ref(false)
 const jsonFileInput = ref(null)
 
 const triggerJsonImport = () => {
@@ -275,6 +282,17 @@ const copyBookmarklet = async () => {
         copied.value = true
         ElMessage({ message: '已复制书签代码，请添加到浏览器书签', type: 'success' })
         setTimeout(() => { copied.value = false }, 2000)
+    } catch {
+        ElMessage({ message: '复制失败，请手动复制', type: 'error' })
+    }
+}
+
+const copyConsoleCode = async () => {
+    try {
+        await navigator.clipboard.writeText(jsCode.value)
+        copiedConsole.value = true
+        ElMessage({ message: '已复制代码，在浏览器按 F12 打开控制台粘贴即可运行', type: 'success' })
+        setTimeout(() => { copiedConsole.value = false }, 2000)
     } catch {
         ElMessage({ message: '复制失败，请手动复制', type: 'error' })
     }
@@ -549,6 +567,48 @@ const copyBookmarklet = async () => {
     margin-bottom: 8px;
     font-size: 12px;
     opacity: 0.7;
+}
+.bookmarklet_code_actions {
+    display: flex;
+    gap: 6px;
+}
+.bookmarklet_code_actions .copy_all_btn {
+    font-size: 12px;
+    white-space: nowrap;
+}
+.bookmarklet_console_hint {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    font-size: 11px;
+    opacity: 0.55;
+    line-height: 1.4;
+}
+.bookmarklet_console_hint kbd {
+    padding: 1px 4px;
+    background-color: rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 3px;
+    font-size: 10px;
+    font-family: inherit;
+}
+.bookmarklet_alt_tip {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background-color: color-mix(in srgb, var(--el-color-primary) 6%, transparent);
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0.75;
+    line-height: 1.5;
+}
+.bookmarklet_alt_tip kbd {
+    padding: 1px 4px;
+    background-color: rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 3px;
+    font-size: 11px;
+    font-family: inherit;
 }
 .bookmarklet_code {
     padding: 12px 14px;
