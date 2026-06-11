@@ -225,7 +225,7 @@ import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { useBookmarklet } from '../composables/useBookmarklet'
 
-defineProps({
+const props = defineProps({
     numData: { type: Number, default: 1 },
     openDelaySwitch: { type: Boolean, default: false },
     openDelay: { type: Number, default: 500 },
