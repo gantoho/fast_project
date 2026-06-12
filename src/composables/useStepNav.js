@@ -6,8 +6,8 @@ export function useStepNav(processedUrlList, linkList) {
   const stepIndex = ref(0)
   const stepBatchSize = useStorage('fast_stepBatchSize', 1)
   const stepAutoAdvance = useStorage('fast_stepAutoAdvance', true)
-  const stepLoop = useStorage('fast_stepLoop', false)
-  const stepTrueLoop = useStorage('fast_stepTrueLoop', true)
+  const stepLoop = useStorage('fast_stepLoop', true)
+  const stepTrueLoop = useStorage('fast_stepTrueLoop', false)
   const stepOpened = useStorage('fast_stepOpened', [])
 
   const useWrap = computed(() => stepTrueLoop.value)

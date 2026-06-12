@@ -75,8 +75,8 @@ defineProps({
     hasLinks: { type: Boolean, default: false },
     stepBatchSize: { type: Number, default: 1 },
     stepAutoAdvance: { type: Boolean, default: true },
-    stepLoop: { type: Boolean, default: false },
-    stepTrueLoop: { type: Boolean, default: true }
+    stepLoop: { type: Boolean, default: true },
+    stepTrueLoop: { type: Boolean, default: false }
 })
 
 defineEmits([

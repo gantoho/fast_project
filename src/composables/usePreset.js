@@ -20,8 +20,8 @@ https://rust-lang.org`,
   isStepOpen: false,
   stepBatchSize: 1,
   stepAutoAdvance: true,
-  stepLoop: false,
-  stepTrueLoop: true,
+  stepLoop: true,
+  stepTrueLoop: false,
   stepOpened: [],
   stepIndex: 0
 }
