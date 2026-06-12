@@ -169,19 +169,16 @@ const {
   openDelayRandom,
   openLink
 } = useOpenLink({
-  metaData,
-  subPathSwitch,
-  subPath,
+  processedUrlList,
   isStepOpen,
   stepBatchSize,
   stepLoop,
   stepTrueLoop,
   stepIndex,
   stepAutoAdvance,
-  linkList,
   markOpened,
   advanceIndex,
-}, selectedQueryIds, queryOptions)
+})
 
 const {
   presets,

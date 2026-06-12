@@ -1,22 +1,18 @@
 import { useStorage } from '@vueuse/core'
-import useDomain from './useDomain'
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 export function useOpenLink({
-  metaData,
-  subPathSwitch,
-  subPath,
+  processedUrlList,
   isStepOpen,
   stepBatchSize,
   stepLoop,
   stepTrueLoop,
   stepIndex,
   stepAutoAdvance,
-  linkList,
   markOpened,
   advanceIndex
-}, selectedQueryIds, queryOptions) {
+}) {
   const numData = useStorage('fast_numData', 1)
   const openDelaySwitch = useStorage('fast_openDelaySwitch', false)
   const openDelay = useStorage('fast_openDelay', 500)
@@ -33,11 +29,8 @@ export function useOpenLink({
   }
 
   const openStepBatch = async () => {
-    if (!linkList.value.length) return
-    const sq = selectedQueryIds?.value ?? []
-    const qo = queryOptions?.value ?? []
-    const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath, sq, qo)
-    if (err) return
+    const urlArr = processedUrlList.value
+    if (!urlArr.length) return
     const bothOff = !stepLoop.value && !stepTrueLoop.value
     const max = bothOff ? Math.min(stepBatchSize.value, urlArr.length - stepIndex.value) : stepBatchSize.value
     const opened = new Set()
@@ -62,13 +55,8 @@ export function useOpenLink({
       await openStepBatch()
       return
     }
-    const sq = selectedQueryIds?.value ?? []
-    const qo = queryOptions?.value ?? []
-    const {urlArr, err} = useDomain(metaData, subPathSwitch, subPath, sq, qo)
-    if (err != null) {
-      console.error(err)
-      return
-    }
+    const urlArr = processedUrlList.value
+    if (!urlArr.length) return
     for (const item of urlArr) {
       for (let i = 0; i < numData.value; i++) {
         window.open(item, '_blank')

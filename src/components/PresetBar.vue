@@ -53,7 +53,7 @@
                 @dragend="onDragEnd"
             >
                 <el-tag
-                    :type="activePresetId === item.id ? '' : 'info'"
+                    :type="activePresetId === item.id ? 'primary' : 'info'"
                     :effect="activePresetId === item.id ? 'dark' : 'plain'"
                     size="large"
                     :disable-transitions="false"
