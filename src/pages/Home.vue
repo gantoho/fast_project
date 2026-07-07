@@ -72,6 +72,36 @@
         @step-next="onStepNext"
         @reset-opened="resetOpened"
     />
+    <EmailGenPanel
+        :email-switch="emailSwitch"
+        :email-mode="emailMode"
+        :email-prefix="emailPrefix"
+        :email-start="emailStart"
+        :email-end="emailEnd"
+        :email-step="emailStep"
+        :email-zero-pad="emailZeroPad"
+        :email-count="emailCount"
+        :email-suffix="emailSuffix"
+        :email-suffix-options="emailSuffixOptions"
+        :sha1-length="sha1Length"
+        :english-length="englishLength"
+        :email-case="emailCase"
+        :email-list="emailList"
+        @update:email-switch="emailSwitch = $event"
+        @update:email-mode="emailMode = $event"
+        @update:email-prefix="emailPrefix = $event"
+        @update:email-start="emailStart = $event"
+        @update:email-end="emailEnd = $event"
+        @update:email-step="emailStep = $event"
+        @update:email-zero-pad="emailZeroPad = $event"
+        @update:email-count="emailCount = $event"
+        @update:email-suffix="emailSuffix = $event"
+        @update:sha1-length="sha1Length = $event"
+        @update:english-length="englishLength = $event"
+        @update:email-case="emailCase = $event"
+        @generate="generate"
+        @insert-emails="insertEmails"
+    />
     <ConfigBar
         :num-data="numData"
         :open-delay-switch="openDelaySwitch"
@@ -105,6 +135,7 @@ import { useOpenLink } from '../composables/useOpenLink'
 import { usePreset } from '../composables/usePreset'
 import { useGlobalExport } from '../composables/useGlobalExport'
 import { useStyle } from '../composables/useStyle'
+import { useEmailGen } from '../composables/useEmailGen'
 import useDarkStore from '../stores/darkStore'
 import { onKeyStroke, useDark } from '@vueuse/core'
 import PresetBar from '../components/PresetBar.vue'
@@ -112,6 +143,7 @@ import SubPathPanel from '../components/SubPathPanel.vue'
 import StepNavPanel from '../components/StepNavPanel.vue'
 import ConfigBar from '../components/ConfigBar.vue'
 import ActionBar from '../components/ActionBar.vue'
+import EmailGenPanel from '../components/EmailGenPanel.vue'
 
 const {
   subPathSwitch,
@@ -210,6 +242,31 @@ const {
   queryOptions,
   selectedQueryIds,
 })
+
+const {
+  emailSwitch,
+  emailMode,
+  emailPrefix,
+  emailStart,
+  emailEnd,
+  emailStep,
+  emailZeroPad,
+  emailCount,
+  emailSuffix,
+  emailSuffixOptions,
+  sha1Length,
+  englishLength,
+  emailCase,
+  emailList,
+  generate
+} = useEmailGen()
+
+const insertEmails = () => {
+  if (!emailList.value.length) return
+  const current = metaData.value || ''
+  const emails = emailList.value.join('\n')
+  metaData.value = current ? current + '\n' + emails : emails
+}
 
 // 全局导入导出
 const darkStore = useDarkStore()

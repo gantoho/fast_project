@@ -7,6 +7,7 @@
 :root:root[data-style="forest"]:not(.dark) {
   --g-body-bg-color: #f0fdf4;
   --g-body-text-color: #14532d;
+  --g-body-text-color-secondary: rgba(20, 83, 45, 0.5);
   --g-tabbar-border: #bbf7d0;
   --g-tabbar-item-after: #16a34a;
   --g-home-link-border: #bbf7d0;
@@ -15,6 +16,7 @@
 :root:root.dark[data-style="forest"] {
   --g-body-bg-color: #0c1a10;
   --g-body-text-color: #bbf7d0;
+  --g-body-text-color-secondary: rgba(187, 247, 208, 0.5);
   --g-tabbar-border: #166534;
   --g-tabbar-item-after: #22c55e;
   --g-home-link-border: #166534;
@@ -345,13 +347,15 @@
 
 /* 容器模块 */
 [data-style="forest"] .sub_path_module,
-[data-style="forest"] .step_module {
+[data-style="forest"] .step_module,
+[data-style="forest"] .email_gen_module {
   border: none !important;
   border-radius: 10px !important;
   background: rgba(22, 163, 74, 0.04) !important;
 }
 [data-style="forest"].dark .sub_path_module,
-[data-style="forest"].dark .step_module {
+[data-style="forest"].dark .step_module,
+[data-style="forest"].dark .email_gen_module {
   border: none !important;
   background: rgba(22, 163, 74, 0.06) !important;
 }

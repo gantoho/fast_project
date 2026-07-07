@@ -1,0 +1,25 @@
+html .el-input-number .el-input__wrapper {
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0 0 0 1px var(--g-home-link-border) inset;
+}
+
+html .el-input-number .el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset;
+}
+
+html .el-input-number .el-input__inner {
+  color: var(--g-body-text-color);
+}
+
+html .el-input-number__decrease,
+html .el-input-number__increase {
+  color: var(--g-body-text-color);
+  background-color: rgba(0,0,0,0);
+  border-color: var(--g-home-link-border);
+}
+
+html .el-input-number__decrease:hover:not(.is-disabled),
+html .el-input-number__increase:hover:not(.is-disabled) {
+  color: var(--el-color-primary);
+  border-color: var(--el-color-primary);
+}

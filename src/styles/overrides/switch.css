@@ -1,0 +1,25 @@
+html .el-switch__core {
+  border-color: var(--g-home-link-border);
+  background-color: rgba(0,0,0,0);
+}
+
+html .el-switch.is-checked .el-switch__core {
+  border-color: var(--el-color-primary);
+  background-color: var(--el-color-primary);
+}
+
+html .el-switch__action {
+  background-color: var(--g-home-link-border);
+}
+
+html .el-switch.is-checked .el-switch__action {
+  background-color: #fff;
+}
+
+html .el-switch:hover .el-switch__core {
+  border-color: var(--el-color-primary);
+}
+
+html .el-switch.is-checked .el-switch__action .el-icon {
+  color: var(--el-color-primary);
+}

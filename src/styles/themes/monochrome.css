@@ -11,6 +11,7 @@
 :root:root[data-style="monochrome"]:not(.dark) {
   --g-body-bg-color: #ffffff;
   --g-body-text-color: #000000;
+  --g-body-text-color-secondary: rgba(0, 0, 0, 0.5);
   --g-tabbar-border: #d1d5db;
   --g-tabbar-item-after: #1a1a1a;
   --g-home-link-border: #d1d5db;
@@ -19,6 +20,7 @@
 :root:root.dark[data-style="monochrome"] {
   --g-body-bg-color: #000000;
   --g-body-text-color: #ffffff;
+  --g-body-text-color-secondary: rgba(255, 255, 255, 0.5);
   --g-tabbar-border: #444444;
   --g-tabbar-item-after: #ffffff;
   --g-home-link-border: #444444;
@@ -544,13 +546,15 @@
    ======================================== */
 
 [data-style="monochrome"] .sub_path_module,
-[data-style="monochrome"] .step_module {
+[data-style="monochrome"] .step_module,
+[data-style="monochrome"] .email_gen_module {
   border: 1.5px solid #b0b0b0 !important;
   border-radius: 4px !important;
   background: #ffffff !important;
 }
 [data-style="monochrome"].dark .sub_path_module,
-[data-style="monochrome"].dark .step_module {
+[data-style="monochrome"].dark .step_module,
+[data-style="monochrome"].dark .email_gen_module {
   border-color: #555555 !important;
   background: #000000 !important;
 }

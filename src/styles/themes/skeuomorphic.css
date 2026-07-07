@@ -7,6 +7,7 @@
 :root:root[data-style="skeuomorphic"]:not(.dark) {
   --g-body-bg-color: #e8ecf1;
   --g-body-text-color: #2c3e50;
+  --g-body-text-color-secondary: rgba(44, 62, 80, 0.5);
   --g-tabbar-border: #c0c8d4;
   --g-tabbar-item-after: #5b7fdb;
   --g-home-link-border: #c0c8d4;
@@ -15,6 +16,7 @@
 :root:root.dark[data-style="skeuomorphic"] {
   --g-body-bg-color: #151d28;
   --g-body-text-color: #c8d8f0;
+  --g-body-text-color-secondary: rgba(200, 216, 240, 0.5);
   --g-tabbar-border: #2a3a50;
   --g-tabbar-item-after: #6b8fd4;
   --g-home-link-border: #2a3a50;
@@ -437,7 +439,8 @@
 
 /* 容器模块 */
 [data-style="skeuomorphic"] .sub_path_module,
-[data-style="skeuomorphic"] .step_module {
+[data-style="skeuomorphic"] .step_module,
+[data-style="skeuomorphic"] .email_gen_module {
   border: none !important;
   border-radius: 14px !important;
   background: linear-gradient(180deg, #f5f7fa 0%, #e0e5ec 100%) !important;
@@ -446,7 +449,8 @@
     0 1px 0 rgba(255, 255, 255, 0.7) !important;
 }
 [data-style="skeuomorphic"].dark .sub_path_module,
-[data-style="skeuomorphic"].dark .step_module {
+[data-style="skeuomorphic"].dark .step_module,
+[data-style="skeuomorphic"].dark .email_gen_module {
   background: linear-gradient(180deg, #1e2a3a 0%, #151d28 100%) !important;
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.2),

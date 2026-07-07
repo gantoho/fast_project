@@ -6,6 +6,9 @@
 @import url('./overrides/tag.css');
 @import url('./overrides/button.css');
 @import url('./overrides/alert.css');
+@import url('./overrides/radio.css');
+@import url('./overrides/input-number.css');
+@import url('./overrides/switch.css');
 @import url('./themes/monochrome.css');
 @import url('./themes/cyberpunk.css');
 @import url('./themes/retro.css');
@@ -40,6 +43,7 @@ body, html{
 :root:root {
   --g-body-bg-color: #fff;
   --g-body-text-color: #000;
+  --g-body-text-color-secondary: rgba(0, 0, 0, 0.5);
   --g-tabbar-border: #c9c9c9;
   --g-tabbar-item-after: #595959;
   --g-home-link-border: #c9c9c9;
@@ -56,6 +60,7 @@ body, html{
 :root:root.dark {
   --g-body-bg-color: #242424;
   --g-body-text-color: rgba(255, 255, 255, 0.87);
+  --g-body-text-color-secondary: rgba(255, 255, 255, 0.5);
   --g-tabbar-border: #595959;
   --g-tabbar-item-after: #fff;
   --g-home-link-border: #374151;
