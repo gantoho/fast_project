@@ -105,6 +105,7 @@
                             size="small"
                             class="email_gen_select"
                         >
+                            <el-option :label="7" :value="7" />
                             <el-option :label="8" :value="8" />
                             <el-option :label="16" :value="16" />
                             <el-option :label="24" :value="24" />
@@ -149,7 +150,8 @@
                         </el-select>
                         <el-input
                             v-if="emailSuffix === '__custom__'"
-                            v-model="customSuffix"
+                            :model-value="customSuffix"
+                            @update:model-value="$emit('update:customSuffix', $event)"
                             placeholder="输入后缀如 @company.com"
                             size="small"
                             class="email_gen_input_custom"
@@ -195,22 +197,23 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { DocumentCopy, Plus, Refresh } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
 const props = defineProps({
     emailSwitch: { type: Boolean, default: false },
     emailMode: { type: String, default: 'range' },
-    emailPrefix: { type: String, default: 'user' },
+    emailPrefix: { type: String, default: 'testbit' },
     emailStart: { type: Number, default: 1 },
     emailEnd: { type: Number, default: 10 },
     emailStep: { type: Number, default: 1 },
     emailZeroPad: { type: Number, default: 0 },
     emailCount: { type: Number, default: 1 },
-    emailSuffix: { type: String, default: '@gmail.com' },
+    emailSuffix: { type: String, default: '__custom__' },
+    customSuffix: { type: String, default: '@canglankeji.com' },
     emailSuffixOptions: { type: Array, default: () => [] },
-    sha1Length: { type: Number, default: 40 },
+    sha1Length: { type: Number, default: 7 },
     englishLength: { type: Number, default: 10 },
     emailCase: { type: String, default: 'mixed' },
     emailList: { type: Array, default: () => [] }
@@ -226,6 +229,7 @@ const emit = defineEmits([
     'update:emailZeroPad',
     'update:emailCount',
     'update:emailSuffix',
+    'update:customSuffix',
     'update:sha1Length',
     'update:englishLength',
     'update:emailCase',
@@ -233,13 +237,13 @@ const emit = defineEmits([
     'insertEmails'
 ])
 
-const customSuffix = ref('')
+
 
 const displayList = computed(() => props.emailList.slice(0, 20))
 
 const handleCustomSuffix = () => {
-    if (customSuffix.value.trim()) {
-        emit('update:emailSuffix', customSuffix.value.trim())
+    if (props.customSuffix.trim()) {
+        emit('update:emailSuffix', props.customSuffix.trim())
     }
 }
 

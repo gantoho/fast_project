@@ -86,6 +86,7 @@
         :sha1-length="sha1Length"
         :english-length="englishLength"
         :email-case="emailCase"
+        :custom-suffix="customSuffix"
         :email-list="emailList"
         @update:email-switch="emailSwitch = $event"
         @update:email-mode="emailMode = $event"
@@ -99,6 +100,7 @@
         @update:sha1-length="sha1Length = $event"
         @update:english-length="englishLength = $event"
         @update:email-case="emailCase = $event"
+        @update:custom-suffix="customSuffix = $event"
         @generate="generate"
         @insert-emails="insertEmails"
     />
@@ -253,6 +255,7 @@ const {
   emailZeroPad,
   emailCount,
   emailSuffix,
+  customSuffix,
   emailSuffixOptions,
   sha1Length,
   englishLength,

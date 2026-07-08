@@ -70,14 +70,14 @@ function sha1(str) {
 
 export function useEmailGen() {
   const emailSwitch = useStorage('fast_emailSwitch', false)
-  const emailMode = useStorage('fast_emailMode', 'range')
+  const emailMode = useStorage('fast_emailMode', 'sha1')
   const emailPrefix = useStorage('fast_emailPrefix', 'testbit')
   const emailStart = useStorage('fast_emailStart', 1)
   const emailEnd = useStorage('fast_emailEnd', 10)
   const emailStep = useStorage('fast_emailStep', 1)
   const emailZeroPad = useStorage('fast_emailZeroPad', 0)
-  const emailCount = useStorage('fast_emailCount', 3)
-  const emailSuffix = useStorage('fast_emailSuffix', '@gmail.com')
+  const emailCount = useStorage('fast_emailCount', 1)
+  const emailSuffix = useStorage('fast_emailSuffix', '__custom__')
   const emailSuffixOptions = useStorage('fast_emailSuffixOptions', [
     { id: '0', label: 'Gmail', value: '@gmail.com' },
     { id: '1', label: 'Outlook', value: '@outlook.com' },
@@ -88,11 +88,14 @@ export function useEmailGen() {
     { id: '6', label: 'Yahoo', value: '@yahoo.com' },
     { id: '7', label: 'iCloud', value: '@icloud.com' },
   ])
-  const sha1Length = useStorage('fast_sha1Length', 40)
+  const sha1Length = useStorage('fast_sha1Length', 7)
   const englishLength = useStorage('fast_englishLength', 10)
   const emailCase = useStorage('fast_emailCase', 'mixed')
+  const customSuffix = useStorage('fast_customSuffix', '@canglankeji.com')
 
   const emailList = ref([])
+
+  const getSuffix = () => emailSuffix.value === '__custom__' ? (customSuffix.value || '') : (emailSuffix.value || '')
 
   const generateRange = () => {
     const prefix = emailPrefix.value || ''
@@ -100,7 +103,7 @@ export function useEmailGen() {
     const end = parseInt(emailEnd.value) || 1
     const step = parseInt(emailStep.value) || 1
     const pad = parseInt(emailZeroPad.value) || 0
-    const suffix = emailSuffix.value || ''
+    const suffix = getSuffix()
 
     const result = []
     if (step > 0 && start <= end) {
@@ -120,7 +123,7 @@ export function useEmailGen() {
   const generateTime = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
-    const suffix = emailSuffix.value || ''
+    const suffix = getSuffix()
     const result = []
 
     for (let i = 0; i < count; i++) {
@@ -139,7 +142,7 @@ export function useEmailGen() {
   const generateTimestamp = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
-    const suffix = emailSuffix.value || ''
+    const suffix = getSuffix()
     const result = []
 
     for (let i = 0; i < count; i++) {
@@ -151,7 +154,7 @@ export function useEmailGen() {
   const generateSha1 = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
-    const suffix = emailSuffix.value || ''
+    const suffix = getSuffix()
     const len = parseInt(sha1Length.value) || 40
     const result = []
     const seed = Date.now().toString()
@@ -167,7 +170,7 @@ export function useEmailGen() {
   const generateEnglish = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
-    const suffix = emailSuffix.value || ''
+    const suffix = getSuffix()
     const len = parseInt(englishLength.value) || 10
     const result = []
     const lower = 'abcdefghijklmnopqrstuvwxyz'
@@ -244,6 +247,7 @@ export function useEmailGen() {
     emailZeroPad,
     emailCount,
     emailSuffix,
+    customSuffix,
     emailSuffixOptions,
     sha1Length,
     englishLength,
