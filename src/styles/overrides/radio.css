@@ -5,6 +5,7 @@ html .el-radio-group {
 html .el-radio-button__inner {
   background-color: rgba(0,0,0,0);
   border-color: var(--g-home-link-border);
+  outline-color: var(--g-home-link-border);
   color: var(--g-body-text-color);
 }
 
