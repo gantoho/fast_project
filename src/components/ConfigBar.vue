@@ -46,6 +46,8 @@
             <el-button text size="small" class="tool_btn" @click="bookmarkletVisible = true">
                 <el-icon :size="14"><Link /></el-icon> 书签工具
             </el-button>
+            <span class="quick_copy_text" @click="quickCopy('testbit')">testbit</span>
+            <span class="quick_copy_text" @click="quickCopy('testbit#P123')">testbit#P123</span>
         </div>
         <el-dialog v-model="bookmarkletVisible" title="书签小工具 (Bookmarklet)" width="640px" append-to-body>
             <div class="bookmarklet_body">
@@ -267,6 +269,15 @@ const handleJsonImport = (e) => {
     e.target.value = ''
 }
 
+const quickCopy = async (text) => {
+    try {
+        await navigator.clipboard.writeText(text)
+        ElMessage({ message: `已复制: ${text}`, type: 'success' })
+    } catch {
+        ElMessage({ message: '复制失败', type: 'error' })
+    }
+}
+
 const copyUrls = async () => {
     try {
         await navigator.clipboard.writeText(props.processedUrlList.join('\n'))
@@ -349,6 +360,19 @@ const copyConsoleCode = async () => {
 .tool_btn {
     font-size: 12px;
     color: var(--g-body-text-color);
+}
+.quick_copy_text {
+    font-size: 12px;
+    color: var(--g-body-text-color-secondary);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 3px;
+    transition: color 0.2s, background-color 0.2s;
+    user-select: none;
+}
+.quick_copy_text:hover {
+    color: var(--el-color-primary);
+    background-color: var(--el-color-primary-light-9);
 }
 @media (max-width: 640px) {
     .config_settings {
