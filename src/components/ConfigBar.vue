@@ -356,6 +356,9 @@ const copyConsoleCode = async () => {
     gap: 6px;
     padding: 8px 14px;
     border-top: 1px solid var(--g-home-link-border);
+    .el-button+.el-button {
+        margin-left: 0;
+    }
 }
 .tool_btn {
     font-size: 12px;

@@ -124,8 +124,10 @@
         :step-batch-size="stepBatchSize"
         :num-data="numData"
         :link-list-len="linkList.length"
+        :download-mode="downloadMode"
         @open-link="openLink"
         @clear="clear"
+        @update:download-mode="downloadMode = $event"
     />
 </template>
 
@@ -201,6 +203,7 @@ const {
   openDelay,
   openDelayMax,
   openDelayRandom,
+  downloadMode,
   openLink
 } = useOpenLink({
   processedUrlList,

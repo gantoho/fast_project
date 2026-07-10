@@ -18,6 +18,21 @@ export function useOpenLink({
   const openDelay = useStorage('fast_openDelay', 500)
   const openDelayMax = useStorage('fast_openDelayMax', 1500)
   const openDelayRandom = useStorage('fast_openDelayRandom', false)
+  const downloadMode = useStorage('fast_downloadMode', false)
+
+  const downloadFile = async (url) => {
+    try {
+      const response = await fetch(url)
+      if (!response.ok) throw new Error('ERROR NETWORK')
+      const blob = await response.blob()
+      const downloadBlob = new Blob([blob], { type: 'application/octet-stream' })
+      const blobUrl = URL.createObjectURL(downloadBlob)
+      window.open(blobUrl)
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 60000)
+    } catch (error) {
+      console.error('ERROR DOWNLOAD:', error)
+    }
+  }
 
   const getDelay = () => {
     if (openDelayRandom.value) {
@@ -40,7 +55,11 @@ export function useOpenLink({
       if (opened.has(idx)) break
       opened.add(idx)
       for (let j = 0; j < numData.value; j++) {
-        window.open(urlArr[idx], '_blank')
+        if (downloadMode.value) {
+          await downloadFile(urlArr[idx])
+        } else {
+          window.open(urlArr[idx], '_blank')
+        }
         if (openDelaySwitch.value) await sleep(getDelay())
       }
       markOpened(idx)
@@ -59,7 +78,11 @@ export function useOpenLink({
     if (!urlArr.length) return
     for (const item of urlArr) {
       for (let i = 0; i < numData.value; i++) {
-        window.open(item, '_blank')
+        if (downloadMode.value) {
+          await downloadFile(item)
+        } else {
+          window.open(item, '_blank')
+        }
         if (openDelaySwitch.value) await sleep(getDelay())
       }
     }
@@ -71,6 +94,7 @@ export function useOpenLink({
     openDelay,
     openDelayMax,
     openDelayRandom,
+    downloadMode,
     openLink
   }
 }
