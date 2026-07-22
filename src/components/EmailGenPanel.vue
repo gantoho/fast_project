@@ -402,8 +402,8 @@ html.dark .email_gen_result {
 .email_gen_result_list {
     max-height: 400px;
     overflow-y: auto;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 6px;
 }
 
@@ -413,7 +413,7 @@ html.dark .email_gen_result {
 }
 
 .email_gen_result_item {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 4px;
     padding: 3px 8px;
@@ -422,6 +422,7 @@ html.dark .email_gen_result {
     border-radius: 4px;
     border: 1px solid var(--g-home-link-border);
     transition: all 0.15s;
+    min-width: 0;
     &:hover {
         background: var(--el-color-primary);
         border-color: var(--el-color-primary);
@@ -461,6 +462,10 @@ html.dark .email_gen_result {
 .email_gen_result_email {
     color: var(--g-body-text-color);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
 }
 
 .email_gen_copy_btn {
