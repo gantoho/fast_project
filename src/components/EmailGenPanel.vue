@@ -167,24 +167,28 @@
             </div>
             <div class="email_gen_result" v-if="emailList.length">
                 <div class="email_gen_result_header">
-                    <span>生成 {{ emailList.length }} 个邮箱</span>
+                    <span class="email_gen_result_count">生成 {{ emailList.length }} 个邮箱</span>
                     <div class="email_gen_result_actions">
+                        <el-button size="small" text class="email_gen_action_btn" @click="expandList = !expandList">
+                            <el-icon :size="13"><Refresh /></el-icon> {{ expandList ? '收起' : '展开' }}
+                        </el-button>
                         <el-button size="small" text class="email_gen_action_btn" @click="copyEmails">
                             <el-icon :size="13"><DocumentCopy /></el-icon> 复制全部
                         </el-button>
                         <el-button size="small" text type="primary" class="email_gen_action_btn" @click="$emit('insertEmails')">
                             <el-icon :size="13"><Plus /></el-icon> 插入到链接
                         </el-button>
+                        <el-button v-if="copiedEmails.size > 0" size="small" text type="warning" class="email_gen_action_btn" @click="copiedEmails = new Set()">
+                            <el-icon :size="13"><Refresh /></el-icon> 重置标记
+                        </el-button>
                     </div>
                 </div>
-                <div class="email_gen_result_list">
-                    <div v-for="(email, i) in displayList" :key="i" class="email_gen_result_item" @click="copySingleEmail(email)">
+                <div class="email_gen_result_list" :class="{ 'email_gen_result_list-expanded': expandList }">
+                    <div v-for="(email, i) in emailList" :key="i" class="email_gen_result_item" :class="{ 'email_gen_result_item-copied': copiedEmails.has(email) }" @click="copySingleEmail(email)">
                         <span class="email_gen_result_idx">{{ i + 1 }}</span>
                         <span class="email_gen_result_email">{{ email }}</span>
-                        <el-icon class="email_gen_copy_btn" :size="13"><DocumentCopy /></el-icon>
-                    </div>
-                    <div v-if="emailList.length > 20" class="email_gen_result_more">
-                        ... 还有 {{ emailList.length - 20 }} 个邮箱
+                        <el-icon v-if="copiedEmails.has(email)" class="email_gen_copy_btn" :size="13"><Check /></el-icon>
+                        <el-icon v-else class="email_gen_copy_btn" :size="13"><DocumentCopy /></el-icon>
                     </div>
                 </div>
             </div>
@@ -197,9 +201,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { DocumentCopy, Plus, Refresh } from '@element-plus/icons-vue'
+import { ref, watch } from 'vue'
+import { DocumentCopy, Plus, Refresh, Check } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+
+const copiedEmails = ref(new Set())
+const expandList = ref(false)
 
 const props = defineProps({
     emailSwitch: { type: Boolean, default: false },
@@ -217,6 +224,10 @@ const props = defineProps({
     englishLength: { type: Number, default: 10 },
     emailCase: { type: String, default: 'mixed' },
     emailList: { type: Array, default: () => [] }
+})
+
+watch(() => props.emailList, () => {
+    copiedEmails.value = new Set()
 })
 
 const emit = defineEmits([
@@ -238,8 +249,6 @@ const emit = defineEmits([
 ])
 
 
-
-const displayList = computed(() => props.emailList.slice(0, 20))
 
 const handleCustomSuffix = () => {
     if (props.customSuffix.trim()) {
@@ -275,6 +284,7 @@ const copySingleEmail = async (email) => {
         document.body.removeChild(textarea)
         ElMessage({ message: `已复制: ${email}`, type: 'success' })
     }
+    copiedEmails.value = new Set([...copiedEmails.value, email])
 }
 </script>
 
@@ -390,38 +400,70 @@ html.dark .email_gen_result {
 }
 
 .email_gen_result_list {
-    max-height: 200px;
+    max-height: 400px;
     overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.email_gen_result_list-expanded {
+    max-height: none;
+    overflow-y: visible;
 }
 
 .email_gen_result_item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 4px 0;
-    font-size: 13px;
+    gap: 4px;
+    padding: 3px 8px;
+    font-size: 12px;
     cursor: pointer;
     border-radius: 4px;
+    border: 1px solid var(--g-home-link-border);
+    transition: all 0.15s;
     &:hover {
         background: var(--el-color-primary);
+        border-color: var(--el-color-primary);
+        .email_gen_result_email,
+        .email_gen_copy_btn {
+            color: #fff;
+        }
+    }
+}
+
+.email_gen_result_item-copied {
+    background: var(--el-color-success-light-9);
+    border-color: var(--el-color-success);
+    .email_gen_result_email {
+        color: var(--el-color-success);
+    }
+    .email_gen_copy_btn {
+        color: var(--el-color-success);
+    }
+    &:hover {
+        background: var(--el-color-success);
+        border-color: var(--el-color-success);
+        .email_gen_result_email,
+        .email_gen_copy_btn {
+            color: #fff;
+        }
     }
 }
 
 .email_gen_result_idx {
-    width: 24px;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--g-body-text-color-secondary, rgba(0,0,0,0.5));
+    min-width: 16px;
     text-align: right;
 }
 
 .email_gen_result_email {
     color: var(--g-body-text-color);
-    word-break: break-all;
+    white-space: nowrap;
 }
 
 .email_gen_copy_btn {
-    margin-left: auto;
-    margin-right: 8px;
     cursor: pointer;
     color: var(--g-body-text-color-secondary);
     transition: color 0.15s;
@@ -431,12 +473,6 @@ html.dark .email_gen_result {
     }
 }
 
-.email_gen_result_more {
-    text-align: center;
-    padding: 8px 0;
-    font-size: 12px;
-    color: var(--g-body-text-color-secondary, rgba(0,0,0,0.5));
-}
 
 .email_gen_empty {
     font-size: 13px;

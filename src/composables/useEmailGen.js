@@ -1,5 +1,6 @@
 import { ref, watch } from 'vue'
 import { useStorage } from '@vueuse/core'
+import { ElMessage } from 'element-plus'
 
 function sha1(str) {
   const bytes = new TextEncoder().encode(str)
@@ -151,18 +152,29 @@ export function useEmailGen() {
     return result
   }
 
+  const MAX_RETRY = 10000
+
   const generateSha1 = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
     const suffix = getSuffix()
     const len = parseInt(sha1Length.value) || 40
     const result = []
-    const seed = Date.now().toString()
+    const seen = new Set()
+    let i = 0
 
-    for (let i = 0; i < count; i++) {
-      const hash = sha1(prefix + seed + i)
+    while (result.length < count && i < MAX_RETRY) {
+      const hash = sha1(prefix + Date.now().toString() + i)
       const truncated = len >= hash.length ? hash : hash.slice(0, len)
-      result.push(prefix + truncated + suffix)
+      const email = prefix + truncated + suffix
+      if (!seen.has(email)) {
+        seen.add(email)
+        result.push(email)
+      }
+      i++
+    }
+    if (result.length < count) {
+      ElMessage({ message: `已达到最大尝试次数，仅生成 ${result.length} 个不重复邮箱`, type: 'warning' })
     }
     return result
   }
@@ -173,18 +185,28 @@ export function useEmailGen() {
     const suffix = getSuffix()
     const len = parseInt(englishLength.value) || 10
     const result = []
+    const seen = new Set()
     const lower = 'abcdefghijklmnopqrstuvwxyz'
     const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     const mixed = lower + upper
 
     const chars = emailCase.value === 'upper' ? upper : emailCase.value === 'lower' ? lower : mixed
 
-    for (let i = 0; i < count; i++) {
+    let attempts = 0
+    while (result.length < count && attempts < MAX_RETRY) {
       let str = ''
       for (let j = 0; j < len; j++) {
         str += chars.charAt(Math.floor(Math.random() * chars.length))
       }
-      result.push(prefix + str + suffix)
+      const email = prefix + str + suffix
+      if (!seen.has(email)) {
+        seen.add(email)
+        result.push(email)
+      }
+      attempts++
+    }
+    if (result.length < count) {
+      ElMessage({ message: `已达到最大尝试次数，仅生成 ${result.length} 个不重复邮箱`, type: 'warning' })
     }
     return result
   }
@@ -195,25 +217,27 @@ export function useEmailGen() {
       return
     }
 
+    let result = []
     switch (emailMode.value) {
       case 'range':
-        emailList.value = generateRange()
+        result = generateRange()
         break
       case 'time':
-        emailList.value = generateTime()
+        result = generateTime()
         break
       case 'timestamp':
-        emailList.value = generateTimestamp()
+        result = generateTimestamp()
         break
       case 'sha1':
-        emailList.value = generateSha1()
+        result = generateSha1()
         break
       case 'english':
-        emailList.value = generateEnglish()
+        result = generateEnglish()
         break
       default:
-        emailList.value = []
+        result = []
     }
+    emailList.value = result
   }
 
   watch(
