@@ -70,7 +70,6 @@ function sha1(str) {
 }
 
 export function useEmailGen() {
-  const emailSwitch = useStorage('fast_emailSwitch', false)
   const emailMode = useStorage('fast_emailMode', 'sha1')
   const emailPrefix = useStorage('fast_emailPrefix', 'testbit')
   const emailStart = useStorage('fast_emailStart', 1)
@@ -78,7 +77,7 @@ export function useEmailGen() {
   const emailStep = useStorage('fast_emailStep', 1)
   const emailZeroPad = useStorage('fast_emailZeroPad', 0)
   const emailCount = useStorage('fast_emailCount', 1)
-  const emailSuffix = useStorage('fast_emailSuffix', '__custom__')
+  const emailSuffixes = useStorage('fast_emailSuffixes', ['@canglankeji.com'])
   const emailSuffixOptions = useStorage('fast_emailSuffixOptions', [
     { id: '0', label: 'Gmail', value: '@gmail.com' },
     { id: '1', label: 'Outlook', value: '@outlook.com' },
@@ -88,15 +87,26 @@ export function useEmailGen() {
     { id: '5', label: 'Hotmail', value: '@hotmail.com' },
     { id: '6', label: 'Yahoo', value: '@yahoo.com' },
     { id: '7', label: 'iCloud', value: '@icloud.com' },
+    { id: '8', label: 'Canglan', value: '@canglankeji.com' },
   ])
   const sha1Length = useStorage('fast_sha1Length', 7)
   const englishLength = useStorage('fast_englishLength', 10)
   const emailCase = useStorage('fast_emailCase', 'mixed')
-  const customSuffix = useStorage('fast_customSuffix', '@canglankeji.com')
 
   const emailList = ref([])
 
-  const getSuffix = () => emailSuffix.value === '__custom__' ? (customSuffix.value || '') : (emailSuffix.value || '')
+  // 兼容旧数据：确保已选后缀存在于选项列表中，便于下拉框正常展示
+  {
+    const existing = new Set(emailSuffixOptions.value.map(o => o.value))
+    let maxId = Math.max(0, ...emailSuffixOptions.value.map(o => parseInt(o.id) || 0))
+    const missing = emailSuffixes.value.filter(v => !existing.has(v))
+    for (const v of missing) {
+      maxId += 1
+      emailSuffixOptions.value.push({ id: String(maxId), label: v.replace('@', ''), value: v, custom: true })
+    }
+  }
+
+  const getSuffixes = () => (Array.isArray(emailSuffixes.value) ? emailSuffixes.value.filter(Boolean) : [])
 
   const generateRange = () => {
     const prefix = emailPrefix.value || ''
@@ -104,18 +114,22 @@ export function useEmailGen() {
     const end = parseInt(emailEnd.value) || 1
     const step = parseInt(emailStep.value) || 1
     const pad = parseInt(emailZeroPad.value) || 0
-    const suffix = getSuffix()
+    const suffixes = getSuffixes()
 
     const result = []
     if (step > 0 && start <= end) {
       for (let i = start; i <= end; i += step) {
         const numStr = pad > 0 ? String(i).padStart(pad, '0') : String(i)
-        result.push(prefix + numStr + suffix)
+        for (const suffix of suffixes) {
+          result.push(prefix + numStr + suffix)
+        }
       }
     } else if (step < 0 && start >= end) {
       for (let i = start; i >= end; i += step) {
         const numStr = pad > 0 ? String(i).padStart(pad, '0') : String(i)
-        result.push(prefix + numStr + suffix)
+        for (const suffix of suffixes) {
+          result.push(prefix + numStr + suffix)
+        }
       }
     }
     return result
@@ -124,18 +138,20 @@ export function useEmailGen() {
   const generateTime = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
-    const suffix = getSuffix()
+    const suffixes = getSuffixes()
     const result = []
 
-    for (let i = 0; i < count; i++) {
-      const date = new Date(Date.now() + i * 1000)
-      const year = date.getFullYear()
-      const month = String(date.getMonth() + 1).padStart(2, '0')
-      const day = String(date.getDate()).padStart(2, '0')
-      const hour = String(date.getHours()).padStart(2, '0')
-      const minute = String(date.getMinutes()).padStart(2, '0')
-      const second = String(date.getSeconds()).padStart(2, '0')
-      result.push(prefix + year + month + day + hour + minute + second + suffix)
+    for (const suffix of suffixes) {
+      for (let i = 0; i < count; i++) {
+        const date = new Date(Date.now() + i * 1000)
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        const hour = String(date.getHours()).padStart(2, '0')
+        const minute = String(date.getMinutes()).padStart(2, '0')
+        const second = String(date.getSeconds()).padStart(2, '0')
+        result.push(prefix + year + month + day + hour + minute + second + suffix)
+      }
     }
     return result
   }
@@ -143,11 +159,13 @@ export function useEmailGen() {
   const generateTimestamp = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
-    const suffix = getSuffix()
+    const suffixes = getSuffixes()
     const result = []
 
-    for (let i = 0; i < count; i++) {
-      result.push(prefix + (Date.now() + i * 1000) + suffix)
+    for (const suffix of suffixes) {
+      for (let i = 0; i < count; i++) {
+        result.push(prefix + (Date.now() + i * 1000) + suffix)
+      }
     }
     return result
   }
@@ -157,24 +175,28 @@ export function useEmailGen() {
   const generateSha1 = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
-    const suffix = getSuffix()
+    const suffixes = getSuffixes()
     const len = parseInt(sha1Length.value) || 40
     const result = []
-    const seen = new Set()
-    let i = 0
 
-    while (result.length < count && i < MAX_RETRY) {
-      const hash = sha1(prefix + Date.now().toString() + i)
-      const truncated = len >= hash.length ? hash : hash.slice(0, len)
-      const email = prefix + truncated + suffix
-      if (!seen.has(email)) {
-        seen.add(email)
-        result.push(email)
+    for (const suffix of suffixes) {
+      const seen = new Set()
+      let i = 0
+      let generated = 0
+      while (generated < count && i < MAX_RETRY) {
+        const hash = sha1(prefix + Date.now().toString() + suffix + i)
+        const truncated = len >= hash.length ? hash : hash.slice(0, len)
+        const email = prefix + truncated + suffix
+        if (!seen.has(email)) {
+          seen.add(email)
+          result.push(email)
+          generated++
+        }
+        i++
       }
-      i++
-    }
-    if (result.length < count) {
-      ElMessage({ message: `已达到最大尝试次数，仅生成 ${result.length} 个不重复邮箱`, type: 'warning' })
+      if (generated < count) {
+        ElMessage({ message: `后缀 ${suffix} 已达到最大尝试次数，仅生成 ${generated} 个不重复邮箱`, type: 'warning' })
+      }
     }
     return result
   }
@@ -182,41 +204,45 @@ export function useEmailGen() {
   const generateEnglish = () => {
     const prefix = emailPrefix.value || ''
     const count = parseInt(emailCount.value) || 1
-    const suffix = getSuffix()
+    const suffixes = getSuffixes()
     const len = parseInt(englishLength.value) || 10
     const result = []
-    const seen = new Set()
     const lower = 'abcdefghijklmnopqrstuvwxyz'
     const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     const mixed = lower + upper
 
     const chars = emailCase.value === 'upper' ? upper : emailCase.value === 'lower' ? lower : mixed
 
-    let attempts = 0
-    while (result.length < count && attempts < MAX_RETRY) {
-      let str = ''
-      for (let j = 0; j < len; j++) {
-        str += chars.charAt(Math.floor(Math.random() * chars.length))
+    for (const suffix of suffixes) {
+      const seen = new Set()
+      let attempts = 0
+      let generated = 0
+      while (generated < count && attempts < MAX_RETRY) {
+        let str = ''
+        for (let j = 0; j < len; j++) {
+          str += chars.charAt(Math.floor(Math.random() * chars.length))
+        }
+        const email = prefix + str + suffix
+        if (!seen.has(email)) {
+          seen.add(email)
+          result.push(email)
+          generated++
+        }
+        attempts++
       }
-      const email = prefix + str + suffix
-      if (!seen.has(email)) {
-        seen.add(email)
-        result.push(email)
+      if (generated < count) {
+        ElMessage({ message: `后缀 ${suffix} 已达到最大尝试次数，仅生成 ${generated} 个不重复邮箱`, type: 'warning' })
       }
-      attempts++
-    }
-    if (result.length < count) {
-      ElMessage({ message: `已达到最大尝试次数，仅生成 ${result.length} 个不重复邮箱`, type: 'warning' })
     }
     return result
   }
 
   const generate = () => {
-    if (!emailSwitch.value) {
+    if (!getSuffixes().length) {
       emailList.value = []
+      ElMessage({ message: '请至少选择一个邮箱后缀', type: 'warning' })
       return
     }
-
     let result = []
     switch (emailMode.value) {
       case 'range':
@@ -241,28 +267,33 @@ export function useEmailGen() {
   }
 
   watch(
-    [emailSwitch, emailMode, emailPrefix, emailStart, emailEnd, emailStep, emailZeroPad, emailSuffix],
+    [emailMode, emailPrefix, emailStart, emailEnd, emailStep, emailZeroPad, emailSuffixes],
     () => {
       if (emailMode.value === 'range') {
         generate()
       }
-    },
-    { immediate: true }
+    }
   )
 
   const addSuffixOption = (label, value) => {
     if (!label || !value) return
     if (emailSuffixOptions.value.some(item => item.value === value)) return
     const maxId = Math.max(0, ...emailSuffixOptions.value.map(o => parseInt(o.id) || 0))
-    emailSuffixOptions.value.push({ id: String(maxId + 1), label, value })
+    emailSuffixOptions.value.push({ id: String(maxId + 1), label, value, custom: true })
+    if (!emailSuffixes.value.includes(value)) {
+      emailSuffixes.value = [...emailSuffixes.value, value]
+    }
   }
 
   const removeSuffixOption = (id) => {
+    const item = emailSuffixOptions.value.find(o => o.id === id)
     emailSuffixOptions.value = emailSuffixOptions.value.filter(o => o.id !== id)
+    if (item) {
+      emailSuffixes.value = emailSuffixes.value.filter(v => v !== item.value)
+    }
   }
 
   return {
-    emailSwitch,
     emailMode,
     emailPrefix,
     emailStart,
@@ -270,8 +301,7 @@ export function useEmailGen() {
     emailStep,
     emailZeroPad,
     emailCount,
-    emailSuffix,
-    customSuffix,
+    emailSuffixes,
     emailSuffixOptions,
     sha1Length,
     englishLength,

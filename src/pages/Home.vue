@@ -33,6 +33,14 @@
         <span>已清空链接列表</span>
         <el-button size="small" text type="primary" @click="undoClear">撤销</el-button>
     </div>
+    <!-- 邮箱生成器结果：回首页后可一键插入 -->
+    <div v-if="emailList.length" class="email_insert_bar">
+        <span>邮箱生成器已生成 {{ emailList.length }} 个邮箱</span>
+        <div class="email_insert_actions">
+            <el-button size="small" type="primary" @click="insertEmails">插入到链接</el-button>
+            <el-button size="small" text @click="clearEmails">清除</el-button>
+        </div>
+    </div>
     <SubPathPanel
         :sub-path-switch="subPathSwitch"
         :sub-path="subPath"
@@ -72,38 +80,6 @@
         @step-next="onStepNext"
         @reset-opened="resetOpened"
     />
-    <EmailGenPanel
-        :email-switch="emailSwitch"
-        :email-mode="emailMode"
-        :email-prefix="emailPrefix"
-        :email-start="emailStart"
-        :email-end="emailEnd"
-        :email-step="emailStep"
-        :email-zero-pad="emailZeroPad"
-        :email-count="emailCount"
-        :email-suffix="emailSuffix"
-        :email-suffix-options="emailSuffixOptions"
-        :sha1-length="sha1Length"
-        :english-length="englishLength"
-        :email-case="emailCase"
-        :custom-suffix="customSuffix"
-        :email-list="emailList"
-        @update:email-switch="emailSwitch = $event"
-        @update:email-mode="emailMode = $event"
-        @update:email-prefix="emailPrefix = $event"
-        @update:email-start="emailStart = $event"
-        @update:email-end="emailEnd = $event"
-        @update:email-step="emailStep = $event"
-        @update:email-zero-pad="emailZeroPad = $event"
-        @update:email-count="emailCount = $event"
-        @update:email-suffix="emailSuffix = $event"
-        @update:sha1-length="sha1Length = $event"
-        @update:english-length="englishLength = $event"
-        @update:email-case="emailCase = $event"
-        @update:custom-suffix="customSuffix = $event"
-        @generate="generate"
-        @insert-emails="insertEmails"
-    />
     <ConfigBar
         :num-data="numData"
         :open-delay-switch="openDelaySwitch"
@@ -132,90 +108,15 @@
 </template>
 
 <script setup>
-import { useSubPath } from '../composables/useSubPath'
-import { useLinks } from '../composables/useLinks'
-import { useStepNav } from '../composables/useStepNav'
-import { useOpenLink } from '../composables/useOpenLink'
-import { usePreset } from '../composables/usePreset'
-import { useGlobalExport } from '../composables/useGlobalExport'
-import { useStyle } from '../composables/useStyle'
-import { useEmailGen } from '../composables/useEmailGen'
-import useDarkStore from '../stores/darkStore'
-import { onKeyStroke, useDark } from '@vueuse/core'
+import { coreState } from '../store/coreState'
+import { onKeyStroke } from '@vueuse/core'
 import PresetBar from '../components/PresetBar.vue'
 import SubPathPanel from '../components/SubPathPanel.vue'
 import StepNavPanel from '../components/StepNavPanel.vue'
 import ConfigBar from '../components/ConfigBar.vue'
 import ActionBar from '../components/ActionBar.vue'
-import EmailGenPanel from '../components/EmailGenPanel.vue'
 
-const {
-  subPathSwitch,
-  subPath,
-  queryOptions,
-  selectedQueryIds,
-  options,
-  pathId,
-  addCustomPath,
-  removeCustomPath,
-  updateCustomPath,
-  reorderPaths,
-  addQueryOption,
-  removeQueryOption,
-  updateQueryOption,
-  reorderQueryOptions,
-  toggleQuery
-} = useSubPath()
-
-const {
-  metaData,
-  linkList,
-  hasLinks,
-  processedUrlList,
-  duplicateLines,
-  hasDuplicates,
-  clear,
-  undoClear,
-  clearedBackup
-} = useLinks(subPath, subPathSwitch, selectedQueryIds, queryOptions)
-
-const {
-  isStepOpen,
-  stepIndex,
-  stepBatchSize,
-  stepAutoAdvance,
-  stepLoop,
-  stepTrueLoop,
-  stepOpened,
-  batchLinks,
-  tagStatus,
-  markOpened,
-  advanceIndex,
-  resetOpened,
-  onStepClick,
-  onStepPrev,
-  onStepNext
-} = useStepNav(processedUrlList, linkList)
-
-const {
-  numData,
-  openDelaySwitch,
-  openDelay,
-  openDelayMax,
-  openDelayRandom,
-  downloadMode,
-  openLink
-} = useOpenLink({
-  processedUrlList,
-  isStepOpen,
-  stepBatchSize,
-  stepLoop,
-  stepTrueLoop,
-  stepIndex,
-  stepAutoAdvance,
-  markOpened,
-  advanceIndex,
-})
+const { subPath: subPathState, links, stepNav, openLink: openLinkState, preset, emailGen, insertEmails } = coreState
 
 const {
   presets,
@@ -225,81 +126,68 @@ const {
   savePreset,
   applyPreset,
   deletePreset,
-  renamePreset,
   updatePresetContent,
   reorderPresets
-} = usePreset({
-  metaData,
-  subPathSwitch,
-  subPath,
-  numData,
-  openDelaySwitch,
-  openDelay,
-  openDelayMax,
-  openDelayRandom,
-  isStepOpen,
-  stepBatchSize,
-  stepAutoAdvance,
-  stepLoop,
-  stepTrueLoop,
-  stepOpened,
-  stepIndex,
-  queryOptions,
-  selectedQueryIds,
-})
+} = preset
 
 const {
-  emailSwitch,
-  emailMode,
-  emailPrefix,
-  emailStart,
-  emailEnd,
-  emailStep,
-  emailZeroPad,
-  emailCount,
-  emailSuffix,
-  customSuffix,
-  emailSuffixOptions,
-  sha1Length,
-  englishLength,
-  emailCase,
-  emailList,
-  generate
-} = useEmailGen()
-
-const insertEmails = () => {
-  if (!emailList.value.length) return
-  const current = metaData.value || ''
-  const emails = emailList.value.join('\n')
-  metaData.value = current ? current + '\n' + emails : emails
-}
-
-// 全局导入导出
-const darkStore = useDarkStore()
-const { currentStyle: styleKey } = useStyle()
-const isDark = useDark()
-const { exportAll, importAll } = useGlobalExport({
   metaData,
-  subPathSwitch,
-  subPath,
-  options,
-  queryOptions,
-  selectedQueryIds,
+  linkList,
+  hasLinks,
+  processedUrlList,
+  hasDuplicates,
+  clear,
+  undoClear,
+  clearedBackup
+} = links
+
+const {
+  isStepOpen,
+  stepIndex,
+  stepBatchSize,
+  stepAutoAdvance,
+  stepLoop,
+  stepTrueLoop,
+  batchLinks,
+  tagStatus,
+  resetOpened,
+  onStepClick,
+  onStepPrev,
+  onStepNext
+} = stepNav
+
+const {
   numData,
   openDelaySwitch,
   openDelay,
   openDelayMax,
   openDelayRandom,
-  isStepOpen,
-  stepBatchSize,
-  stepAutoAdvance,
-  stepLoop,
-  stepTrueLoop,
-  presets,
-  activePresetId,
-  darkMode: isDark,
-  styleKey
-})
+  downloadMode,
+  openLink
+} = openLinkState
+
+const {
+  subPathSwitch,
+  subPath,
+  queryOptions,
+  selectedQueryIds,
+  options,
+  addCustomPath,
+  removeCustomPath,
+  updateCustomPath,
+  reorderPaths,
+  addQueryOption,
+  removeQueryOption,
+  updateQueryOption,
+  reorderQueryOptions,
+  toggleQuery
+} = subPathState
+
+const emailList = emailGen.emailList
+
+const clearEmails = () => {
+  emailGen.emailList.value = []
+}
 
 onKeyStroke('Enter', (e) => {
   if (e.ctrlKey || e.metaKey) {
@@ -344,5 +232,28 @@ onKeyStroke('ArrowRight', () => {
     background-color: color-mix(in srgb, var(--el-color-primary) 6%, transparent);
     font-size: 13px;
     color: var(--g-body-text-color);
+}
+.email_insert_bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 14px;
+    margin-bottom: 20px;
+    border: 1px solid var(--el-color-success-light-5);
+    border-radius: 6px;
+    background-color: color-mix(in srgb, var(--el-color-success) 6%, transparent);
+    font-size: 13px;
+    color: var(--g-body-text-color);
+}
+.email_insert_actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+@media (max-width: 640px) {
+    .email_insert_bar {
+        flex-wrap: wrap;
+    }
 }
 </style>

@@ -1,16 +1,13 @@
 <template>
     <div class="email_gen_module">
-        <div class="email_gen_header">
+        <div class="email_gen_header" @click="collapsed = !collapsed">
             <span class="email_gen_label">邮箱生成器</span>
-            <el-switch
-                :model-value="emailSwitch"
-                @update:model-value="$emit('update:emailSwitch', $event)"
-                inline-prompt
-                active-text="启用"
-                inactive-text="禁用"
-            />
+            <div class="panel_toggle">
+                <el-icon :size="14" class="panel_toggle_icon" :class="{ 'is-expanded': !collapsed }"><ArrowDown /></el-icon>
+                <span class="panel_toggle_text">{{ collapsed ? '展开' : '收起' }}</span>
+            </div>
         </div>
-        <template v-if="emailSwitch">
+        <div v-show="!collapsed" class="email_gen_content">
             <div class="email_gen_mode">
                 <span class="email_gen_label">生成模式</span>
                 <el-radio-group :model-value="emailMode" @change="$emit('update:emailMode', $event)" class="email_gen_mode_group">
@@ -137,26 +134,44 @@
                             <el-option label="纯小写" value="lower" />
                         </el-select>
                     </div>
-                    <div class="email_gen_group">
-                        <span class="email_gen_label">邮箱后缀</span>
-                        <el-select
-                            :model-value="emailSuffix"
-                            @update:model-value="$emit('update:emailSuffix', $event)"
-                            size="small"
-                            class="email_gen_select"
-                        >
-                            <el-option v-for="item in emailSuffixOptions" :key="item.id" :label="item.label" :value="item.value" />
-                            <el-option label="自定义" value="__custom__" />
-                        </el-select>
-                        <el-input
-                            v-if="emailSuffix === '__custom__'"
-                            :model-value="customSuffix"
-                            @update:model-value="$emit('update:customSuffix', $event)"
-                            placeholder="输入后缀如 @company.com"
-                            size="small"
-                            class="email_gen_input_custom"
-                            @blur="handleCustomSuffix"
-                        />
+                    <div class="email_gen_suffix_block">
+                        <div class="email_gen_group">
+                            <span class="email_gen_label">邮箱后缀</span>
+                            <el-select
+                                multiple
+                                collapse-tags
+                                collapse-tags-tooltip
+                                :model-value="emailSuffixes"
+                                @update:model-value="$emit('update:emailSuffixes', $event)"
+                                size="small"
+                                class="email_gen_select_suffix"
+                                placeholder="选择一个或多个后缀"
+                            >
+                                <el-option v-for="item in emailSuffixOptions" :key="item.id" :label="item.label" :value="item.value" />
+                            </el-select>
+                        </div>
+                        <div class="email_gen_suffix_custom">
+                            <el-input
+                                v-model="customSuffixInput"
+                                placeholder="输入自定义后缀，如 @company.com"
+                                size="small"
+                                class="email_gen_input_custom"
+                                @keyup.enter="addCustomSuffix"
+                            />
+                            <el-button size="small" type="primary" :disabled="!customSuffixInput.trim()" @click="addCustomSuffix">添加</el-button>
+                            <span v-if="customSuffixInput.trim() && !customSuffixInput.trim().startsWith('@')" class="suffix_invalid">需以 @ 开头</span>
+                        </div>
+                        <div v-if="customSuffixOptions.length" class="email_gen_suffix_tags">
+                            <span class="suffix_tags_label">自定义：</span>
+                            <el-tag
+                                v-for="item in customSuffixOptions"
+                                :key="item.id"
+                                size="small"
+                                closable
+                                class="suffix_tag"
+                                @close="$emit('removeSuffix', item.id)"
+                            >{{ item.value }}</el-tag>
+                        </div>
                     </div>
                 </div>
                 <div class="email_gen_generate_row" v-if="emailMode !== 'range'">
@@ -196,20 +211,21 @@
                 <template v-if="emailMode === 'range'">请配置生成规则，邮箱将自动生成</template>
                 <template v-else>点击上方「生成邮箱」按钮生成</template>
             </p>
-        </template>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { DocumentCopy, Plus, Refresh, Check } from '@element-plus/icons-vue'
+import { ref, computed, watch } from 'vue'
+import { DocumentCopy, Plus, Refresh, Check, ArrowDown } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
 const copiedEmails = ref(new Set())
 const expandList = ref(false)
+const collapsed = ref(true)
+const customSuffixInput = ref('')
 
 const props = defineProps({
-    emailSwitch: { type: Boolean, default: false },
     emailMode: { type: String, default: 'range' },
     emailPrefix: { type: String, default: 'testbit' },
     emailStart: { type: Number, default: 1 },
@@ -217,8 +233,7 @@ const props = defineProps({
     emailStep: { type: Number, default: 1 },
     emailZeroPad: { type: Number, default: 0 },
     emailCount: { type: Number, default: 1 },
-    emailSuffix: { type: String, default: '__custom__' },
-    customSuffix: { type: String, default: '@canglankeji.com' },
+    emailSuffixes: { type: Array, default: () => [] },
     emailSuffixOptions: { type: Array, default: () => [] },
     sha1Length: { type: Number, default: 7 },
     englishLength: { type: Number, default: 10 },
@@ -231,7 +246,6 @@ watch(() => props.emailList, () => {
 })
 
 const emit = defineEmits([
-    'update:emailSwitch',
     'update:emailMode',
     'update:emailPrefix',
     'update:emailStart',
@@ -239,21 +253,27 @@ const emit = defineEmits([
     'update:emailStep',
     'update:emailZeroPad',
     'update:emailCount',
-    'update:emailSuffix',
-    'update:customSuffix',
+    'update:emailSuffixes',
     'update:sha1Length',
     'update:englishLength',
     'update:emailCase',
     'generate',
-    'insertEmails'
+    'insertEmails',
+    'addSuffix',
+    'removeSuffix'
 ])
 
+const customSuffixOptions = computed(() => props.emailSuffixOptions.filter(o => o.custom))
 
-
-const handleCustomSuffix = () => {
-    if (props.customSuffix.trim()) {
-        emit('update:emailSuffix', props.customSuffix.trim())
+const addCustomSuffix = () => {
+    const value = customSuffixInput.value.trim()
+    if (!value) return
+    if (!value.startsWith('@')) {
+        ElMessage({ message: '后缀需以 @ 开头', type: 'warning' })
+        return
     }
+    emit('addSuffix', value.replace('@', ''), value)
+    customSuffixInput.value = ''
 }
 
 const copyEmails = async () => {
@@ -300,6 +320,30 @@ const copySingleEmail = async (email) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+}
+
+.panel_toggle {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--g-body-text-color-secondary);
+    opacity: 0.7;
+    transition: all 0.2s;
+}
+.panel_toggle:hover {
+    opacity: 1;
+    background-color: color-mix(in srgb, var(--el-color-primary) 10%, transparent);
+}
+.panel_toggle_icon {
+    transition: transform 0.2s;
+}
+.panel_toggle_icon.is-expanded {
+    transform: rotate(180deg);
 }
 
 .email_gen_label {
@@ -365,6 +409,41 @@ const copySingleEmail = async (email) => {
 
 .email_gen_select {
     width: 100px;
+}
+
+.email_gen_suffix_block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.email_gen_select_suffix {
+    width: 260px;
+}
+
+.email_gen_suffix_custom {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.suffix_invalid {
+    font-size: 12px;
+    color: var(--el-color-danger);
+}
+
+.email_gen_suffix_tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.suffix_tags_label {
+    font-size: 12px;
+    color: var(--g-body-text-color);
+    opacity: 0.6;
 }
 
 .email_gen_input_custom {

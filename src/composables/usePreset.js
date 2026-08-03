@@ -1,4 +1,4 @@
-import { ref, watch, onMounted, nextTick } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
@@ -165,7 +165,7 @@ export function usePreset(state) {
     presets.value = newPresets
   }
 
-  onMounted(async () => {
+  const initPreset = async () => {
     if (!presets.value.length) {
       presets.value = [{ id: defaultPresetId, name: '默认预设', snapshot: defaultSnapshot }]
     }
@@ -180,7 +180,7 @@ export function usePreset(state) {
     }
     await nextTick()
     presetReady.value = true
-  })
+  }
 
   watch(
     () => [
@@ -212,6 +212,7 @@ export function usePreset(state) {
     presetNameInput,
     isApplyingPreset,
     presetReady,
+    initPreset,
     savePreset,
     applyPreset,
     deletePreset,
