@@ -260,6 +260,15 @@ export function useEmailGen() {
     }
   )
 
+  // 已生成邮箱后切换后缀：直接原地替换已生成邮箱的后缀，不清空、不重新生成
+  watch(emailSuffix, (newSuffix) => {
+    if (!newSuffix || !emailList.value.length) return
+    emailList.value = emailList.value.map((email) => {
+      const atIndex = email.lastIndexOf('@')
+      return atIndex === -1 ? email : email.slice(0, atIndex) + newSuffix
+    })
+  })
+
   const addSuffixOption = (label, value) => {
     if (!label || !value) return
     if (emailSuffixOptions.value.some(item => item.value === value)) return
