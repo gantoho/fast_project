@@ -74,20 +74,6 @@ useGlobalExport({
   styleKey: style.currentStyle
 })
 
-// 把生成的邮箱插入到链接列表（两个页面共用）
-const metaDataAppend = (lines) => {
-  const current = links.metaData.value || ''
-  const text = lines.join('\n')
-  links.metaData.value = current ? current + '\n' + text : text
-  emailGen.emailList.value = []
-}
-
-const insertEmails = () => {
-  const list = emailGen.emailList.value
-  if (!list.length) return
-  metaDataAppend(list)
-}
-
 export const coreState = {
   subPath,
   links,
@@ -96,6 +82,5 @@ export const coreState = {
   preset,
   emailGen,
   style,
-  isDark,
-  insertEmails
+  isDark
 }

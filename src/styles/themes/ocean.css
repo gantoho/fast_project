@@ -335,14 +335,18 @@
 /* 容器模块 */
 [data-style="ocean"] .sub_path_module,
 [data-style="ocean"] .step_module,
-[data-style="ocean"] .email_gen_module {
+[data-style="ocean"] .email_gen_module,
+[data-style="ocean"] .tools_section,
+[data-style="ocean"] .bookmarklet_panel {
   border: none !important;
   border-radius: 10px !important;
   background: rgba(14, 165, 233, 0.04) !important;
 }
 [data-style="ocean"].dark .sub_path_module,
 [data-style="ocean"].dark .step_module,
-[data-style="ocean"].dark .email_gen_module {
+[data-style="ocean"].dark .email_gen_module,
+[data-style="ocean"].dark .tools_section,
+[data-style="ocean"].dark .bookmarklet_panel {
   border: none !important;
   background: rgba(14, 165, 233, 0.06) !important;
 }
@@ -600,4 +604,70 @@
 [data-style="ocean"].dark .data_btn:hover {
   background-color: rgba(14, 165, 233, 0.15) !important;
   color: #7dd3fc !important;
+}
+
+/* ========================================
+   快捷复制手机号 chip（海洋蓝）
+   ======================================== */
+[data-style="ocean"] .quick_copy_phone,
+[data-style="ocean"] .quick_copy_text {
+  border: none !important;
+  border-radius: 6px !important;
+  background: rgba(186, 230, 253, 0.3) !important;
+  color: #0c4a6e !important;
+}
+[data-style="ocean"] .quick_copy_phone:hover,
+[data-style="ocean"] .quick_copy_text:hover {
+  border: none !important;
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3) !important;
+}
+[data-style="ocean"].dark .quick_copy_phone,
+[data-style="ocean"].dark .quick_copy_text {
+  border: none !important;
+  background: rgba(56, 189, 248, 0.08) !important;
+  color: #bae6fd !important;
+}
+[data-style="ocean"].dark .quick_copy_phone:hover,
+[data-style="ocean"].dark .quick_copy_text:hover {
+  border: none !important;
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3) !important;
+}
+
+/* ========================================
+   顶部页面 Tab（海洋蓝）
+   ======================================== */
+[data-style="ocean"] .page_tabs {
+  border: none !important;
+  border-radius: 10px !important;
+  background: rgba(14, 165, 233, 0.06) !important;
+}
+[data-style="ocean"] .page_tab {
+  color: #0369a1 !important;
+}
+[data-style="ocean"] .page_tab:hover:not(.is-active) {
+  background: rgba(14, 165, 233, 0.1) !important;
+}
+[data-style="ocean"] .page_tab.is-active {
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3) !important;
+}
+[data-style="ocean"].dark .page_tabs {
+  border: none !important;
+  background: rgba(14, 165, 233, 0.08) !important;
+}
+[data-style="ocean"].dark .page_tab {
+  color: #7dd3fc !important;
+}
+[data-style="ocean"].dark .page_tab:hover:not(.is-active) {
+  background: rgba(56, 189, 248, 0.1) !important;
+}
+[data-style="ocean"].dark .page_tab.is-active {
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3) !important;
 }

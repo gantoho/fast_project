@@ -547,14 +547,18 @@
 
 [data-style="monochrome"] .sub_path_module,
 [data-style="monochrome"] .step_module,
-[data-style="monochrome"] .email_gen_module {
+[data-style="monochrome"] .email_gen_module,
+[data-style="monochrome"] .tools_section,
+[data-style="monochrome"] .bookmarklet_panel {
   border: 1.5px solid #b0b0b0 !important;
   border-radius: 4px !important;
   background: #ffffff !important;
 }
 [data-style="monochrome"].dark .sub_path_module,
 [data-style="monochrome"].dark .step_module,
-[data-style="monochrome"].dark .email_gen_module {
+[data-style="monochrome"].dark .email_gen_module,
+[data-style="monochrome"].dark .tools_section,
+[data-style="monochrome"].dark .bookmarklet_panel {
   border-color: #555555 !important;
   background: #000000 !important;
 }
@@ -1033,4 +1037,68 @@
 }
 [data-style="monochrome"].dark .footer_link:hover {
   color: #ffffff !important;
+}
+
+/* ========================================
+   快捷复制手机号 chip（黑白扁平）
+   ======================================== */
+[data-style="monochrome"] .quick_copy_phone,
+[data-style="monochrome"] .quick_copy_text {
+  border: 1.5px solid #b0b0b0 !important;
+  border-radius: 3px !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+}
+[data-style="monochrome"] .quick_copy_phone:hover,
+[data-style="monochrome"] .quick_copy_text:hover {
+  border-color: #000000 !important;
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+}
+[data-style="monochrome"].dark .quick_copy_phone,
+[data-style="monochrome"].dark .quick_copy_text {
+  border-color: #555555 !important;
+  background: #000000 !important;
+  color: #e5e5e5 !important;
+}
+[data-style="monochrome"].dark .quick_copy_phone:hover,
+[data-style="monochrome"].dark .quick_copy_text:hover {
+  border-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* ========================================
+   顶部页面 Tab（黑白扁平）
+   ======================================== */
+[data-style="monochrome"] .page_tabs {
+  border: 1.5px solid #b0b0b0 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+}
+[data-style="monochrome"] .page_tab {
+  color: #1a1a1a !important;
+}
+[data-style="monochrome"] .page_tab:hover:not(.is-active) {
+  background: #fafafa !important;
+}
+[data-style="monochrome"] .page_tab.is-active {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border-radius: 3px !important;
+}
+[data-style="monochrome"].dark .page_tabs {
+  border-color: #555555 !important;
+  background: #000000 !important;
+}
+[data-style="monochrome"].dark .page_tab {
+  color: #e5e5e5 !important;
+}
+[data-style="monochrome"].dark .page_tab:hover:not(.is-active) {
+  background: #1a1a1a !important;
+}
+[data-style="monochrome"].dark .page_tab.is-active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-radius: 3px !important;
 }

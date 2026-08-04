@@ -14,7 +14,7 @@
             :email-step="emailStep"
             :email-zero-pad="emailZeroPad"
             :email-count="emailCount"
-            :email-suffixes="emailSuffixes"
+            :email-suffix="emailSuffix"
             :email-suffix-options="emailSuffixOptions"
             :sha1-length="sha1Length"
             :english-length="englishLength"
@@ -27,14 +27,13 @@
             @update:email-step="emailStep = $event"
             @update:email-zero-pad="emailZeroPad = $event"
             @update:email-count="emailCount = $event"
-            @update:email-suffixes="emailSuffixes = $event"
+            @update:email-suffix="emailSuffix = $event"
             @update:sha1-length="sha1Length = $event"
             @update:english-length="englishLength = $event"
             @update:email-case="emailCase = $event"
             @add-suffix="addSuffixOption"
             @remove-suffix="removeSuffixOption"
             @generate="generate"
-            @insert-emails="insertEmails"
         />
 
         <!-- 快捷复制 -->
@@ -47,6 +46,19 @@
                 <span class="quick_copy_text" @click="quickCopy('testbit')">testbit</span>
                 <span class="quick_copy_text" @click="quickCopy('testbit#P123')">testbit#P123</span>
             </div>
+            <div class="quick_copy_phone_row">
+                <span class="quick_copy_label">手机号：</span>
+                <span class="quick_copy_phone" @click="copyPhone" title="点击复制，复制后自动 +1">{{ currentPhone }}</span>
+                <el-input
+                    v-model="phoneInput"
+                    placeholder="设置初始手机号（11 位）"
+                    size="small"
+                    class="phone_input"
+                    @keyup.enter="setPhone"
+                />
+                <el-button size="small" type="primary" @click="setPhone">设置</el-button>
+                <span class="quick_copy_hint">点击手机号复制，复制后自动 +1</span>
+            </div>
         </div>
 
         <!-- 书签工具 -->
@@ -55,12 +67,14 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { useStorage } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
 import { coreState } from '../store/coreState'
 import EmailGenPanel from '../components/EmailGenPanel.vue'
 import BookmarkletPanel from '../components/BookmarkletPanel.vue'
 
-const { emailGen, insertEmails } = coreState
+const { emailGen } = coreState
 
 const {
   emailMode,
@@ -70,7 +84,7 @@ const {
   emailStep,
   emailZeroPad,
   emailCount,
-  emailSuffixes,
+  emailSuffix,
   emailSuffixOptions,
   sha1Length,
   englishLength,
@@ -88,6 +102,32 @@ const quickCopy = async (text) => {
   } catch {
     ElMessage({ message: '复制失败', type: 'error' })
   }
+}
+
+// 手机号：可手动设置初始号，每次复制后自动 +1（localStorage 持久化，刷新不丢失）
+const currentPhone = useStorage('fast_currentPhone', '13800000000')
+const phoneInput = ref('')
+
+const copyPhone = async () => {
+  const phone = String(currentPhone.value)
+  try {
+    await navigator.clipboard.writeText(phone)
+    ElMessage({ message: `已复制: ${phone}`, type: 'success' })
+  } catch {
+    ElMessage({ message: '复制失败', type: 'error' })
+  }
+  currentPhone.value = String(Number(phone) + 1)
+}
+
+const setPhone = () => {
+  const val = phoneInput.value.trim()
+  if (!/^\d{11}$/.test(val)) {
+    ElMessage({ message: '请输入 11 位数字手机号', type: 'warning' })
+    return
+  }
+  currentPhone.value = val
+  phoneInput.value = ''
+  ElMessage({ message: `初始手机号已设为 ${val}`, type: 'success' })
 }
 </script>
 
@@ -134,18 +174,39 @@ const quickCopy = async (text) => {
     color: var(--g-body-text-color-secondary);
     white-space: nowrap;
 }
+.quick_copy_phone_row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+.quick_copy_phone,
 .quick_copy_text {
-    font-size: 12px;
-    color: var(--g-body-text-color-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--el-color-primary);
     cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 3px;
-    transition: color 0.2s, background-color 0.2s;
+    padding: 2px 10px;
+    border-radius: 4px;
+    border: 1px solid color-mix(in srgb, var(--el-color-primary) 30%, transparent);
+    background-color: color-mix(in srgb, var(--el-color-primary) 8%, transparent);
+    transition: all 0.2s;
     user-select: none;
 }
+.quick_copy_phone:hover,
 .quick_copy_text:hover {
-    color: var(--el-color-primary);
-    background-color: var(--el-color-primary-light-9);
+    color: #fff;
+    background-color: var(--el-color-primary);
+    border-color: var(--el-color-primary);
+}
+.phone_input {
+    width: 170px;
+}
+.quick_copy_hint {
+    font-size: 12px;
+    color: var(--g-body-text-color-secondary);
+    opacity: 0.6;
 }
 @media (max-width: 640px) {
     .quick_copy_row {

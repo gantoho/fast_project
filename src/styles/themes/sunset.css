@@ -348,14 +348,18 @@
 /* 容器模块 */
 [data-style="sunset"] .sub_path_module,
 [data-style="sunset"] .step_module,
-[data-style="sunset"] .email_gen_module {
+[data-style="sunset"] .email_gen_module,
+[data-style="sunset"] .tools_section,
+[data-style="sunset"] .bookmarklet_panel {
   border: none !important;
   border-radius: 10px !important;
   background: rgba(249, 115, 22, 0.04) !important;
 }
 [data-style="sunset"].dark .sub_path_module,
 [data-style="sunset"].dark .step_module,
-[data-style="sunset"].dark .email_gen_module {
+[data-style="sunset"].dark .email_gen_module,
+[data-style="sunset"].dark .tools_section,
+[data-style="sunset"].dark .bookmarklet_panel {
   border: none !important;
   background: rgba(249, 115, 22, 0.06) !important;
 }
@@ -613,4 +617,70 @@
 [data-style="sunset"].dark .data_btn:hover {
   background-color: rgba(249, 115, 22, 0.15) !important;
   color: #fdba74 !important;
+}
+
+/* ========================================
+   快捷复制手机号 chip（日落橙）
+   ======================================== */
+[data-style="sunset"] .quick_copy_phone,
+[data-style="sunset"] .quick_copy_text {
+  border: none !important;
+  border-radius: 6px !important;
+  background: rgba(255, 237, 213, 0.5) !important;
+  color: #9a3412 !important;
+}
+[data-style="sunset"] .quick_copy_phone:hover,
+[data-style="sunset"] .quick_copy_text:hover {
+  border: none !important;
+  background: linear-gradient(180deg, #fb923c, #f97316) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3) !important;
+}
+[data-style="sunset"].dark .quick_copy_phone,
+[data-style="sunset"].dark .quick_copy_text {
+  border: none !important;
+  background: rgba(249, 115, 22, 0.08) !important;
+  color: #fdba74 !important;
+}
+[data-style="sunset"].dark .quick_copy_phone:hover,
+[data-style="sunset"].dark .quick_copy_text:hover {
+  border: none !important;
+  background: linear-gradient(180deg, #fb923c, #f97316) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3) !important;
+}
+
+/* ========================================
+   顶部页面 Tab（日落橙）
+   ======================================== */
+[data-style="sunset"] .page_tabs {
+  border: none !important;
+  border-radius: 10px !important;
+  background: rgba(249, 115, 22, 0.05) !important;
+}
+[data-style="sunset"] .page_tab {
+  color: #c2410c !important;
+}
+[data-style="sunset"] .page_tab:hover:not(.is-active) {
+  background: rgba(249, 115, 22, 0.1) !important;
+}
+[data-style="sunset"] .page_tab.is-active {
+  background: linear-gradient(180deg, #fb923c, #f97316) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3) !important;
+}
+[data-style="sunset"].dark .page_tabs {
+  border: none !important;
+  background: rgba(249, 115, 22, 0.07) !important;
+}
+[data-style="sunset"].dark .page_tab {
+  color: #fdba74 !important;
+}
+[data-style="sunset"].dark .page_tab:hover:not(.is-active) {
+  background: rgba(251, 146, 60, 0.1) !important;
+}
+[data-style="sunset"].dark .page_tab.is-active {
+  background: linear-gradient(180deg, #fb923c, #f97316) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3) !important;
 }

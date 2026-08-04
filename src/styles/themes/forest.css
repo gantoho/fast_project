@@ -355,7 +355,9 @@
 }
 [data-style="forest"].dark .sub_path_module,
 [data-style="forest"].dark .step_module,
-[data-style="forest"].dark .email_gen_module {
+[data-style="forest"].dark .email_gen_module,
+[data-style="forest"].dark .tools_section,
+[data-style="forest"].dark .bookmarklet_panel {
   border: none !important;
   background: rgba(22, 163, 74, 0.06) !important;
 }
@@ -613,4 +615,70 @@
 [data-style="forest"].dark .data_btn:hover {
   background-color: rgba(22, 163, 74, 0.15) !important;
   color: #4ade80 !important;
+}
+
+/* ========================================
+   快捷复制手机号 chip（森林绿）
+   ======================================== */
+[data-style="forest"] .quick_copy_phone,
+[data-style="forest"] .quick_copy_text {
+  border: none !important;
+  border-radius: 6px !important;
+  background: rgba(220, 252, 231, 0.5) !important;
+  color: #166534 !important;
+}
+[data-style="forest"] .quick_copy_phone:hover,
+[data-style="forest"] .quick_copy_text:hover {
+  border: none !important;
+  background: linear-gradient(180deg, #4ade80, #16a34a) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3) !important;
+}
+[data-style="forest"].dark .quick_copy_phone,
+[data-style="forest"].dark .quick_copy_text {
+  border: none !important;
+  background: rgba(22, 163, 74, 0.08) !important;
+  color: #86efac !important;
+}
+[data-style="forest"].dark .quick_copy_phone:hover,
+[data-style="forest"].dark .quick_copy_text:hover {
+  border: none !important;
+  background: linear-gradient(180deg, #4ade80, #16a34a) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3) !important;
+}
+
+/* ========================================
+   顶部页面 Tab（森林绿）
+   ======================================== */
+[data-style="forest"] .page_tabs {
+  border: none !important;
+  border-radius: 10px !important;
+  background: rgba(22, 163, 74, 0.05) !important;
+}
+[data-style="forest"] .page_tab {
+  color: #15803d !important;
+}
+[data-style="forest"] .page_tab:hover:not(.is-active) {
+  background: rgba(22, 163, 74, 0.1) !important;
+}
+[data-style="forest"] .page_tab.is-active {
+  background: linear-gradient(180deg, #4ade80, #16a34a) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3) !important;
+}
+[data-style="forest"].dark .page_tabs {
+  border: none !important;
+  background: rgba(22, 163, 74, 0.07) !important;
+}
+[data-style="forest"].dark .page_tab {
+  color: #86efac !important;
+}
+[data-style="forest"].dark .page_tab:hover:not(.is-active) {
+  background: rgba(74, 222, 128, 0.1) !important;
+}
+[data-style="forest"].dark .page_tab.is-active {
+  background: linear-gradient(180deg, #4ade80, #16a34a) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3) !important;
 }

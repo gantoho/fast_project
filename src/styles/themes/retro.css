@@ -373,14 +373,18 @@
 /* 容器模块 */
 [data-style="retro"] .sub_path_module,
 [data-style="retro"] .step_module,
-[data-style="retro"] .email_gen_module {
+[data-style="retro"] .email_gen_module,
+[data-style="retro"] .tools_section,
+[data-style="retro"] .bookmarklet_panel {
   border-color: #d4b896 !important;
   border-radius: 10px !important;
   background: rgba(245, 230, 211, 0.2) !important;
 }
 [data-style="retro"].dark .sub_path_module,
 [data-style="retro"].dark .step_module,
-[data-style="retro"].dark .email_gen_module {
+[data-style="retro"].dark .email_gen_module,
+[data-style="retro"].dark .tools_section,
+[data-style="retro"].dark .bookmarklet_panel {
   border-color: #5c4033 !important;
   background: rgba(44, 31, 20, 0.3) !important;
 }
@@ -616,4 +620,68 @@
 [data-style="retro"].dark .data_btn:hover {
   background-color: rgba(201, 139, 74, 0.15) !important;
   color: #e8c88a !important;
+}
+
+/* ========================================
+   快捷复制手机号 chip（复古纸感）
+   ======================================== */
+[data-style="retro"] .quick_copy_phone,
+[data-style="retro"] .quick_copy_text {
+  border-color: #d4b896 !important;
+  border-radius: 6px !important;
+  background: rgba(245, 230, 211, 0.25) !important;
+  color: #8b6f47 !important;
+}
+[data-style="retro"] .quick_copy_phone:hover,
+[data-style="retro"] .quick_copy_text:hover {
+  border-color: #a06830 !important;
+  background: linear-gradient(180deg, #d4a96a, #b8854a) !important;
+  color: #fff !important;
+}
+[data-style="retro"].dark .quick_copy_phone,
+[data-style="retro"].dark .quick_copy_text {
+  border-color: #5c4033 !important;
+  background: rgba(61, 43, 31, 0.35) !important;
+  color: #f0d9b5 !important;
+}
+[data-style="retro"].dark .quick_copy_phone:hover,
+[data-style="retro"].dark .quick_copy_text:hover {
+  border-color: #d4a96a !important;
+  background: linear-gradient(180deg, #d4a96a, #b8854a) !important;
+  color: #fff !important;
+}
+
+/* ========================================
+   顶部页面 Tab（复古纸感）
+   ======================================== */
+[data-style="retro"] .page_tabs {
+  border-color: #d4b896 !important;
+  border-radius: 10px !important;
+  background: rgba(245, 230, 211, 0.2) !important;
+}
+[data-style="retro"] .page_tab {
+  color: #8b5e3c !important;
+}
+[data-style="retro"] .page_tab:hover:not(.is-active) {
+  background: rgba(201, 139, 74, 0.12) !important;
+}
+[data-style="retro"] .page_tab.is-active {
+  background: linear-gradient(180deg, #d4a96a, #b8854a) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 4px rgba(139, 94, 60, 0.2) !important;
+}
+[data-style="retro"].dark .page_tabs {
+  border-color: #5c4033 !important;
+  background: rgba(44, 31, 20, 0.3) !important;
+}
+[data-style="retro"].dark .page_tab {
+  color: #f0d9b5 !important;
+}
+[data-style="retro"].dark .page_tab:hover:not(.is-active) {
+  background: rgba(201, 139, 74, 0.15) !important;
+}
+[data-style="retro"].dark .page_tab.is-active {
+  background: linear-gradient(180deg, #d4a96a, #b8854a) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }

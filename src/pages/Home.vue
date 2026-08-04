@@ -33,14 +33,6 @@
         <span>已清空链接列表</span>
         <el-button size="small" text type="primary" @click="undoClear">撤销</el-button>
     </div>
-    <!-- 邮箱生成器结果：回首页后可一键插入 -->
-    <div v-if="emailList.length" class="email_insert_bar">
-        <span>邮箱生成器已生成 {{ emailList.length }} 个邮箱</span>
-        <div class="email_insert_actions">
-            <el-button size="small" type="primary" @click="insertEmails">插入到链接</el-button>
-            <el-button size="small" text @click="clearEmails">清除</el-button>
-        </div>
-    </div>
     <SubPathPanel
         :sub-path-switch="subPathSwitch"
         :sub-path="subPath"
@@ -116,7 +108,7 @@ import StepNavPanel from '../components/StepNavPanel.vue'
 import ConfigBar from '../components/ConfigBar.vue'
 import ActionBar from '../components/ActionBar.vue'
 
-const { subPath: subPathState, links, stepNav, openLink: openLinkState, preset, emailGen, insertEmails } = coreState
+const { subPath: subPathState, links, stepNav, openLink: openLinkState, preset } = coreState
 
 const {
   presets,
@@ -183,12 +175,6 @@ const {
   toggleQuery
 } = subPathState
 
-const emailList = emailGen.emailList
-
-const clearEmails = () => {
-  emailGen.emailList.value = []
-}
-
 onKeyStroke('Enter', (e) => {
   if (e.ctrlKey || e.metaKey) {
     if (hasLinks.value) {
@@ -232,28 +218,5 @@ onKeyStroke('ArrowRight', () => {
     background-color: color-mix(in srgb, var(--el-color-primary) 6%, transparent);
     font-size: 13px;
     color: var(--g-body-text-color);
-}
-.email_insert_bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 8px 14px;
-    margin-bottom: 20px;
-    border: 1px solid var(--el-color-success-light-5);
-    border-radius: 6px;
-    background-color: color-mix(in srgb, var(--el-color-success) 6%, transparent);
-    font-size: 13px;
-    color: var(--g-body-text-color);
-}
-.email_insert_actions {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-@media (max-width: 640px) {
-    .email_insert_bar {
-        flex-wrap: wrap;
-    }
 }
 </style>
