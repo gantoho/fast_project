@@ -684,3 +684,42 @@
   color: #fff !important;
   box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3) !important;
 }
+
+/* ========================================
+   简洁模式
+   ======================================== */
+[data-style="sunset"] .simple_card {
+  border: none !important;
+  border-radius: 14px !important;
+  background: rgba(249, 115, 22, 0.04) !important;
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.08) !important;
+}
+[data-style="sunset"] .simple_card .el-button--primary {
+  border: none !important;
+  background: linear-gradient(180deg, #fb923c, #f97316) !important;
+}
+[data-style="sunset"] .simple_card .el-button:not(.el-button--primary) {
+  border-color: rgba(249, 115, 22, 0.25) !important;
+  color: #c2410c !important;
+  background: rgba(249, 115, 22, 0.06) !important;
+}
+[data-style="sunset"] .simple_card .el-button:not(.el-button--primary):hover {
+  border-color: #f97316 !important;
+  background: rgba(249, 115, 22, 0.12) !important;
+}
+[data-style="sunset"].dark .simple_card {
+  background: rgba(249, 115, 22, 0.06) !important;
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.06) !important;
+}
+[data-style="sunset"].dark .simple_card .el-button--primary {
+  background: linear-gradient(180deg, #fb923c, #f97316) !important;
+}
+[data-style="sunset"].dark .simple_card .el-button:not(.el-button--primary) {
+  border-color: rgba(249, 115, 22, 0.3) !important;
+  color: #fdba74 !important;
+  background: rgba(249, 115, 22, 0.08) !important;
+}
+[data-style="sunset"].dark .simple_card .el-button:not(.el-button--primary):hover {
+  border-color: #fb923c !important;
+  background: rgba(251, 146, 60, 0.12) !important;
+}

@@ -2,7 +2,8 @@
   <div class="main">
     <ThemeToggle />
     <nav class="page_tabs">
-      <router-link to="/" class="page_tab" active-class="is-active">批量打开</router-link>
+      <router-link to="/" class="page_tab" active-class="is-active">简洁模式</router-link>
+      <router-link to="/advanced" class="page_tab" active-class="is-active">高级模式</router-link>
       <router-link to="/tools" class="page_tab" active-class="is-active">工具箱</router-link>
     </nav>
     <router-view />
@@ -11,14 +12,32 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Footer from './components/Footer.vue'
 import ThemeToggle from './components/ThemeToggle.vue'
 import { useEasterEgg } from './composables/useEasterEgg'
 import { toggleForceMonochrome, forceMonochrome } from './composables/useStyle'
 
+const route = useRoute()
+const router = useRouter()
 const { handleFooterClick } = useEasterEgg()
+
+// 离开页面时记录当前路由
+watch(
+  () => route.path,
+  (path) => { localStorage.setItem('fast_lastRoute', path) }
+)
+
+// 启动时恢复到上次离开时的路由
+onMounted(() => {
+  const saved = localStorage.getItem('fast_lastRoute')
+  const validPaths = ['/', '/advanced', '/tools']
+  if (saved && saved !== route.path && validPaths.includes(saved)) {
+    router.replace(saved)
+  }
+})
 
 const onKeydown = async (e) => {
   if (e.ctrlKey && e.shiftKey && e.code === 'KeyB') {

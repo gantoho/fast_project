@@ -1102,3 +1102,45 @@
   color: #000000 !important;
   border-radius: 3px !important;
 }
+
+/* ========================================
+   简洁模式
+   ======================================== */
+[data-style="monochrome"] .simple_card {
+  border: 1.5px solid #b0b0b0 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+[data-style="monochrome"] .simple_card .el-button--primary {
+  border: none !important;
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+[data-style="monochrome"] .simple_card .el-button:not(.el-button--primary) {
+  border: 1.5px solid #b0b0b0 !important;
+  color: #1a1a1a !important;
+  background: #ffffff !important;
+}
+[data-style="monochrome"] .simple_card .el-button:not(.el-button--primary):hover {
+  border-color: #1a1a1a !important;
+  background: #fafafa !important;
+}
+[data-style="monochrome"].dark .simple_card {
+  border-color: #555555 !important;
+  background: #000000 !important;
+}
+[data-style="monochrome"].dark .simple_card .el-button--primary {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+[data-style="monochrome"].dark .simple_card .el-button:not(.el-button--primary) {
+  border-color: #555555 !important;
+  color: #e5e5e5 !important;
+  background: #000000 !important;
+}
+[data-style="monochrome"].dark .simple_card .el-button:not(.el-button--primary):hover {
+  border-color: #ffffff !important;
+  background: #1a1a1a !important;
+}

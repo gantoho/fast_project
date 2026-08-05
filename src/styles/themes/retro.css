@@ -685,3 +685,45 @@
   color: #fff !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
+
+/* ========================================
+   简洁模式
+   ======================================== */
+[data-style="retro"] .simple_card {
+  border-color: #d4b896 !important;
+  border-radius: 14px !important;
+  background: rgba(245, 230, 211, 0.25) !important;
+  box-shadow: 0 4px 12px rgba(139, 94, 60, 0.1) !important;
+}
+[data-style="retro"] .simple_card .el-button--primary {
+  border: none !important;
+  background: linear-gradient(180deg, #d4a96a, #b8854a) !important;
+  box-shadow: 0 2px 4px rgba(139, 94, 60, 0.2) !important;
+}
+[data-style="retro"] .simple_card .el-button:not(.el-button--primary) {
+  border-color: #d4b896 !important;
+  color: #8b5e3c !important;
+  background: rgba(245, 230, 211, 0.3) !important;
+}
+[data-style="retro"] .simple_card .el-button:not(.el-button--primary):hover {
+  border-color: #b8854a !important;
+  background: rgba(212, 169, 106, 0.2) !important;
+}
+[data-style="retro"].dark .simple_card {
+  border-color: #5c4033 !important;
+  background: rgba(44, 31, 20, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+[data-style="retro"].dark .simple_card .el-button--primary {
+  background: linear-gradient(180deg, #d4a96a, #b8854a) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+[data-style="retro"].dark .simple_card .el-button:not(.el-button--primary) {
+  border-color: #5c4033 !important;
+  color: #f0d9b5 !important;
+  background: rgba(44, 31, 20, 0.3) !important;
+}
+[data-style="retro"].dark .simple_card .el-button:not(.el-button--primary):hover {
+  border-color: #d4a96a !important;
+  background: rgba(212, 169, 106, 0.15) !important;
+}

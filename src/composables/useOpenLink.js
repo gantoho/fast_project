@@ -69,11 +69,8 @@ export function useOpenLink({
     }
   }
 
-  const openLink = async () => {
-    if (isStepOpen.value) {
-      await openStepBatch()
-      return
-    }
+  // 全部打开（不走分步），供简洁模式等场景使用
+  const openAll = async () => {
     const urlArr = processedUrlList.value
     if (!urlArr.length) return
     for (const item of urlArr) {
@@ -88,6 +85,14 @@ export function useOpenLink({
     }
   }
 
+  const openLink = async () => {
+    if (isStepOpen.value) {
+      await openStepBatch()
+      return
+    }
+    await openAll()
+  }
+
   return {
     numData,
     openDelaySwitch,
@@ -95,6 +100,7 @@ export function useOpenLink({
     openDelayMax,
     openDelayRandom,
     downloadMode,
-    openLink
+    openLink,
+    openAll
   }
 }
