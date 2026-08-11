@@ -6,7 +6,11 @@
       <router-link to="/advanced" class="page_tab" active-class="is-active">高级模式</router-link>
       <router-link to="/tools" class="page_tab" active-class="is-active">工具箱</router-link>
     </nav>
-    <router-view />
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
     <Footer @click-footer="handleFooterClick" />
   </div>
 </template>
