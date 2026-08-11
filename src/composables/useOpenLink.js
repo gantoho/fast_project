@@ -4,6 +4,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 export function useOpenLink({
   processedUrlList,
+  rawUrlList,
   isStepOpen,
   stepBatchSize,
   stepLoop,
@@ -69,9 +70,7 @@ export function useOpenLink({
     }
   }
 
-  // 全部打开（不走分步），供简洁模式等场景使用
-  const openAll = async () => {
-    const urlArr = processedUrlList.value
+  const openAllFrom = async (urlArr) => {
     if (!urlArr.length) return
     for (const item of urlArr) {
       for (let i = 0; i < numData.value; i++) {
@@ -85,12 +84,19 @@ export function useOpenLink({
     }
   }
 
+  // 高级模式全部打开：使用处理后的链接（含子路径/查询参数）
   const openLink = async () => {
     if (isStepOpen.value) {
       await openStepBatch()
       return
     }
-    await openAll()
+    await openAllFrom(processedUrlList.value)
+  }
+
+  // 简洁模式全部打开：使用原始链接（不受高级模式子路径/查询参数影响）
+  const openAllRaw = async () => {
+    const urlArr = (rawUrlList || processedUrlList).value
+    await openAllFrom(urlArr)
   }
 
   return {
@@ -101,6 +107,6 @@ export function useOpenLink({
     openDelayRandom,
     downloadMode,
     openLink,
-    openAll
+    openAllRaw
   }
 }

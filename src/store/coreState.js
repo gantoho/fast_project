@@ -15,6 +15,7 @@ const links = useLinks(subPath.subPath, subPath.subPathSwitch, subPath.selectedQ
 const stepNav = useStepNav(links.processedUrlList, links.linkList)
 const openLink = useOpenLink({
   processedUrlList: links.processedUrlList,
+  rawUrlList: links.rawUrlList,
   isStepOpen: stepNav.isStepOpen,
   stepBatchSize: stepNav.stepBatchSize,
   stepLoop: stepNav.stepLoop,

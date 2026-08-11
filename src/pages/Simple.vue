@@ -10,7 +10,7 @@
                 class="input"
             />
             <div class="simple_actions">
-                <el-button type="primary" size="large" :disabled="!hasLinks" @click="openAll">打开</el-button>
+                <el-button type="primary" size="large" :disabled="!hasLinks" @click="openAllRaw">打开</el-button>
                 <el-button size="large" :disabled="!hasLinks" @click="clear">清空</el-button>
             </div>
         </div>
@@ -22,13 +22,13 @@ import { onKeyStroke } from '@vueuse/core'
 import { coreState } from '../store/coreState'
 
 const { metaData, hasLinks, clear } = coreState.links
-const { openAll } = coreState.openLink
+const { openAllRaw } = coreState.openLink
 
 // 打开次数/延迟沿用核心页配置（coreState.openLink 的 numData / openDelay 等）
 onKeyStroke('Enter', (e) => {
     if (e.ctrlKey || e.metaKey) {
         if (hasLinks.value) {
-            openAll()
+            openAllRaw()
         }
     }
 })

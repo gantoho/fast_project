@@ -18,6 +18,9 @@ https://rust-lang.org`)
 
   const hasLinks = computed(() => linkList.value.length > 0)
 
+  // 原始链接列表（不应用子路径/查询参数），供简洁模式等独立场景使用
+  const rawUrlList = computed(() => linkList.value)
+
   const processedUrlList = computed(() => {
     return linkList.value.map(item =>
       buildUrl(item, subPathSwitchRef.value, subPathRef.value, selectedQueryIdsRef?.value ?? [], queryOptionsRef?.value ?? [])
@@ -58,6 +61,7 @@ https://rust-lang.org`)
     metaData,
     linkList,
     hasLinks,
+    rawUrlList,
     processedUrlList,
     duplicateLines,
     hasDuplicates,
